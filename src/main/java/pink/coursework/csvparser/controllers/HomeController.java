@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping("/")
     private String index(Model model) {
-        model.addAttribute("contentPage", "home/index");
+        model.addAttribute("contentPage", "/home/index");
         return "default";
     }
 }

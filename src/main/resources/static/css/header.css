@@ -1,0 +1,16 @@
+nav{
+  background-color:#563d7c;
+}
+
+span{
+   font-weight: bold;
+}
+
+#searchForm{
+    min-width: 150px;
+}
+
+#hello{
+    color: white;
+    margin-right: 5%;
+}

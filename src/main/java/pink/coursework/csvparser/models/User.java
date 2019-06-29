@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table(name = "Users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Short id;
+    @GeneratedValue
+    protected Integer id;
     private String login;
     private String email;
     private String password;
@@ -16,11 +16,11 @@ public class User {
     public User() {
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

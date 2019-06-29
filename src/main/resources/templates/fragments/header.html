@@ -5,17 +5,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Header</title>
+
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="user/info/">
-        <img src="{{ iconUrl }}" class="navbar-toggler-icon rounded-circle" alt="icon"> <span class="navtext"> {{ usrLogin }} </span>
+<!--nav class="navbar navbar-expand-sm rounded border shadow-sm" th:fragment="header(search)">
+    <link  th:href="@{/css/header.css}" rel="stylesheet" >
+    <a class="navbar-brand" href="/">
+        <img class="navbar-toggler-icon rounded-circle" th:src="@{'images/no_user.jpg'}">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1"
+               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="administrationPage">Administration Page</a>
+        </li>
+    </ul>
+
+    <div sec:authorize="isAuthenticated()" id="hello">
+      <span>Hello, No name</span>
+    </div>
+
+    <form class="d-flex align-item-center m-1" th:action="${search}" id="searchForm">
+        <input name="search" type="text" class="form-control mr-sm-0 p-0 m-0"
+               id="usr" placeholder="Search" >&#8194;
+        <button class="btn btn-outline-secondary m-0" type="submit">Search</button>
+    </form>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <input class="btn btn-outline-secondary my-2 mr-sm-2 m-0"
+                   type="submit" value="Sign Out" />
+        </form>
+    </th:block>
+
+    <th:block sec:authorize="isAnonymous()">
+        <form th:action="@{/logout}" method="post">
+            <input class="btn btn-outline-secondary my-2 mr-sm-2" type="submit"
+                   value="Sign In" />
+        </form>
+    </th:block>
+</nav-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header(search)">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbar1">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -24,8 +75,10 @@
                 <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Action</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
@@ -33,23 +86,13 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="administrationPage">Administration Page</a>
+                <a class="nav-link disabled" href="#">Disabled</a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <input class="btn btn-outline-info my-2 mr-sm-2" type="submit" value="Search" />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input *ngIf="isLoggedIn; else loggedOut" class="btn btn-outline-success my-2 mr-sm-2"
-                   type="submit" value="Sign Out" />
-        </form>
-
-        <ng-template #loggedOut>
-            <a href="autorization" class="btn btn-outline-success my-2 mr-sm-2"
-               role="button" aria-pressed="true">Sign In</a>
-        </ng-template>
     </div>
 </nav>
 </body>
