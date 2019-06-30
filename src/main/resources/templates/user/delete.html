@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+</head>
+<body>
+<div  class="container" th:fragment="content">
+    <form class="mt-3" name="delete" th:action="@{/user/delete}"  method="POST">
+        <h2>Are you sure you want to delete your account?</h2>
+        <input type="text" class="form-control" th:field="*{user.id}" hidden>
+        <button type="submit" class="btn btn-danger" style="width:100px">Yes</button>
+    </form>
+    <br /><br/>
+    <div>
+        <th:block sec:authorize="isAuthenticated()">
+            <div>
+                <a href="/user/users">Back to list</a>|
+                <a th:href="@{'/user/edit/'+${user.id}}">Edit</a>|
+                <a th:href="@{'/user/details/'+${user.id}}">Details</a>
+            </div>
+        </th:block>
+
+        <th:block sec:authorize="isAnonymous()">
+            <div>
+                <a href="/user/users">Back to list</a>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

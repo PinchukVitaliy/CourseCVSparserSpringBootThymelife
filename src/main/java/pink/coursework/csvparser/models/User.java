@@ -11,6 +11,7 @@ public class User {
     private String login;
     private String email;
     private String password;
+    private String icon;
 
 
     public User() {
@@ -48,4 +49,7 @@ public class User {
         this.password = password;
     }
 
+    public String getIcon() {return icon; }
+
+    public void setIcon(String icon) {this.icon = icon; }
 }

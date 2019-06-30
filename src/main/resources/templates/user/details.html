@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalis</title>
+</head>
+<body>
+<div class="container" th:fragment="content">
+    <h1>Details from user</h1>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">icon</span>
+        </div>
+        <img th:src="@{'/images/'+${user.icon}}" class="img-thumbnail"  style="width: 180px;height:180px; margin: 3px;" alt="icon">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">id</span>
+        </div>
+        <input type="text" class="form-control" th:field="*{user.id}" readonly>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">login</span>
+        </div>
+        <input type="text" class="form-control" th:field="*{user.login}" readonly>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">email</span>
+        </div>
+        <input type="email" class="form-control" th:field="*{user.email}" readonly>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">password</span>
+        </div>
+        <input type="text" class="form-control" th:field="*{user.password}" readonly>
+    </div>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <div>
+            <a href="/user/users">Back to list</a>|
+            <a th:href="@{'/user/edit/'+${user.id}}">Edit</a>|
+            <a th:href="@{'/user/delete/'+${user.id}}">Delete</a>
+        </div>
+    </th:block>
+
+    <th:block sec:authorize="isAnonymous()">
+        <div>
+            <a href="/user/users">Back to list</a>
+        </div>
+    </th:block>
+</div>
+</body>
+</html>
