@@ -12,11 +12,8 @@ import pink.coursework.csvparser.servises.UserService;
 public class UserController {
 
     @Autowired
-    private final UserService userService;
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/user/users")
     private String getUsersList(Model model) {
