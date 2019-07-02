@@ -14,7 +14,12 @@
                     <label for="icon">User icon</label>
                     <input type="text" class="form-control" id="icon" name="icon" th:value="${user.icon}" readonly>
                 <img th:src="@{'/images/'+${user.icon}}" alt="icon" class="img-thumbnail" style="width: 180px;height:180px; margin: 3px;">
-                <input type="file" id="file" name="file" class="btn alert-info" />
+                <div class="form-control">
+                    <label for="choose-file" class="btn alert-info">Select Image</label>
+                    <label id="image-name">No image choose</label>
+                    <input type="file" id="choose-file" name="file"
+                           style="visibility:hidden;" class="btn alert-info" accept="image/*"/>
+                </div>
             </div>
         </div>
 
@@ -34,7 +39,25 @@
         </div>
         <button type="submit" class="form-group btn btn-primary">Keep the changes</button>
     </form>
-</div>
+    <th:block sec:authorize="isAuthenticated()">
+        <div>
+            <a href="/user/users">Back to list</a>|
+            <a th:href="@{'/user/details/'+${user.id}}">Details</a>|
+            <a th:href="@{'/user/delete/'+${user.id}}">Delete</a>
+        </div>
+    </th:block>
+
+    <th:block sec:authorize="isAnonymous()">
+        <div>
+            <a href="/user/users">Back to list</a>
+        </div>
+    </th:block>
+    <script>
+        $("#choose-file").change(function() {
+          filename = this.files[0].name;
+          $("#image-name").text(filename);
+        });
+    </script>
 </div>
 </body>
 </html>
