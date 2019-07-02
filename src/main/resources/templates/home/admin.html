@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<div class="container  mt-5" th:fragment="content">
+    <h1>Admin page</h1>
+    <div class="d-flex flex-wrap justify-content-around row">
+        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
+            <div class="card-header"><h4>Setting user role</h4></div>
+            <a href="/role/roles">
+                <img class="card-img" th:src="@{'/images/roles.jpg'}" alt="roles">
+            </a>
+            <div class="card-footer">footer</div>
+        </div>
+        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
+            <div class="card-header"><h4>Setting users</h4></div>
+            <a href="/user/users">
+                <img class="card-img" th:src="@{'/images/users.jpg'}"  alt="users">
+            </a>
+            <div class="card-footer">footer</div>
+        </div>
+        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
+            <div class="card-header"><h4>Files setup</h4></div>
+            <a href="/file/files">
+                <img class="card-img" th:src="@{'/images/files.png'}"  alt="files">
+            </a>
+            <div class="card-footer">footer</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -12,4 +12,10 @@ public class HomeController {
         model.addAttribute("contentPage", "/home/index");
         return "default";
     }
+
+    @GetMapping("/home/admin")
+    private String admin(Model model) {
+        model.addAttribute("contentPage", "/home/admin");
+        return "default";
+    }
 }

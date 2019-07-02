@@ -1,6 +1,7 @@
 package pink.coursework.csvparser.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Users")
@@ -12,10 +13,16 @@ public class User {
     private String email;
     private String password;
     private String icon;
+    @ManyToMany
+    private List<Role> roleList;
 
 
     public User() {
     }
+
+    public List<Role> getRoleList() {return roleList;}
+
+    public void setRoleList(List<Role> roleList) { this.roleList = roleList;}
 
     public Integer getId() {
         return id;
