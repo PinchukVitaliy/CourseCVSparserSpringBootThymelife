@@ -3,7 +3,9 @@ package pink.coursework.csvparser.servises;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import pink.coursework.csvparser.models.Role;
 import pink.coursework.csvparser.models.User;
+import pink.coursework.csvparser.repositories.RoleRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,11 +19,14 @@ import java.util.List;
 @Service
 public class UserService {
 
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\icons_users\\";
     private static int USERPAGE = 9;
-    @Autowired
-    private UserRepository userRepository;
 
     public void addUser(User user){
         boolean isEmpty = true;
@@ -33,13 +38,14 @@ public class UserService {
             }
         }
         if (isEmpty) {
-           // List<Role> userRole = roleRepository.findAll();
-           // for (int i = 0; i < userRole.size(); i++) {
-            //    if (!userRole.get(i).getRole().equals("user")) {
-            //        userRole.remove(i);
-           //     }
-           // }
-           // user.setRoles(userRole);
+            List<Role> listRoles = roleRepository.findAll();
+            List<Role> roleUser = new ArrayList<Role>();
+            for (int i = 0; i < listRoles.size(); i++) {
+               if (listRoles.get(i).getName().equals("goust")) {
+                   roleUser.add(listRoles.get(i));
+               }
+            }
+            user.setRoleList(roleUser);
             user.setIcon("no_user.jpg");
             userRepository.save(user);
         }

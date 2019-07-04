@@ -1,6 +1,7 @@
 package pink.coursework.csvparser.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class User {
     private String password;
     private String icon;
     @ManyToMany
-    private List<Role> roleList;
+    private List<Role> roleList = new ArrayList<Role>();
 
 
     public User() {

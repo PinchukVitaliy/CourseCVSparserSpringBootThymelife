@@ -1,17 +1,19 @@
 package pink.coursework.csvparser.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Roles")
 public class Role {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     protected Integer id;
     private String name;
     @ManyToMany
-    private List<User> userList;
+    private List<User> userList = new ArrayList<User>();
 
     public Role() {
     }

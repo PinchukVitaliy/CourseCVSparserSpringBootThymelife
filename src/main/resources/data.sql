@@ -1,3 +1,10 @@
+INSERT INTO Roles (id, name) VALUES (1, 'goust');
+INSERT INTO Roles (id, name) VALUES (2, 'user');
+INSERT INTO Roles (id, name) VALUES (3, 'moderator');
+INSERT INTO Roles (id, name) VALUES (4, 'administrator');
+INSERT INTO Roles (id, name) VALUES (5, 'owner');
+
+
 INSERT INTO Users (id, login, email, password, icon) VALUES (1, 'goust', 'goust@i.ua', 'goust', 'no_user.jpg');
 INSERT INTO Users (id, login, email, password, icon) VALUES (2, 'user', 'user@i.ua', 'user', 'no_user.jpg');
 INSERT INTO Users (id, login, email, password, icon) VALUES (3, 'moderator', 'moderator@i.ua', 'moderator', 'no_user.jpg');
