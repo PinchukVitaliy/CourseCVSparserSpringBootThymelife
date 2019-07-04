@@ -7,21 +7,24 @@
 </head>
 <body>
 <div th:fragment="footer">
+    <link  th:href="@{/css/pagination_user.css}" rel="stylesheet" >
     <nav>
         <ul class="pagination d-flex justify-content-center">
-            <li th:class="${curpage eq 1} ? 'page-item disabled' : 'page-item'">
+            <li id="previus_user"
+                th:class="${curpage eq 1} ? 'page-item disabled' : 'page-item'">
                 <a th:if="${not (1 eq curpage)}" class="page-link"
                    th:href="@{/user/users/{p}(p=${curpage-1})}">Previous</a> <span
                     th:if="${1 eq curpage}" class="page-link">Previous</span>
             </li>
-            <li th:each="page : ${#numbers.sequence(1, pages)}"
+            <li id="pages_user"
+                th:each="page : ${#numbers.sequence(1, pages)}"
                 th:class="${curpage eq page}? 'active page-item' : 'page-item'">
                 <a th:if="${not (curpage eq page)}" class="page-link"
                    th:href="@{/user/users/{p}(p=${page})}" th:text="${page}"></a> <span
                     th:if="${curpage eq page}" class="page-link active"
                     th:text="${page}"></span>
             </li>
-            <li
+            <li id="next_user"
                     th:class="${curpage eq pages} ? 'page-item disabled' : 'page-item'">
                 <a th:if="${not (pages eq curpage)}" class="page-link"
                    th:href="@{/user/users/{p}(p=${curpage+1})}">Next</a> <span

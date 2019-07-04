@@ -23,6 +23,28 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public void addUser(User user){
+        boolean isEmpty = true;
+        List<User> users = userRepository.findAll();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getEmail().equals(user.getEmail())) {
+                isEmpty = false;
+                break;
+            }
+        }
+        if (isEmpty) {
+           // List<Role> userRole = roleRepository.findAll();
+           // for (int i = 0; i < userRole.size(); i++) {
+            //    if (!userRole.get(i).getRole().equals("user")) {
+            //        userRole.remove(i);
+           //     }
+           // }
+           // user.setRoles(userRole);
+            user.setIcon("no_user.jpg");
+            userRepository.save(user);
+        }
+    }
+
     public List<User> listUsers(int page) {
         List<User> allUsers = userRepository.findAll();
         List<User> users = new ArrayList<>();
@@ -34,7 +56,6 @@ public class UserService {
     public int pages(){
         return (int) Math.ceil((double) userRepository.findAll().size() / USERPAGE);
     }
-
 
     public User getDetails(Integer id) {return userRepository.getOne(id);}
     public void delete(User user) { userRepository.delete(user);}

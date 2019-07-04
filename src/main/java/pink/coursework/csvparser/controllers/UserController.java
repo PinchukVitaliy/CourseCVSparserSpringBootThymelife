@@ -69,5 +69,16 @@ public class UserController {
         }
         return "default";
     }
+    @GetMapping(value = "/user/add")
+    private String getAdd(Model model) {
+            model.addAttribute("contentPage", "/user/add");
+        return "default";
+    }
 
+    @PostMapping(value = "/user/add")
+    private String getAddSubmit(@ModelAttribute("user") User user) {
+        userService.addUser(user);
+        //model.addAttribute("contentPage", "/user/add");
+        return "redirect:/home/login";
+    }
 }
