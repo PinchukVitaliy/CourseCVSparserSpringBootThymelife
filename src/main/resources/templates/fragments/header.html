@@ -61,10 +61,7 @@
         </th:block>
 
         <th:block sec:authorize="isAnonymous()">
-            <form th:action="@{/login}" method="post">
-                <input class="btn btn-outline-info my-2 mr-sm-2" type="submit"
-                       value="Sign In" />
-            </form>
+                <a class="btn btn-outline-info my-2 mr-sm-2" href="/login/login">Sign In</a>
         </th:block>
     </div>
 </nav>
