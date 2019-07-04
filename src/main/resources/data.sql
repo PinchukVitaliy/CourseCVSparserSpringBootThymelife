@@ -3,3 +3,10 @@ INSERT INTO Users (id, login, email, password, icon) VALUES (2, 'user', 'user@i.
 INSERT INTO Users (id, login, email, password, icon) VALUES (3, 'moderator', 'moderator@i.ua', 'moderator', 'no_user.jpg');
 INSERT INTO Users (id, login, email, password, icon) VALUES (4, 'administrator', 'administrator@i.ua', 'administrator', 'no_user.jpg');
 INSERT INTO Users (id, login, email, password, icon) VALUES (5, 'owner', 'owner@i.ua', 'owner', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (6, 'goblin', 'goblin@i.ua', 'goblin', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (7, 'pasha', 'gpashat@i.ua', 'pasha', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (8, 'lenya', 'lenya@i.ua', 'lenya', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (9, 'ben', 'moddern@i.ua', 'ben', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (10, 'zyuzya', 'zyuzya@i.ua', 'zyuzya', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (11, 'macar', 'macar@i.ua', 'macar', 'no_user.jpg');
+INSERT INTO Users (id, login, email, password, icon) VALUES (12, 'focus', 'focus@i.ua', 'focus', 'no_user.jpg');

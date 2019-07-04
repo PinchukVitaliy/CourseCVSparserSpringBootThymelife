@@ -3,10 +3,14 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Search</title>
 </head>
 <body>
 <div class="container table-responsive text-nowrap" th:fragment="content">
+    <br>
+        <div class="input-group mb-3">
+            <a href="/user/users/1" class="btn btn-success">Back to list</a>
+        </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -32,7 +36,6 @@
         </tr>
         </tbody>
     </table>
-    <div th:replace="fragments/pagination_users :: footer">...</div>
 </div>
 </body>
 </html>

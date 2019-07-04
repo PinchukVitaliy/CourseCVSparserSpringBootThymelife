@@ -16,7 +16,7 @@
     <div>
         <th:block sec:authorize="isAuthenticated()">
             <div>
-                <a href="/user/users">Back to list</a>|
+                <a href="/user/users/1">Back to list</a>|
                 <a th:href="@{'/user/edit/'+${user.id}}">Edit</a>|
                 <a th:href="@{'/user/details/'+${user.id}}">Details</a>
             </div>
@@ -24,7 +24,7 @@
 
         <th:block sec:authorize="isAnonymous()">
             <div>
-                <a href="/user/users">Back to list</a>
+                <a href="/user/users/1">Back to list</a>
             </div>
         </th:block>
     </div>

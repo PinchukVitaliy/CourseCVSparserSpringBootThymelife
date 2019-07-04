@@ -8,16 +8,19 @@ import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.UserService;
 
+import java.io.IOException;
+
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-
-    @GetMapping("/user/users")
-    private String getUsersList(Model model) {
-        model.addAttribute("users",  userService.listUsers());
+    @GetMapping("/user/users/{page}")
+    private String getUsersPaginationList(Model model, @PathVariable int page) {
+        model.addAttribute("curpage", page);
+        model.addAttribute("pages", userService.pages());
+        model.addAttribute("users", userService.listUsers(page));
         model.addAttribute("contentPage", "/user/users");
         return "default";
     }
@@ -54,6 +57,17 @@ public class UserController {
     private String deleteSubmit(@ModelAttribute("user") User user) {
         userService.delete(user);
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/user/users/{page}", params = { "search" })
+    private String getSearchUser(Model model, String search) {
+        if(userService.searchList(search) == null || userService.searchList(search).isEmpty()){
+            model.addAttribute("contentPage", "/fragments/searchResultNull");
+        }else{
+            model.addAttribute("users", userService.searchList(search));
+            model.addAttribute("contentPage", "/user/search");
+        }
+        return "default";
     }
 
 }
