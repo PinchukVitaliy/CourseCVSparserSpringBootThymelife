@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form >
+                <form th:action="@{/login/login}" method="post">
                     <div class="form-group">
                         <label for="email">User email</label>
                         <input  required type="email" class="form-control" id="email"
@@ -34,7 +34,7 @@
             <div class="card-footer">
                 <a href="/" >Login as a guest</a>
                 <br>
-                <a href="/user/add" >To register</a>
+                <a href="/registration/register" >To register</a>
             </div>
         </div>
     </div>

@@ -1,0 +1,11 @@
+.href{
+    float:left;
+    margin-right:5px;
+}
+.wrap ol {
+  list-style-position: inside;
+  -moz-column-count: 2; /* Firefox */
+  -webkit-column-count: 2; /* Safari and Chrome */
+  column-count: 2;
+  list-style-type: decimal;
+}

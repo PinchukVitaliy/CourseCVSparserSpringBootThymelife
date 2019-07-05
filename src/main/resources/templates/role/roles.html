@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Roles</title>
+</head>
+<body>
+<div class="container table-responsive text-nowrap" th:fragment="content">
+    <link  th:href="@{/css/roles.css}" rel="stylesheet" >
+    <br/>
+    <a class="btn btn-primary" href="/role/add" role="button">Create new role</a>
+    <br />
+    <div class="panel panel-primary">
+        <div class="panel-heading"><h3>Roles</h3></div>
+        <table class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Role</th>
+                <th>Users</th>
+                <th>Settings</th>
+            </tr>
+            <!-- IF CUSTOMER IS ANONYMOUS -->
+            <tr th:if="${roles.size() == 0}">
+                <td colspan="4" class="text-center">No roles</td>
+            </tr>
+            <!-- ELSE -->
+            <tr th:unless="${roles.size() == 0}" th:each="role : ${roles}">
+                <th scope="row" th:text="${role.id}"></th>
+                <td  th:text="${role.name}"></td>
+                <!-- IF CUSTOMER IS ANONYMOUS -->
+                <td  th:if="${role.userList == null || role.userList.size() == 0}">
+                    There are no users in this role.
+                </td>
+                <!-- ELSE -->
+                <td  th:unless="${role.userList == null || role.userList.size() == 0}">
+                    <div class="wrap">
+                        <ol>
+                            <li th:each="user : ${role.userList}">
+                                <span th:text="${user.email}"></span>
+                            </li>
+                        </ol>
+                    </div>
+                </td>
+                <td>
+                    <a th:href="@{'/role/edit/'+${role.id}}" class="href btn btn-primary btn-xs">Edit</a>
+                    <a th:href="@{'/role/delete/'+${role.id}}" class="href btn btn-danger btn-xs">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

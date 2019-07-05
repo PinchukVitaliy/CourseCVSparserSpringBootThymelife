@@ -17,3 +17,4 @@ INSERT INTO Users (id, login, email, password, icon) VALUES (9, 'ben', 'moddern@
 INSERT INTO Users (id, login, email, password, icon) VALUES (10, 'zyuzya', 'zyuzya@i.ua', 'zyuzya', 'no_user.jpg');
 INSERT INTO Users (id, login, email, password, icon) VALUES (11, 'macar', 'macar@i.ua', 'macar', 'no_user.jpg');
 INSERT INTO Users (id, login, email, password, icon) VALUES (12, 'focus', 'focus@i.ua', 'focus', 'no_user.jpg');
+
