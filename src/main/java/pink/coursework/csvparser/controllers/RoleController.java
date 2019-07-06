@@ -9,6 +9,8 @@ import pink.coursework.csvparser.models.Role;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.RoleService;
 
+import java.util.List;
+
 @Controller
 public class RoleController {
     @Autowired
@@ -34,16 +36,31 @@ public class RoleController {
     }
 
     @GetMapping("/role/edit/{id}")
-    private String editRole(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("role", roleService.getRole(id));
+    private String editRole(@PathVariable("id") Integer idRole, Model model) {
+        model.addAttribute("role", roleService.getRole(idRole));
+        model.addAttribute("user_no_role", roleService.listUsersNoRole(idRole));
         model.addAttribute("contentPage", "/role/edit");
         return "default";
 
     }
 
     @PostMapping("/role/edit")
-    private String editRoleSubmit(@ModelAttribute("user") User user) {
-        //userService.setUser(user, file);
-        return "redirect:/user/details/";
+    private String editRoleSubmit(@ModelAttribute("role") Role role,
+                                  @RequestParam(value = "IdsToAdd", required = false) List<User> IdsToAdd,
+                                  @RequestParam(value = "IdsToDelete", required = false) List<User> IdsToDelete) {
+        /*if(IdsToAdd != null)
+        {
+            System.out.println("checkbox is checked");
+            System.out.println("IdsToAdd"+IdsToAdd.size());
+        }
+        if(IdsToDelete != null)
+        {
+            System.out.println("checkbox is checked");
+            System.out.println("IdsToAdd"+IdsToDelete.size());
+        }*/
+
+
+        roleService.editRole(roleService.getRole(role.getId()),IdsToAdd, IdsToDelete);
+        return "redirect:/role/edit/"+role.getId();
     }
 }
