@@ -3,7 +3,10 @@ package pink.coursework.csvparser.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import pink.coursework.csvparser.models.Role;
+import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.RoleService;
 
 @Controller
@@ -16,5 +19,31 @@ public class RoleController {
         model.addAttribute("roles", roleService.listRoles());
         model.addAttribute("contentPage", "/role/roles");
         return "default";
+    }
+
+    @GetMapping("/role/add")
+    private String addRole(Model model) {
+        model.addAttribute("contentPage", "/role/add");
+        return "default";
+    }
+
+    @PostMapping("/role/add")
+    private String addRoleSubmit(@ModelAttribute("role") Role role) {
+        roleService.createRole(role);
+        return "redirect:/role/roles/";
+    }
+
+    @GetMapping("/role/edit/{id}")
+    private String editRole(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("role", roleService.getRole(id));
+        model.addAttribute("contentPage", "/role/edit");
+        return "default";
+
+    }
+
+    @PostMapping("/role/edit")
+    private String editRoleSubmit(@ModelAttribute("user") User user) {
+        //userService.setUser(user, file);
+        return "redirect:/user/details/";
     }
 }

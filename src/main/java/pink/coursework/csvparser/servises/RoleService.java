@@ -18,4 +18,11 @@ public class RoleService {
     public void editRole(Role role){
         roleRepository.save(role);
     }
+    public void createRole(Role role){
+        roleRepository.save(role);
+    }
+    public Role getRole(Integer id){
+        return roleRepository.getOne(id);
+    }
+
 }

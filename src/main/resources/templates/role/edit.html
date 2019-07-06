@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<div class="container table-responsive text-nowrap" th:fragment="content">
+    <h2>Edit role</h2>
+    <input type="hidden" name="roleName" th:value="${role.id}" />
+    <div class="panel panel-primary">
+        <div class="panel-heading">Add to role <b th:text=${role.name}></b></div>
+        <table class="table table-striped">
+            <!-- IF CUSTOMER IS ANONYMOUS -->
+            <th:block th:if="${role.userList.size() == 0}" >
+            <tr >
+                <td colspan="2">All users in the role</td>
+            </tr>
+            </th:block>
+            <!-- ELSE -->
+            <th:block th:unless="${role.userList.size() == 0}" >
+            <tr >
+                <td>Email user</td>
+                <td>Add to role</td>
+            </tr>
+            <tr th:each="user : ${role.userList}">
+                <td th:text=${user.email}></td>
+                <td>
+                    <input type="checkbox" name="IdsToAdd" th:value="${user.id}">
+                </td>
+            </tr>
+            </th:block>
+        </table>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Delete from the role <b th:text=${role.name}></b>
+        </div>
+        <table class="table table-striped">
+            <!-- IF CUSTOMER IS ANONYMOUS -->
+            <th:block th:if="${role.userList.size() == 0}" >
+                <tr >
+                    <td colspan="2">No users in the role</td>
+                </tr>
+            </th:block>
+            <!-- ELSE -->
+            <th:block th:unless="${role.userList.size() == 0}" >
+                <tr >
+                    <td>Email user</td>
+                    <td>Remove from role</td>
+                </tr>
+                <tr th:each="user : ${role.userList}">
+                    <td th:text=${user.email}></td>
+                    <td>
+                        <input type="checkbox" name="IdsToDelete" th:value="${user.id}">
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <br/>
+    <a th:href="@{'/role/roles'}" class="href btn btn-info btn-xs">Back</a>
+</div>
+</body>
+</html>
