@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 
 @Controller
@@ -47,5 +50,17 @@ public class FileController {
             model.addAttribute("contentPage", "/file/search");
         }
         return "default";
+    }
+    @GetMapping("/file/delete/{id}")
+    private String delete(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("file", fileService.getFile(id));
+        model.addAttribute("contentPage", "/file/delete");
+        return "default";
+    }
+
+    @PostMapping("/file/delete")
+    private String deleteSubmit(@ModelAttribute("file") Myfile myfile) {
+        fileService.deleteFile(myfile);
+        return "redirect:/file/files";
     }
 }

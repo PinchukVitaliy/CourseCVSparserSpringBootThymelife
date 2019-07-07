@@ -14,6 +14,13 @@ public class FileService {
     @Autowired
     private FileRepository fileRepository;
 
+    public Myfile getFile(Integer id){
+        return fileRepository.getOne(id);
+    }
+
+    public void deleteFile(Myfile myfile){
+        fileRepository.delete(myfile);
+    }
     public List<Myfile> paginationFiles(int page) {
         List<Myfile> allUsers = fileRepository.findAll();
         List<Myfile> users = new ArrayList<>();

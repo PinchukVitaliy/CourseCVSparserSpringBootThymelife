@@ -12,7 +12,20 @@
         <input type="text" class="form-control" th:field="*{user.id}" hidden>
         <button type="submit" class="btn btn-danger" style="width:100px">Yes</button>
     </form>
-    <br /><br/>
+    <br />
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">User name</span>
+        </div>
+        <input type="text" class="form-control" th:field="*{user.login}" readonly>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">User email</span>
+        </div>
+        <input type="text" class="form-control" th:field="*{user.email}" readonly>
+    </div>
+    <br/>
     <div>
         <th:block sec:authorize="isAuthenticated()">
             <div>

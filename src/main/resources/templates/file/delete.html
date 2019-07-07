@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+</head>
+<body>
+<div  class="container" th:fragment="content">
+    <form class="mt-3" name="delete" th:action="@{/file/delete}"  method="POST">
+        <h2>Do you really want to delete this file?</h2>
+        <input type="text" class="form-control" th:field="*{file.id}" hidden>
+        <button type="submit" class="btn btn-danger" style="width:100px">Yes</button>
+    </form>
+    <br /><br/>
+    <div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">File name</span>
+            </div>
+            <input type="text" class="form-control" th:field="*{file.originName}" readonly>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">File creator</span>
+            </div>
+            <input type="text" class="form-control" th:field="*{file.creatorOfFile.login}" readonly>
+        </div>
+        <th:block sec:authorize="isAnonymous()">
+            <div>
+                <a href="/file/files">Back to list files</a>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

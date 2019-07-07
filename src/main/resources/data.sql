@@ -36,11 +36,11 @@ INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (1, 'CSV-1', 1)
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (2, 'CSV-2', 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (3, 'CSV-3', 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (4, 'CSV-4', 2);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (5, 'CSV-5', 11);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (5, 'CS', 11);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (6, 'CSV-6', 11);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (7, 'CSV-7', 12);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (7, 'Cosovo', 12);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (8, 'CSV-8', 12);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (9, 'CSV-9', 12);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (9, 'Bound', 12);
 
 /*
 INSERT INTO USERS_LIST_CREATED_FILES (USER_ID, LIST_CREATED_FILES_ID) VALUES (1, 1);
