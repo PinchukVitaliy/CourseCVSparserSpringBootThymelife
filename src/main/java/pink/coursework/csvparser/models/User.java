@@ -15,8 +15,12 @@ public class User {
     private String email;
     private String password;
     private String icon;
-    @ManyToMany
-    private List<Role> roleList = new ArrayList<Role>();
+    @ManyToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name="User_Role",
+            joinColumns=@JoinColumn(name="User_id"),
+            inverseJoinColumns=@JoinColumn(name="Role_id")
+    )
+    private List<Role> roleList = new ArrayList<>();
 
 
     public User() {

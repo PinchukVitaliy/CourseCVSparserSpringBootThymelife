@@ -48,19 +48,9 @@ public class RoleController {
     private String editRoleSubmit(@ModelAttribute("role") Role role,
                                   @RequestParam(value = "IdsToAdd", required = false) List<User> IdsToAdd,
                                   @RequestParam(value = "IdsToDelete", required = false) List<User> IdsToDelete) {
-        /*if(IdsToAdd != null)
-        {
-            System.out.println("checkbox is checked");
-            System.out.println("IdsToAdd"+IdsToAdd.size());
-        }
-        if(IdsToDelete != null)
-        {
-            System.out.println("checkbox is checked");
-            System.out.println("IdsToAdd"+IdsToDelete.size());
-        }*/
-
-
         roleService.editRole(roleService.getRole(role.getId()),IdsToAdd, IdsToDelete);
         return "redirect:/role/edit/"+role.getId();
     }
+
+
 }

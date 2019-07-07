@@ -67,7 +67,9 @@ public class UserService {
     }
 
     public User getDetails(Integer id) {return userRepository.getOne(id);}
-    public void delete(User user) { userRepository.delete(user);}
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
     public List<User> searchList(String search)
     {
         List<User> searchList = null;

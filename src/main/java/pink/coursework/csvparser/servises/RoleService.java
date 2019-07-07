@@ -25,7 +25,6 @@ public class RoleService {
         {
             for(int i = 0; i < IdsToAdd.size(); i++){
                 IdsToAdd.get(i).getRoleList().add(role);
-                role.getUserList().add(IdsToAdd.get(i));
                 userRepository.save(IdsToAdd.get(i));
             }
         }
@@ -33,11 +32,9 @@ public class RoleService {
         {
             for(int j = 0; j < IdsToDelete.size(); j++){
                 IdsToDelete.get(j).getRoleList().remove(role);
-                role.getUserList().remove(IdsToDelete.get(j));
                 userRepository.save(IdsToDelete.get(j));
             }
         }
-        roleRepository.save(role);
     }
     public void createRole(Role role){
         roleRepository.save(role);
@@ -52,7 +49,6 @@ public class RoleService {
         for(int i = 0; i < listUsers.size(); i++){
                boolean flag = listUsers.get(i).getRoleList().contains(role);
                if(!flag){
-                   System.out.println(listUsers.get(i).getLogin());
                    listUsersNoRole.add(listUsers.get(i));
                }
         }

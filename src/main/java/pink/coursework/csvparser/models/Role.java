@@ -12,8 +12,12 @@ public class Role {
     @Column(name = "id", unique = true, nullable = false)
     protected Integer id;
     private String name;
-    @ManyToMany
-    private List<User> userList = new ArrayList<User>();
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name="User_Role",
+            joinColumns=@JoinColumn(name="Role_id"),
+            inverseJoinColumns=@JoinColumn(name="User_id")
+    )
+    private List<User> userList = new ArrayList<>();
 
     public Role() {
     }
