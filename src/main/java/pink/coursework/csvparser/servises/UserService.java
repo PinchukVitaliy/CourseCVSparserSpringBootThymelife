@@ -39,18 +39,13 @@ public class UserService {
         }
         if (isEmpty) {
             List<Role> listRoles = roleRepository.findAll();
-            Role role = null;
             for (int i = 0; i < listRoles.size(); i++) {
                if (listRoles.get(i).getName().equals("goust")) {
                    user.getRoleList().add(listRoles.get(i));
-                   role =listRoles.get(i);
                }
             }
             user.setIcon("no_user.jpg");
-            role.getUserList().add(user);
-
             userRepository.save(user);
-            roleRepository.save(role);
         }
     }
 
