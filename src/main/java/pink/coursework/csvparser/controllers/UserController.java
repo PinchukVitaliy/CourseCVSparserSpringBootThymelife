@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping(value = "/user/users/{page}", params = { "search" })
     private String getSearchUser(Model model, String search) {
         if(userService.searchList(search) == null || userService.searchList(search).isEmpty()){
-            model.addAttribute("contentPage", "/fragments/searchResultNull");
+            model.addAttribute("contentPage", "/fragments/searchResultNullUsers");
         }else{
             model.addAttribute("users", userService.searchList(search));
             model.addAttribute("contentPage", "/user/search");

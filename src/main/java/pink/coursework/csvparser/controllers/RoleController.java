@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Role;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.RoleService;
@@ -52,5 +51,16 @@ public class RoleController {
         return "redirect:/role/edit/"+role.getId();
     }
 
+    @GetMapping("/role/delete/{id}")
+    private String delete(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("role", roleService.getRole(id));
+        model.addAttribute("contentPage", "/role/delete");
+        return "default";
+    }
 
+    @PostMapping("/role/delete")
+    private String deleteSubmit(@ModelAttribute("role") Role role) {
+        roleService.deleteRole(role);
+        return "redirect:/role/roles";
+    }
 }

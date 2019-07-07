@@ -54,4 +54,7 @@ public class RoleService {
         }
         return listUsersNoRole;
     }
+    public void deleteRole(Role role){
+        roleRepository.delete(role);
+    }
 }

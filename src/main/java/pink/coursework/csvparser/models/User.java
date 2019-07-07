@@ -22,47 +22,42 @@ public class User {
     )
     private List<Role> roleList = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Myfile> listCreatedFiles = new ArrayList<>();
+
+
 
     public User() {
     }
 
     public List<Role> getRoleList() {return roleList;}
-
     public void setRoleList(List<Role> roleList) { this.roleList = roleList;}
-
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public String getLogin() {
         return login;
     }
-
     public void setLogin(String name) {
         this.login = name;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
-
     public String getIcon() {return icon; }
-
     public void setIcon(String icon) {this.icon = icon; }
+    public List<Myfile> getListCreatedFiles() { return listCreatedFiles;}
+    public void setListCreatedFiles(List<Myfile> listCreatedFiles) {this.listCreatedFiles = listCreatedFiles; }
 }
