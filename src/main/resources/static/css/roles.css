@@ -9,3 +9,12 @@
   column-count: 2;
   list-style-type: decimal;
 }
+
+div.wrap{
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+tbody {
+ background-color: lightblue;
+}

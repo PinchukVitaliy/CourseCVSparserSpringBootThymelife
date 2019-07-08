@@ -14,12 +14,15 @@
     <div class="panel panel-primary">
         <div class="panel-heading"><h3>Roles</h3></div>
         <table class="table table-striped">
-            <tr>
-                <th>ID</th>
-                <th>Role</th>
-                <th>Users</th>
-                <th>Settings</th>
-            </tr>
+            <thead class="thead thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Role</th>
+                    <th>Users</th>
+                    <th>Settings</th>
+                </tr>
+            </thead>
+            <tbody>
             <!-- IF CUSTOMER IS ANONYMOUS -->
             <tr th:if="${roles.size() == 0}">
                 <td colspan="4" class="text-center">No roles</td>
@@ -47,6 +50,7 @@
                     <a th:href="@{'/role/delete/'+${role.id}}" class="href btn btn-danger btn-xs">Delete</a>
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 </div>

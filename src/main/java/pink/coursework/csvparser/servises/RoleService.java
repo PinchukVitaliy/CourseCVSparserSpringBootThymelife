@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class RoleService {
+
     @Autowired
     private RoleRepository roleRepository;
     @Autowired

@@ -33,9 +33,8 @@ public class RoleController {
         roleService.createRole(role);
         return "redirect:/role/roles/";
     }
-
     @GetMapping("/role/edit/{id}")
-    private String editRole(@PathVariable("id") Integer idRole, Model model) {
+    private String editRoleFirst(@PathVariable("id") Integer idRole, Model model) {
         model.addAttribute("role", roleService.getRole(idRole));
         model.addAttribute("user_no_role", roleService.listUsersNoRole(idRole));
         model.addAttribute("contentPage", "/role/edit");
