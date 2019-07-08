@@ -45,13 +45,13 @@
             </div>
             <table class="table table-secondary">
                 <!-- IF CUSTOMER IS ANONYMOUS -->
-                <th:block th:if="${role.userList.size() == 0}" >
+                <th:block th:if="${user_yes_role.size() == 0}" >
                     <tr >
                         <td colspan="2"><h6>No users in the role</h6></td>
                     </tr>
                 </th:block>
                 <!-- ELSE -->
-                <th:block th:unless="${role.userList.size() == 0}" >
+                <th:block th:unless="${user_yes_role.size() == 0}" >
                     <thead class="thead-dark">
                     <tr >
                         <th>Email user</th>
@@ -59,7 +59,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="user : ${role.userList}">
+                    <tr th:each="user : ${user_yes_role}">
                         <td th:text=${user.email}></td>
                         <td>
                             <input type="checkbox" name="IdsToDelete" th:value="${user.id}">
@@ -71,7 +71,8 @@
         </div>
         <br/>
         <button type="submit" class="btn btn-primary">Save</button>&nbsp;
-        <a th:href="@{'/role/roles'}" class="href btn btn-info btn-xs">Back</a>
+        <a th:href="@{'/role/roles'}" class="href btn btn-info btn-xs">Back</a>&nbsp;
+        <a th:href="@{/role/edit/{id}(id=${role.id})}" class="btn btn-success">Back to role edit</a>
     </form>
     <br/>
     <br/>

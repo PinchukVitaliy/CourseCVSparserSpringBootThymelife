@@ -43,6 +43,7 @@ public class RoleService {
     public Role getRole(Integer id){
         return roleRepository.getOne(id);
     }
+
     public List<User> listUsersNoRole(Integer idRole){
         List<User> listUsers = userRepository.findAll();
         List<User> listUsersNoRole = new ArrayList<>();
@@ -57,5 +58,23 @@ public class RoleService {
     }
     public void deleteRole(Role role){
         roleRepository.delete(role);
+    }
+
+    public List<User> searchList(String search, List<User> resultList)
+    {
+        List<User> searchList = null;
+        if(search.isEmpty()){
+            return searchList;
+        }
+        if (!search.isEmpty()){
+            List<User> userList = resultList;
+            searchList = new ArrayList<User>();
+            for (int i = 0; i < userList.size(); i++) {
+                if (userList.get(i).getEmail().regionMatches(true, 0, search, 0, search.length())) {
+                    searchList.add(userList.get(i));
+                }
+            }
+        }
+        return searchList;
     }
 }

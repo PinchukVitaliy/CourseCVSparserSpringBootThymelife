@@ -36,12 +36,28 @@ public class RoleController {
     @GetMapping("/role/edit/{id}")
     private String editRoleFirst(@PathVariable("id") Integer idRole, Model model) {
         model.addAttribute("role", roleService.getRole(idRole));
+        model.addAttribute("user_yes_role", roleService.getRole(idRole).getUserList());
         model.addAttribute("user_no_role", roleService.listUsersNoRole(idRole));
         model.addAttribute("contentPage", "/role/edit");
         return "default";
 
     }
-
+    @GetMapping(value = "/role/edit/{id}", params = { "search" })
+    private String getSearchRolesNoAntYes(@PathVariable("id") Integer idRole, Model model, String search) {
+        if((roleService.searchList(search, roleService.getRole(idRole).getUserList()) == null &&
+                roleService.searchList(search, roleService.listUsersNoRole(idRole)) == null ) ||
+                (roleService.searchList(search, roleService.getRole(idRole).getUserList()).isEmpty() &&
+                        roleService.searchList(search, roleService.listUsersNoRole(idRole)).isEmpty())){
+            model.addAttribute("role", roleService.getRole(idRole));
+            model.addAttribute("contentPage", "/fragments/searchResultNullRoleUsers");
+        }else{
+            model.addAttribute("role", roleService.getRole(idRole));
+            model.addAttribute("user_yes_role", roleService.searchList(search, roleService.getRole(idRole).getUserList()));
+            model.addAttribute("user_no_role", roleService.searchList(search, roleService.listUsersNoRole(idRole)));
+            model.addAttribute("contentPage", "/role/edit");
+        }
+        return "default";
+    }
     @PostMapping("/role/edit")
     private String editRoleSubmit(@ModelAttribute("role") Role role,
                                   @RequestParam(value = "IdsToAdd", required = false) List<User> IdsToAdd,
