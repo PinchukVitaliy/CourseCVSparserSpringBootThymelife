@@ -1,5 +1,6 @@
 package pink.coursework.csvparser.servises;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +8,8 @@ import pink.coursework.csvparser.models.Role;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.RoleRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
+
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -23,30 +27,41 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private MailSender mailSender;
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\icons_users\\";
     private static int USERPAGE = 9;
 
-    public void addUser(User user){
-        boolean isEmpty = true;
+    public boolean addUser(User user){
         List<User> users = userRepository.findAll();
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getEmail().equals(user.getEmail())) {
-                isEmpty = false;
-                break;
+                return false;
             }
         }
-        if (isEmpty) {
-            List<Role> listRoles = roleRepository.findAll();
-            for (int i = 0; i < listRoles.size(); i++) {
-               if (listRoles.get(i).getName().equals("goust")) {
-                   user.getRoleList().add(listRoles.get(i));
-               }
+        List<Role> listRoles = roleRepository.findAll();
+        for (int i = 0; i < listRoles.size(); i++) {
+            if (listRoles.get(i).getName().equals("goust")) {
+                user.getRoleList().add(listRoles.get(i));
             }
-            user.setIcon("no_user.jpg");
-            userRepository.save(user);
         }
+        user.setActive(true);
+        user.setIcon("no_user.jpg");
+        user.setActivationCode(UUID.randomUUID().toString());
+        userRepository.save(user);
+        if(!StringUtils.isEmpty(user.getEmail())){
+            String message = String.format(
+               "Hello, %s! \n" +
+                       "Welcom to Sweater. Please, visit next link: http:localhost:8080/registration/active/%s",
+                    user.getLogin(),
+                    user.getActivationCode()
+            );
+
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
+        return true;
     }
 
     public List<User> listUsers(int page) {
@@ -118,6 +133,18 @@ public class UserService {
         datetime = datetime.replace(":", "");
         filename = datetime + "_" + millis;
         return filename+"."+extension;
+    }
+
+    public boolean getActivate(String code) {
+        User user = userRepository.findByActivationCode(code);
+
+        if(user == null){
+            return false;
+        }
+        user.setActivationCode(null);
+        userRepository.save(user);
+
+        return true;
     }
 }
 

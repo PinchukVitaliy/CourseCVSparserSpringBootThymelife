@@ -18,4 +18,5 @@ public class HomeController {
         model.addAttribute("contentPage", "/home/admin");
         return "default";
     }
+
 }

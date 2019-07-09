@@ -12,8 +12,7 @@
         <div class="card alert-success col align-self-center" id="auth">
             <div class="card-header">
                 <h2>Authorization</h2>
-                <div class="alert alert-danger">
-                    Fill in the field "Email"
+                <div class="alert alert-danger" th:if="${message != null}" th:text="${message}">
                 </div>
             </div>
             <div class="card-body">
@@ -35,6 +34,8 @@
                 <a href="/" >Login as a guest</a>
                 <br>
                 <a href="/registration/register" >To register</a>
+                <br>
+                <a style="color:red" href="/user/password" >You password forgot?</a>
             </div>
         </div>
     </div>

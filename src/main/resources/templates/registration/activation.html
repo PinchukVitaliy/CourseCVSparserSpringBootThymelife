@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Activation</title>
+</head>
+<body>
+<div class="container table-responsive text-nowrap" th:fragment="content">
+    <br/>
+        <div>
+            <h2 style="color:blue">Thank you for registering <span th:text="${user.email}"></span></h2>
+            <h4>An email has been sent to activate your account.</h4>
+            <h4>Follow the link in the letter to activate it!</h4>
+        </div>
+    <br/>
+    <a th:href="@{/}">Back to start page</a>
+</div>
+</body>
+</html>

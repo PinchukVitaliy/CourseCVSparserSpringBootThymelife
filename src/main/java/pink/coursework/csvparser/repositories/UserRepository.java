@@ -6,4 +6,7 @@ import pink.coursework.csvparser.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+    //User findByUserEmail(String userEmail);
+
+    User findByActivationCode(String code);
 }

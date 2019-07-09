@@ -15,6 +15,10 @@ public class User {
     private String email;
     private String password;
     private String icon;
+    private boolean active;
+
+    private String activationCode;
+
     @ManyToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name="User_Role",
             joinColumns=@JoinColumn(name="User_id"),
@@ -60,4 +64,10 @@ public class User {
     public void setIcon(String icon) {this.icon = icon; }
     public List<Myfile> getListCreatedFiles() { return listCreatedFiles;}
     public void setListCreatedFiles(List<Myfile> listCreatedFiles) {this.listCreatedFiles = listCreatedFiles; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active;  }
+
+    public String getActivationCode() {  return activationCode; }
+    public void setActivationCode(String activationCode) {  this.activationCode = activationCode; }
 }

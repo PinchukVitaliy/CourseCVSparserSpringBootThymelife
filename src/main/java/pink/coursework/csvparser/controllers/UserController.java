@@ -13,7 +13,7 @@ import java.io.IOException;
 @Controller
 public class UserController {
 
-    @Autowired
+    @Autowired(required=true)
     private UserService userService;
 
     @GetMapping("/user/users/{page}")
