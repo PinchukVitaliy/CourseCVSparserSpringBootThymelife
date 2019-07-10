@@ -2,13 +2,12 @@ package pink.coursework.csvparser.servises;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pink.coursework.csvparser.models.Role;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.RoleRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
-
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,24 +28,22 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private MailSender mailSender;
+    //@Autowired
+    //private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\icons_users\\";
     private static int USERPAGE = 9;
 
     public boolean addUser(User user){
-        List<User> users = userRepository.findAll();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equals(user.getEmail())) {
-                return false;
-            }
+        if(userRepository.findByEmail(user.getEmail()) != null){
+            return false;
         }
-        List<Role> listRoles = roleRepository.findAll();
-        for (int i = 0; i < listRoles.size(); i++) {
-            if (listRoles.get(i).getName().equals("goust")) {
-                user.getRoleList().add(listRoles.get(i));
-            }
-        }
+
+        //String password = user.getPassword();
+        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+        user.getRoleList().add(roleRepository.findByName("goust"));
         user.setActive(true);
         user.setIcon("no_user.jpg");
         user.setActivationCode(UUID.randomUUID().toString());
@@ -141,9 +138,32 @@ public class UserService {
         if(user == null){
             return false;
         }
+        user.getRoleList().add(roleRepository.findByName("user"));
         user.setActivationCode(null);
         userRepository.save(user);
 
+        return true;
+    }
+
+    public boolean recovery(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null){
+            return false;
+        }
+        /**/
+        user.setPassword("new password");
+        userRepository.save(user);
+        if(!StringUtils.isEmpty(user.getEmail())){
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Here is your new password: '%s'\n" +
+                            "Do not tell anyone!",
+                    user.getLogin(),
+                    user.getPassword()
+            );
+
+            mailSender.send(user.getEmail(), "Password recovery", message);
+        }
         return true;
     }
 }

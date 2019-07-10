@@ -13,7 +13,7 @@ import java.io.IOException;
 @Controller
 public class UserController {
 
-    @Autowired(required=true)
+    @Autowired
     private UserService userService;
 
     @GetMapping("/user/users/{page}")
@@ -66,6 +66,23 @@ public class UserController {
         }else{
             model.addAttribute("users", userService.searchList(search));
             model.addAttribute("contentPage", "/user/search");
+        }
+        return "default";
+    }
+
+    @GetMapping("/user/password")
+    private String recorevy(Model model) {
+        model.addAttribute("contentPage", "/user/password");
+        return "default";
+    }
+    @PostMapping("/user/password")
+    private String recorevySubmit(@ModelAttribute("email") String email, Model model) {
+        boolean isUser = userService.recovery(email);
+        if(isUser){
+            model.addAttribute("contentPage", "/fragments/recovery");
+        }else{
+            model.addAttribute("message", "There is no such email!");
+            model.addAttribute("contentPage", "/user/password");
         }
         return "default";
     }
