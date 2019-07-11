@@ -13,7 +13,7 @@
             <div class="form-group">
                     <label for="icon">User icon</label>
                     <input type="text" class="form-control" id="icon" name="icon" th:value="${user.icon}" readonly>
-                <img th:src="@{'/icons_users/'+${user.icon}}" alt="icon" class="img-thumbnail" style="width: 180px;height:180px; margin: 3px;">
+                <img th:src="@{'/icon/'+${user.icon}}" alt="icon" class="img-thumbnail" style="width: 180px;height:180px; margin: 3px;">
                 <div class="form-control">
                     <label for="choose-file" class="btn alert-info">Select Image</label>
                     <label id="image-name">No image choose</label>

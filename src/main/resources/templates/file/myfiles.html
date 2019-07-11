@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My files</title>
+</head>
+<body>
+<div class="container table-responsive text-nowrap" th:fragment="content">
+    <h1>Files <span>User email</span></h1>
+    <table class="table table-success">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Origin name</th>
+            <th scope="col">User login</th>
+            <th scope="col">User email</th>
+            <th scope="col">Setting</th>
+        </tr>
+        </thead>
+        <tbody th:if="${message != null}" >
+        <tr>
+            <td th:text="${message}"></td>
+        </tr>
+        </tbody>
+        <tbody th:unless="${message != null}">
+        <tr th:each="file : ${myfiles}">
+            <th scope="row" th:text="${file.id}"></th>
+            <td th:text="${file.originName}"></td>
+            <td th:text="${file.creatorOfFile.getLogin()}"></td>
+            <td th:text="${file.creatorOfFile.getEmail()}"></td>
+            <td ><a th:href="@{'/file/delete/'+${file.id}}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination_myfiles :: footer_file">...</div>
+</div>
+</body>
+</html>

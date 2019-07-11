@@ -3,12 +3,14 @@ package pink.coursework.csvparser.servises;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.RoleRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +34,9 @@ public class UserService {
     //private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "src\\main\\resources\\static\\icons_users\\";
+    @Value("${avatar.path}")
+    String avatarPath;
+
     private static int USERPAGE = 9;
 
     public boolean addUser(User user){
@@ -105,10 +109,10 @@ public class UserService {
     }
 
     public void singleFileUpload(MultipartFile file, String resultFileName) {
-        Path path = Paths.get(UPLOADED_FOLDER + resultFileName);
-        byte[] bytes;
+        Path path = Paths.get(avatarPath + resultFileName);
+
         try {
-            bytes = file.getBytes();
+            byte[] bytes = file.getBytes();
             Files.write(path, bytes);
         } catch (IOException e) {
             e.printStackTrace();

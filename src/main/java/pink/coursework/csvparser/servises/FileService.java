@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.repositories.FileRepository;
+import pink.coursework.csvparser.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ public class FileService {
     private static int FILEPAGE = 7;
     @Autowired
     private FileRepository fileRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public Myfile getFile(Integer id){
         return fileRepository.getOne(id);
@@ -50,5 +53,18 @@ public class FileService {
             }
         }
         return  searchList;
+    }
+
+
+    public List<Myfile> listUserFiles(Integer id, int page) {
+        List<Myfile> filesUser = userRepository.getOne(id).getListCreatedFiles();
+        List<Myfile> files = new ArrayList<>();
+        for (int i = (page - 1) * FILEPAGE; i < (page) * FILEPAGE && i < filesUser.size(); i++) {
+            files.add(filesUser.get(i));
+        }
+        return files;
+    }
+    public int myPages(Integer id){
+        return (int) Math.ceil((double)  userRepository.getOne(id).getListCreatedFiles().size() / FILEPAGE);
     }
 }
