@@ -7,15 +7,24 @@
 </head>
 <body>
 <div class="container table-responsive text-nowrap" th:fragment="content">
+    <link  th:href="@{/css/myfile.css}" rel="stylesheet" >
     <h1>Files <span>User email</span></h1>
+    <div class="panel-heading">
+        <div class="form-control">
+            <span>Add new file </span>
+            <label for="choose-file" class="btn alert-info">Select File</label>
+            <label id="image-name">No file choose</label>
+            <input type="file" id="choose-file" name="file"
+                   style="visibility:hidden;" class="btn alert-info" accept="image/*"/>
+            <a th:if="${tolist}" th:href="@{'/file/myfiles/1'}" >Back to list</a>
+        </div>
+    </div>
     <table class="table table-success">
-        <thead class="thead-dark">
+        <thead  style="background-color:#563d7c; color:#FFFFFF">
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Origin name</th>
-            <th scope="col">User login</th>
-            <th scope="col">User email</th>
-            <th scope="col">Setting</th>
+            <th scope="col">File name</th>
+            <th colspan="3"></th>
         </tr>
         </thead>
         <tbody th:if="${message != null}" >
@@ -27,9 +36,9 @@
         <tr th:each="file : ${myfiles}">
             <th scope="row" th:text="${file.id}"></th>
             <td th:text="${file.originName}"></td>
-            <td th:text="${file.creatorOfFile.getLogin()}"></td>
-            <td th:text="${file.creatorOfFile.getEmail()}"></td>
-            <td ><a th:href="@{'/file/delete/'+${file.id}}">Delete</a></td>
+            <td ><a th:href="@{'/file/share/'+${file.id}}" class="href btn btn-info btn-xs">Share</a></td>
+            <td ><a th:href="@{'/file/open/'+${file.id}}" class="href btn btn-success btn-xs">Open</a></td>
+            <td ><a th:href="@{'/file/delete/'+${file.id}}" class="href btn btn-danger btn-xs">Delete</a></td>
         </tr>
         </tbody>
     </table>

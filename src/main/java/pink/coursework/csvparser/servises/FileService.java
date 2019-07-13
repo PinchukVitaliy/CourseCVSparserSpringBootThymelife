@@ -6,6 +6,7 @@ import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,5 +67,20 @@ public class FileService {
     }
     public int myPages(Integer id){
         return (int) Math.ceil((double)  userRepository.getOne(id).getListCreatedFiles().size() / FILEPAGE);
+    }
+
+    public List<Myfile> searchListMyfiles(Integer id, String search) {
+        List<Myfile> searchList = null;
+        if(search.isEmpty()){
+            return searchList;
+        }
+        List<Myfile> fileList = userRepository.getOne(id).getListCreatedFiles();
+        searchList = new ArrayList<Myfile>();
+            for (int i = 0; i < fileList.size(); i++) {
+                if (fileList.get(i).getOriginName().regionMatches(true, 0, search, 0, search.length())) {
+                    searchList.add(fileList.get(i));
+                }
+            }
+        return  searchList;
     }
 }
