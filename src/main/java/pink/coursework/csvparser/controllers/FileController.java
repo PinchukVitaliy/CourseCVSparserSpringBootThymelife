@@ -3,10 +3,8 @@ package pink.coursework.csvparser.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 
@@ -117,5 +115,18 @@ public class FileController {
             model.addAttribute("contentPage", "/file/myfiles");
         }
         return "default";
+    }
+    @PostMapping("/file/addcsv")
+    private String addcsvSubmit(@RequestParam("file") MultipartFile file) {
+        Integer idUser = 1;
+        fileService.add(file, idUser);
+        return "redirect:/file/myfiles/"+idUser;
+    }
+    @PostMapping("/file/dowload")
+    private String dowloadFile(@ModelAttribute("idFile") Integer id) {
+        Integer idUser = 1;
+        fileService.dowload(id);
+        System.out.println(id);
+        return "redirect:/file/myfiles/"+idUser;
     }
 }

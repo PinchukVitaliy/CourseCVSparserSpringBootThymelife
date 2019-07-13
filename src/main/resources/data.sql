@@ -32,7 +32,7 @@ INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (10, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (11, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (12, 1);
 
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (1, 'CSV-1', 1);
+INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id) VALUES (1, 'SatJul13112805EEST2019_1563006485816.csv', 'CSV-1', 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (2, 'CSV-2', 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (3, 'CSV-3', 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (4, 'CSV-4', 2);
