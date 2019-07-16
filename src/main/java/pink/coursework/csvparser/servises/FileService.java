@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Myfile;
+import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
@@ -55,7 +56,6 @@ public class FileService {
         if(search.isEmpty()){
             return searchList;
         }
-        if (!search.isEmpty()){
             List<Myfile> fileList = fileRepository.findAll();
             searchList = new ArrayList<Myfile>();
             for (int i = 0; i < fileList.size(); i++) {
@@ -65,7 +65,6 @@ public class FileService {
                     searchList.add(fileList.get(i));
                 }
             }
-        }
         return  searchList;
     }
 
@@ -100,16 +99,20 @@ public class FileService {
     public void add(MultipartFile file, Integer idUser) {
         if(!file.isEmpty()){
             Myfile newfile = new Myfile();
+            User user = userRepository.getOne(idUser);
             String resultFileName = generateUniqueFileName(file.getOriginalFilename());
             singleFileUpload(file, resultFileName);
 
             newfile.setOriginName(file.getOriginalFilename());
             newfile.setName(resultFileName);
-            newfile.setCreatorOfFile(userRepository.getOne(idUser));
+            newfile.setCreatorOfFile(user);
             newfile.setListDeleteUsers(null);
             newfile.setListReadUsers(null);
             newfile.setListEditUsers(null);
             fileRepository.save(newfile);
+
+            user.getListCreatedFiles().add(newfile);
+            userRepository.save(user);
         }
     }
     public void singleFileUpload(MultipartFile file, String resultFileName) {
