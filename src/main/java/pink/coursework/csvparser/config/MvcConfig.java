@@ -13,7 +13,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/icon/**").
-                addResourceLocations("classpath:/static/icons_users/");
+        addResourceLocations("file:"+avatarPath);
         registry.addResourceHandler("/images/**").
                 addResourceLocations("classpath:/static/images/");
     }
