@@ -59,34 +59,29 @@ public class FileController {
     }
 
     @PostMapping("/file/delete")
-    private String deleteSubmit(@ModelAttribute("file") Myfile myfile) {
-        fileService.deleteFile(myfile);
-        return "redirect:/file/files";
+    private String deleteSubmit(@ModelAttribute("id") Integer myfileId) {
+        Integer idUser = 1;
+        fileService.deleteFile(myfileId);
+        return "redirect:/file/myfiles/"+idUser;
     }
 
     @GetMapping("/file/myfiles/{id}")
     private  String myFiles(@PathVariable("id") Integer id, Model model){
-        if(fileService.listUserFiles(id, 1).isEmpty() || fileService.listUserFiles(id, 1) == null){
             model.addAttribute("message", "You have no uploaded files!");
-        }else{
             model.addAttribute("curpage", 1);
             model.addAttribute("pages", fileService.myPages(id));
             model.addAttribute("myfiles", fileService.listUserFiles(id, 1));
-        }
-        model.addAttribute("contentPage", "/file/myfiles");
+            model.addAttribute("contentPage", "/file/myfiles");
         return "default";
     }
     @GetMapping("/file/myfiles/{id}/{page}")
     private  String myFiles(@PathVariable("id") Integer id, @PathVariable int page, Model model){
-        if(fileService.listUserFiles(id, page).isEmpty() || fileService.listUserFiles(id, page) == null){
             model.addAttribute("message", "You have no uploaded files!");
-        }else{
             model.addAttribute("id", id);
             model.addAttribute("curpage", page);
             model.addAttribute("pages", fileService.myPages(id));
             model.addAttribute("myfiles", fileService.listUserFiles(id, page));
-        }
-        model.addAttribute("contentPage", "/file/myfiles");
+            model.addAttribute("contentPage", "/file/myfiles");
         return "default";
     }
 

@@ -26,7 +26,7 @@ public class User {
     )
     private List<Role> roleList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Myfile> listCreatedFiles = new ArrayList<>();
 
 

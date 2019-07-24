@@ -1,5 +1,8 @@
 package pink.coursework.csvparser.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;

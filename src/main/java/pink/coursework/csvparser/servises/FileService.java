@@ -3,6 +3,7 @@ package pink.coursework.csvparser.servises;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.models.User;
@@ -36,8 +37,12 @@ public class FileService {
         return fileRepository.getOne(id);
     }
 
-    public void deleteFile(Myfile myfile){
-        fileRepository.delete(myfile);
+    public void deleteFile(Integer myfileId){
+        Myfile file = fileRepository.getOne(myfileId);
+        User user = userRepository.getOne(file.getCreatorOfFile().getId());
+        user.getListCreatedFiles().remove(file);
+        userRepository.save(user);
+        fileRepository.delete(file);
     }
     public List<Myfile> paginationFiles(int page) {
         List<Myfile> allUsers = fileRepository.findAll();

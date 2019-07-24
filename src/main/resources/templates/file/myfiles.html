@@ -30,12 +30,12 @@
             <th colspan="4"></th>
         </tr>
         </thead>
-        <tbody th:if="${message != null}" >
+        <tbody th:if="${myfiles.isEmpty() || myfiles == null}" >
         <tr>
             <td th:text="${message}"></td>
         </tr>
         </tbody>
-        <tbody th:unless="${message != null}">
+        <tbody th:unless="${myfiles.isEmpty() || myfiles == null}">
         <tr th:each="file : ${myfiles}">
             <th scope="row" th:text="${file.id}"></th>
             <td th:text="${file.originName}"></td>
@@ -52,7 +52,9 @@
         </tr>
         </tbody>
     </table>
-    <div th:replace="fragments/pagination_myfiles :: footer_file">...</div>
+    <th:block th:unless="${myfiles.isEmpty() || myfiles == null}">
+        <div th:replace="fragments/pagination_myfiles :: footer_file">...</div>
+    </th:block>
     <script>
         $("#choose-file").change(function() {
           filename = this.files[0].name;
