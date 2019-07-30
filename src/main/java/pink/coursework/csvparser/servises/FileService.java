@@ -2,6 +2,7 @@ package pink.coursework.csvparser.servises;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -146,15 +148,21 @@ public class FileService {
         return filename+"."+extension;
     }
 
-    public void dowload(Integer fileId){
+    public void dowload(Integer fileId, HttpServletResponse response){
         Myfile myfile = fileRepository.getOne(fileId);
-        Path path = Paths.get(filePath + myfile.getName());
-        //File file = new File(filePath + myfile.getName());
-        try {
-            //byte[] bytes = file.getBytes();
-            Files.readAllBytes(path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        //Добавить заголовок ответа HTTP с именем Content-Disposition
+        //и присвойте ему значение attachment; filename=fileName,
+        //где fileName — имя файла по умолчанию.
+        Path file = Paths.get(filePath + myfile.getName());
+        if (Files.exists(file)){
+            response.setHeader("Content-disposition", "attachment;filename=" +  myfile.getOriginName());
+            response.setContentType("application/vnd.ms-excel");
+            try {
+                Files.copy(file, response.getOutputStream());
+                response.getOutputStream().flush();
+            } catch (IOException e) {
+                throw new RuntimeException("IOError writing file to output stream");
+            }
         }
     }
 }

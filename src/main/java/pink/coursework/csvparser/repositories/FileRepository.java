@@ -8,9 +8,4 @@ import pink.coursework.csvparser.models.Myfile;
 
 @Repository
 public interface FileRepository extends JpaRepository<Myfile, Integer> {
-
-    @Query("DELETE Myfile f WHERE f.creatorOfFile.id = ?1")
-    @Modifying
-    void deleteByCreatorOfFileId(Integer creatorOfFileId);
-
 }

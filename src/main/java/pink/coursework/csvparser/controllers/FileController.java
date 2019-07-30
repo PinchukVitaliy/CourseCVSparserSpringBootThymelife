@@ -5,10 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class FileController {
@@ -117,11 +116,10 @@ public class FileController {
         fileService.add(file, idUser);
         return "redirect:/file/myfiles/"+idUser;
     }
-    @PostMapping("/file/dowload")
-    private String dowloadFile(@ModelAttribute("idFile") Integer id) {
+    @GetMapping("/file/dowload")
+    private String dowloadFile(@ModelAttribute("idFile") Integer id, HttpServletResponse response) {
         Integer idUser = 1;
-        fileService.dowload(id);
-        System.out.println(id);
+        fileService.dowload(id, response);
         return "redirect:/file/myfiles/"+idUser;
     }
 }

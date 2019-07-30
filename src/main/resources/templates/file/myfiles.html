@@ -43,7 +43,7 @@
             <td ><a th:href="@{'/file/open/'+${file.id}}" class="href btn btn-success btn-xs">Open</a></td>
             <td >
                     <!--a th:href="@{'/file/dowload/'+${file.id}}" class="btn btn-warning btn-xs">Download</a-->
-                <form name="dowload" th:action="@{/file/dowload}"   method="POST">
+                <form name="dowload" th:action="@{/file/dowload}"   method="GET">
                         <input th:value="${file.id}" type="hidden" name="idFile" >
                     <button type="submit" class="btn btn-warning btn-xs">Download</button>
                 </form>
