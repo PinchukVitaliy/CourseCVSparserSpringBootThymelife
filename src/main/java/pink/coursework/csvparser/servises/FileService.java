@@ -82,6 +82,10 @@ public class FileService {
         for (int i = (page - 1) * FILEPAGE; i < (page) * FILEPAGE && i < filesUser.size(); i++) {
             files.add(filesUser.get(i));
         }
+        /////////////test/////////////
+
+        //files.get(1).setListReadUsers();
+        ///////////////////////
         return files;
     }
     public int myPages(Integer id){
@@ -113,9 +117,6 @@ public class FileService {
             newfile.setOriginName(file.getOriginalFilename());
             newfile.setName(resultFileName);
             newfile.setCreatorOfFile(user);
-            newfile.setListDeleteUsers(null);
-            newfile.setListReadUsers(null);
-            newfile.setListEditUsers(null);
             fileRepository.save(newfile);
 
             user.getListCreatedFiles().add(newfile);

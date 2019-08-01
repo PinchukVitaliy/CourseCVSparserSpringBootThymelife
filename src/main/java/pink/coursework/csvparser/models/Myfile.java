@@ -1,12 +1,7 @@
 package pink.coursework.csvparser.models;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "Myfiles")
@@ -17,9 +12,9 @@ public class Myfile {
     protected Integer id;
     private String originName;
     private String name;
-    private HashMap<String,List<User>> listReadUsers = new HashMap<>();
-    private HashMap<String,List<User>> listEditUsers = new HashMap<>();
-    private HashMap<String,List<User>> listDeleteUsers = new HashMap<>();
+
+    @OneToOne
+    private AccessLink accessLink;
 
     @ManyToOne
     private User creatorOfFile;
@@ -35,28 +30,6 @@ public class Myfile {
     public void setName(String name) { this.name = name; }
     public User getCreatorOfFile() {  return creatorOfFile;  }
     public void setCreatorOfFile(User creatorOfFile) {  this.creatorOfFile = creatorOfFile; }
-
-    public HashMap<String, List<User>> getListReadUsers() {
-        return listReadUsers;
-    }
-
-    public void setListReadUsers(HashMap<String, List<User>> listReadUsers) {
-        this.listReadUsers = listReadUsers;
-    }
-
-    public HashMap<String, List<User>> getListEditUsers() {
-        return listEditUsers;
-    }
-
-    public void setListEditUsers(HashMap<String, List<User>> listEditUsers) {
-        this.listEditUsers = listEditUsers;
-    }
-
-    public HashMap<String, List<User>> getListDeleteUsers() {
-        return listDeleteUsers;
-    }
-
-    public void setListDeleteUsers(HashMap<String, List<User>> listDeleteUsers) {
-        this.listDeleteUsers = listDeleteUsers;
-    }
+    public AccessLink getAccessLink() {return accessLink; }
+    public void setAccessLink(AccessLink accessLink) {  this.accessLink = accessLink;}
 }
