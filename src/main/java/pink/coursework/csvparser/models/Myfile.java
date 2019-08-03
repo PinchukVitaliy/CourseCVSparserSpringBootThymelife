@@ -13,7 +13,7 @@ public class Myfile {
     private String originName;
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private AccessLink accessLink;
 
     @ManyToOne
