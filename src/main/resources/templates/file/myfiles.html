@@ -51,6 +51,8 @@
                         th:attr="data-target='#exampleModalCenter'+${file}">
                     <span><b>?On Share?</b></span>
                 </button>
+                <form class="mt-3" name="access" th:action="@{/file/share}"  method="POST">
+                    <input type="hidden" th:value="${file.id}" name="file">
                 <!-- Modal -->
                 <div class="modal fade"  th:attr="id='exampleModalCenter'+${file}"
                      tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -63,47 +65,34 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <!-- Read -->
-                                <div class="custom-control custom-checkbox">
-                                    <input th:if="${file.accessLink != null && file.accessLink.read}"
-                                           type="checkbox" class="custom-control-input" th:id="'readChecked'+${file.id}" checked>
-                                    <label th:if="${file.accessLink != null && file.accessLink.read}"
-                                           class="custom-control-label" th:for="'readChecked'+${file.id}">Read</label>
-                                    <input th:unless="${file.accessLink != null && file.accessLink.read}"
-                                           type="checkbox" class="custom-control-input" th:id="'readUnchecked'+${file.id}">
-                                    <label th:unless="${file.accessLink != null && file.accessLink.read}"
-                                           class="custom-control-label" th:for="'readUnchecked'+${file.id}">Read</label>
-                                </div>
-                                <!-- Edit -->
-                                <div class="custom-control custom-checkbox">
-                                    <input th:if="${file.accessLink != null && file.accessLink.edit}"
-                                           type="checkbox" class="custom-control-input" th:id="'editChecked'+${file.id}" checked>
-                                    <label th:if="${file.accessLink != null && file.accessLink.edit}"
-                                           class="custom-control-label" th:for="'editChecked'+${file.id}">Edit</label>
-                                    <input th:unless="${file.accessLink != null && file.accessLink.edit}"
-                                           type="checkbox" class="custom-control-input" th:id="'editUnchecked'+${file.id}">
-                                    <label th:unless="${file.accessLink != null && file.accessLink.edit}"
-                                           class="custom-control-label" th:for="'editUnchecked'+${file.id}">Edit</label>
-                                </div>
-                                <!-- Delete -->
-                                <div class="custom-control custom-checkbox">
-                                    <input th:if="${file.accessLink != null && file.accessLink.delete}"
-                                           type="checkbox" class="custom-control-input" th:id="'deleteChecked'+${file.id}" checked>
-                                    <label th:if="${file.accessLink != null && file.accessLink.delete}"
-                                           class="custom-control-label" th:for="'deleteChecked'+${file.id}">Delete</label>
-                                    <input th:unless="${file.accessLink != null && file.accessLink.delete}"
-                                           type="checkbox" class="custom-control-input" th:id="'deleteUnchecked'+${file.id}">
-                                    <label th:unless="${file.accessLink != null && file.accessLink.delete}"
-                                           class="custom-control-label" th:for="'deleteUnchecked'+${file.id}">Delete</label>
-                                </div>
+                                        <!-- Read -->
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${file.accessLink.read}" th:id="'read'+${file.id}" name="read">
+                                            <label class="custom-control-label" th:for="'read'+${file.id}">Read</label>
+                                        </div>
+                                        <!-- Edit -->
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${file.accessLink.edit}" th:id="'edit'+${file.id}" name="edit">
+                                            <label class="custom-control-label" th:for="'edit'+${file.id}">Edit</label>
+                                        </div>
+                                        <!-- Delete -->
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${file.accessLink.delete}" th:id="'delete'+${file.id}" name="delete">
+                                            <label class="custom-control-label" th:for="'delete'+${file.id}">Delete</label>
+                                        </div>
                             </div>
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Generate link</button>
+                                <button type="submit" class="btn btn-primary">Generate link</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
             </td>
             <td ><a th:href="@{'/file/open/'+${file.id}}" class="href btn btn-success btn-xs">Open</a></td>
             <td >

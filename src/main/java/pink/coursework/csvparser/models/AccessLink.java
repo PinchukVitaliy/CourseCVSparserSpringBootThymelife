@@ -15,7 +15,15 @@ public class AccessLink {
     private Boolean delete;
 
     public AccessLink() {
+        this.link="";
+        this.read = false;
+        this.edit = false;
+        this.delete = false;
     }
+
+    public Integer getId() { return id;}
+
+    public void setId(Integer id) { this.id = id;}
 
     public String getLink() {
         return link;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -120,6 +121,19 @@ public class FileController {
     private String dowloadFile(@ModelAttribute("idFile") Integer id, HttpServletResponse response) {
         Integer idUser = 1;
         fileService.dowload(id, response);
+        return "redirect:/file/myfiles/"+idUser;
+    }
+
+    @PostMapping("/file/share")
+    private String share(@ModelAttribute("file") Myfile file,
+                         @RequestParam(value = "read", required = false) Boolean read,
+                         @RequestParam(value = "edit", required = false) Boolean edit,
+                         @RequestParam(value = "delete", required = false) Boolean delete){
+        Integer idUser = 1;
+
+        Myfile f = fileService.addLink(file, read, edit, delete);
+        System.out.println(file.getId());
+        System.out.println(f);
         return "redirect:/file/myfiles/"+idUser;
     }
 }

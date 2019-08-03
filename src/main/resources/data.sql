@@ -35,17 +35,22 @@ INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (12, 1);
 INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (1, '', false, true, true);
 INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (2, '', false, false, false);
 INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (3, '', false, true, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (4, '', false, true, true);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (5, '', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (6, '', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (7, '', false, false, true);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (8, '', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (9, '', false, false, false);
 
-INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id)
-VALUES (1, 'SatJul13112805EEST2019_1563006485816.csv', 'CSV-1', 1, 1);
+INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (1, 'SatJul13112805EEST2019_1563006485816.csv', 'CSV-1', 1, 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (2, 'CSV-2', 1, 2);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (3, 'CSV-3', 1, 3);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (4, 'CSV-4', 2);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (5, 'CS', 11);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (6, 'CSV-6', 11);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (7, 'Cosovo', 12);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (8, 'CSV-8', 12);
-INSERT INTO Myfiles (id, origin_name, creator_of_file_id) VALUES (9, 'Bound', 12);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (4, 'CSV-4', 2, 4);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (5, 'CS', 11, 5);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (6, 'CSV-6', 11, 6);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (7, 'Cosovo', 12, 7);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (8, 'CSV-8', 12, 8);
+INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (9, 'Bound', 12, 9);
 
 
 INSERT INTO USERS_LIST_CREATED_FILES (USER_ID, LIST_CREATED_FILES_ID) VALUES (1, 1);

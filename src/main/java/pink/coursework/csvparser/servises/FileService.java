@@ -6,8 +6,10 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import pink.coursework.csvparser.models.AccessLink;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.models.User;
+import pink.coursework.csvparser.repositories.AccessLinkRepository;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
@@ -23,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FileService {
@@ -34,6 +37,9 @@ public class FileService {
     private FileRepository fileRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AccessLinkRepository accessLinkRepository;
+
 
     public Myfile getFile(Integer id){
         return fileRepository.getOne(id);
@@ -117,6 +123,7 @@ public class FileService {
             newfile.setOriginName(file.getOriginalFilename());
             newfile.setName(resultFileName);
             newfile.setCreatorOfFile(user);
+            newfile.setAccessLink(new AccessLink());
             fileRepository.save(newfile);
 
             user.getListCreatedFiles().add(newfile);
@@ -165,5 +172,39 @@ public class FileService {
                 throw new RuntimeException("IOError writing file to output stream");
             }
         }
+    }
+
+    public Myfile addLink(Myfile file, Boolean read, Boolean edit, Boolean delete) {
+        AccessLink link = accessLinkRepository.getOne(file.getAccessLink().getId());
+        if(read == null && edit == null && delete == null){
+            link.setRead(false);
+            link.setEdit(false);
+            link.setDelete(false);
+            link.setLink("");
+            file.setAccessLink(link);
+            fileRepository.save(file);
+            return  file;
+        }
+
+        if(read != null){
+            link.setRead(read);
+        }else{
+            link.setRead(false);
+        }
+           if(edit != null){
+               link.setEdit(edit);
+           }else{
+               link.setEdit(false);
+           }
+               if(delete != null){
+                   link.setDelete(delete);
+               }else{
+                   link.setDelete(false);
+               }
+                    link.setLink("http:localhost:8080/file/link/"+UUID.randomUUID().toString());
+                    file.setAccessLink(link);
+                    fileRepository.save(file);
+
+       return file;
     }
 }
