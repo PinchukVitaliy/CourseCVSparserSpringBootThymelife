@@ -200,10 +200,19 @@ public class FileService {
                }else{
                    link.setDelete(false);
                }
-                    link.setLink("http:localhost:8080/file/link/"+UUID.randomUUID().toString());
+                    link.setLink(UUID.randomUUID().toString());
                     file.setAccessLink(link);
                     fileRepository.save(file);
 
        return file;
+    }
+
+    public Myfile getLink(String link) {
+        AccessLink access = accessLinkRepository.findByLink(link);
+        if(access != null){
+            return fileRepository.findByAccessLink(access);
+        }else{
+            return null;
+        }
     }
 }

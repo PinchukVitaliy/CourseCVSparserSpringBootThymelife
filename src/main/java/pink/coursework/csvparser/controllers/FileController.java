@@ -130,10 +130,21 @@ public class FileController {
                          @RequestParam(value = "edit", required = false) Boolean edit,
                          @RequestParam(value = "delete", required = false) Boolean delete){
         Integer idUser = 1;
-
-        Myfile f = fileService.addLink(file, read, edit, delete);
-        System.out.println(file.getId());
-        System.out.println(f);
+        fileService.addLink(file, read, edit, delete);
         return "redirect:/file/myfiles/"+idUser;
+    }
+
+    @GetMapping(value = "/file/link/{link}")
+    private String fileToLink(Model model, @PathVariable("link") String link) {
+            Myfile fileToLink = fileService.getLink(link);
+            /*if(fileToLink !=  null){
+                model.addAttribute("file", fileToLink );
+                model.addAttribute("contentPage", "/file/link");
+            }else{
+                model.addAttribute("message", "Activation code is not found!");
+                model.addAttribute("contentPage", "/file/link");
+            }*/
+        System.out.println(fileToLink.getOriginName());
+        return "redirect:/file/link/";
     }
 }

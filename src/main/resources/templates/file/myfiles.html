@@ -67,9 +67,12 @@
                                 <div class="modal-body">
                                     <div class="container">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" th:value="${file.accessLink.link}" id="link" readonly>
+                                            <input type="text" class="form-control" th:value="${file.accessLink.link}"
+                                                   th:id="'link'+${file.id}" readonly>
                                             <br/>
-                                            <input type="button" class="btn btn-success btn-xs" id="copyLink" value="Copy link">
+                                            <input type="button" class="btn btn-success btn-xs"
+                                                   th:onclick="'copyLink(link'+${file.id}+'.id)'"
+                                                   value="Copy link">
                                         </div>
                                     </div>
                                     <!-- Read -->
@@ -120,12 +123,12 @@
           filename = this.files[0].name;
           $("#image-name").text(filename);
         });
-        function copyLink() {
-                var copyText = document.getElementById("link");
+
+        function copyLink(id) {
+                var copyText = document.getElementById(id);
                 copyText.select();
                 document.execCommand("copy");
          }
-        document.querySelector("#copyLink").addEventListener("click", copyLink);
     </script>
 </div>
 </body>
