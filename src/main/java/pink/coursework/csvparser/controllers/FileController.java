@@ -138,22 +138,33 @@ public class FileController {
     private String openFiles(Model model, @PathVariable("id") Integer idUser) {
         idUser = 1;
         model.addAttribute("message", "No open files");
-        model.addAttribute("openfiles", fileService.getOpenFiles(idUser));
+        model.addAttribute("curpage", 1);
+        model.addAttribute("pages", fileService.openPages(idUser));
+        model.addAttribute("openfiles", fileService.getOpenFiles(idUser, 1));
+        model.addAttribute("contentPage", "/file/links");
+        return "default";
+    }
+    @GetMapping(value = "/file/links/{id}/{page}")
+    private String openFilesPagination(Model model, @PathVariable("id") Integer idUser, @PathVariable int page) {
+        idUser = 1;
+        model.addAttribute("message", "No open files");
+        model.addAttribute("curpage", page);
+        model.addAttribute("pages", fileService.openPages(idUser));
+        model.addAttribute("openfiles", fileService.getOpenFiles(idUser, page));
         model.addAttribute("contentPage", "/file/links");
         return "default";
     }
     @PostMapping("/file/addlink")
     private String addLinkUser(Model model, @ModelAttribute("link") String link){
         Integer idUser = 1;
-        Boolean flag = fileService.addLinkUser(idUser, link);
-        if(flag){
-            model.addAttribute("nolink", "This not link");
-            model.addAttribute("openfiles", fileService.getOpenFiles(idUser));
-        }else {
-            model.addAttribute("nolink", "This not link");
-            model.addAttribute("openfiles", fileService.getOpenFiles(idUser));
-        }
-        model.addAttribute("contentPage", "/file/links");
+        fileService.addLinkUser(idUser, link);
+        model.addAttribute("openfiles", fileService.getOpenFiles(idUser,1));
+        return "redirect:/file/links/"+idUser;
+    }
+    @GetMapping("/file/remove/{id}")
+    private String removeFile(@PathVariable("id") Integer idFile){
+        Integer idUser = 1;
+        fileService.removeFile(idFile, idUser);
         return "redirect:/file/links/"+idUser;
     }
 }

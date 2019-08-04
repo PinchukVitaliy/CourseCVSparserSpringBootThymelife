@@ -45,12 +45,17 @@
                     <button type="submit" class="btn btn-warning btn-xs">Download</button>
                 </form>
             </td>
+            <td th:if="${!file.accessLink.read && !file.accessLink.edit && !file.accessLink.dowload}">
+                <span style="color:red">Access denied by copyright holder!</span>
+                &nbsp; &nbsp;
+                <a th:href="@{'/file/remove/'+${file.id}}">Remove from list</a>
+            </td>
         </tr>
         </tbody>
     </table>
-    <!--th:block th:unless="${myfiles.isEmpty() || myfiles == null}">
-        <div th:replace="fragments/pagination_myfiles :: footer_file">...</div>
-    </th:block-->
+    <th:block th:unless="${openfiles.isEmpty() || openfiles == null}">
+        <div th:replace="fragments/pagination_openfiles :: footer_openfiles">...</div>
+    </th:block>
 </div>
 </body>
 </html>

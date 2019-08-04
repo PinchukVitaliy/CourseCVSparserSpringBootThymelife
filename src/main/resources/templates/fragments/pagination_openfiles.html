@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>pagination_files</title>
+</head>
+<body>
+<div th:fragment="footer_openfiles">
+    <link  th:href="@{/css/pagination_file.css}" rel="stylesheet">
+    <nav>
+        <ul class="pagination d-flex justify-content-center">
+            <li id="previus_user"
+                th:class="${curpage eq 1} ? 'page-item disabled' : 'page-item'">
+                <a th:if="${not (1 eq curpage)}" class="page-link"
+                   th:href="@{/file/links/{id}/{p}(p=${curpage-1},id=${id})}">Previous</a> <span
+                    th:if="${1 eq curpage}" class="page-link">Previous</span>
+            </li>
+            <li id="pages_user"
+                th:each="page : ${#numbers.sequence(1, pages)}"
+                th:class="${curpage eq page}? 'active page-item' : 'page-item'">
+                <a th:if="${not (curpage eq page)}" class="page-link"
+                   th:href="@{/file/links/{id}/{p}(p=${page},id=${id})}" th:text="${page}"></a> <span
+                    th:if="${curpage eq page}" class="page-link active"
+                    th:text="${page}"></span>
+            </li>
+            <li id="next_user"
+                th:class="${curpage eq pages} ? 'page-item disabled' : 'page-item'">
+                <a th:if="${not (pages eq curpage)}" class="page-link"
+                   th:href="@{/file/links/{id}/{p}(p=${curpage+1},id=${id})}">Next</a> <span
+                    th:if="${pages eq curpage}" class="page-link">Next</span>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

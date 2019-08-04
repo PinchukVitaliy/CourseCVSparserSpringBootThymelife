@@ -40,7 +40,7 @@ INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (5, 'No link', fa
 INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (6, 'No link', false, false, false);
 INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (7, 'test lik 4', true, false, false);
 INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (8, 'No link', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (9, 'No link', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (9, '8462beb7-9c86-48be-9f3d-dddc7a426acf', true, false, false);
 
 INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (1, 'SatJul13112805EEST2019_1563006485816.csv', 'CSV-1', 1, 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (2, 'CSV-2', 1, 2);

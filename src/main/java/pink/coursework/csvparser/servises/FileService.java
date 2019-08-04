@@ -33,6 +33,7 @@ public class FileService {
     @Value("${file.path}")
     String filePath;
     private static int FILEPAGE = 7;
+    private static int OPENFILEPAGE = 7;
     @Autowired
     private FileRepository fileRepository;
     @Autowired
@@ -208,9 +209,16 @@ public class FileService {
     }
 
 
-    public List<Myfile> getOpenFiles(Integer idUser) {
+    public List<Myfile> getOpenFiles(Integer idUser, int page) {
         User user = userRepository.getOne(idUser);
-        return user.getListOpenFiles();
+        List<Myfile> files = new ArrayList<>();
+        for (int i = (page - 1) * OPENFILEPAGE; i < (page) * OPENFILEPAGE && i < user.getListOpenFiles().size(); i++) {
+            files.add(user.getListOpenFiles().get(i));
+        }
+        return files;
+    }
+    public int openPages(Integer idUser) {
+        return (int) Math.ceil((double)  userRepository.getOne(idUser).getListOpenFiles().size() / OPENFILEPAGE);
     }
 
     public Boolean addLinkUser(Integer idUser, String link) {
@@ -220,8 +228,20 @@ public class FileService {
         }
         Myfile file = fileRepository.findByAccessLink(access);
         User user = userRepository.getOne(idUser);
+        if(user.getListOpenFiles().contains(file)){
+            return false;
+        }
         user.getListOpenFiles().add(file);
         userRepository.save(user);
         return true;
     }
+
+    public void removeFile(Integer idFile, Integer idUser) {
+        Myfile file = fileRepository.getOne(idFile);
+        User user = userRepository.getOne(idUser);
+        user.getListOpenFiles().remove(file);
+        userRepository.save(user);
+    }
+
+
 }
