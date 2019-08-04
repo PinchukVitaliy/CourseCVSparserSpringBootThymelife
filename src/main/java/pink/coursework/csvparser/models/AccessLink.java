@@ -12,13 +12,13 @@ public class AccessLink {
     private String link;
     private Boolean read;
     private Boolean edit;
-    private Boolean delete;
+    private Boolean dowload;
 
     public AccessLink() {
         this.link="No link";
         this.read = false;
         this.edit = false;
-        this.delete = false;
+        this.dowload = false;
     }
 
     public Integer getId() { return id;}
@@ -49,11 +49,11 @@ public class AccessLink {
         this.edit = edit;
     }
 
-    public Boolean getDelete() {
-        return delete;
+    public Boolean getDowload() {
+        return dowload;
     }
 
-    public void setDelete(Boolean delete) {
-        this.delete = delete;
+    public void setDowload(Boolean delete) {
+        this.dowload = delete;
     }
 }

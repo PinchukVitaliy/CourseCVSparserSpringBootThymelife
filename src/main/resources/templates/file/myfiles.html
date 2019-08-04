@@ -41,12 +41,12 @@
             <td th:text="${file.originName}"></td>
             <td >
                 <!-- Button trigger modal -->
-                <button th:if="${file.accessLink != null && (file.accessLink.read || file.accessLink.edit || file.accessLink.delete)}"
+                <button th:if="${file.accessLink != null && (file.accessLink.read || file.accessLink.edit || file.accessLink.dowload)}"
                         type="button" class="btn btn-info btn-xs" data-toggle="modal"
                         th:attr="data-target='#exampleModalCenter'+${file}">
                     <span style="color:red"><b>!Off Share!</b></span>
                 </button>
-                <button th:unless="${file.accessLink != null && (file.accessLink.read || file.accessLink.edit || file.accessLink.delete)}"
+                <button th:unless="${file.accessLink != null && (file.accessLink.read || file.accessLink.edit || file.accessLink.dowload)}"
                         type="button" class="btn btn-info btn-xs" data-toggle="modal"
                         th:attr="data-target='#exampleModalCenter'+${file}">
                     <span><b>?On Share?</b></span>
@@ -89,11 +89,11 @@
                                                th:checked="${file.accessLink.edit}" th:id="'edit'+${file.id}" name="edit">
                                         <label class="custom-control-label" th:for="'edit'+${file.id}">Edit</label>
                                     </div>
-                                    <!-- Delete -->
+                                    <!-- Dowload -->
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input"
-                                               th:checked="${file.accessLink.delete}" th:id="'delete'+${file.id}" name="delete">
-                                        <label class="custom-control-label" th:for="'delete'+${file.id}">Delete</label>
+                                               th:checked="${file.accessLink.dowload}" th:id="'dowload'+${file.id}" name="dowload">
+                                        <label class="custom-control-label" th:for="'dowload'+${file.id}">Dowload</label>
                                     </div>
                                 </div>
 

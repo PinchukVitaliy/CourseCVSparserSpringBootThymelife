@@ -174,12 +174,12 @@ public class FileService {
         }
     }
 
-    public Myfile addLink(Myfile file, Boolean read, Boolean edit, Boolean delete) {
+    public Myfile addLink(Myfile file, Boolean read, Boolean edit, Boolean dowload) {
         AccessLink link = accessLinkRepository.getOne(file.getAccessLink().getId());
-        if(read == null && edit == null && delete == null){
+        if(read == null && edit == null && dowload == null){
             link.setRead(false);
             link.setEdit(false);
-            link.setDelete(false);
+            link.setDowload(false);
             link.setLink("No link");
             file.setAccessLink(link);
             fileRepository.save(file);
@@ -195,10 +195,10 @@ public class FileService {
            }else{
                link.setEdit(false);
            }
-               if(delete != null){
-                   link.setDelete(delete);
+               if(dowload != null){
+                   link.setDowload(dowload);
                }else{
-                   link.setDelete(false);
+                   link.setDowload(false);
                }
                     link.setLink(UUID.randomUUID().toString());
                     file.setAccessLink(link);
@@ -207,12 +207,21 @@ public class FileService {
        return file;
     }
 
-    public Myfile getLink(String link) {
+
+    public List<Myfile> getOpenFiles(Integer idUser) {
+        User user = userRepository.getOne(idUser);
+        return user.getListOpenFiles();
+    }
+
+    public Boolean addLinkUser(Integer idUser, String link) {
         AccessLink access = accessLinkRepository.findByLink(link);
-        if(access != null){
-            return fileRepository.findByAccessLink(access);
-        }else{
-            return null;
+        if(access == null){
+            return false;
         }
+        Myfile file = fileRepository.findByAccessLink(access);
+        User user = userRepository.getOne(idUser);
+        user.getListOpenFiles().add(file);
+        userRepository.save(user);
+        return true;
     }
 }

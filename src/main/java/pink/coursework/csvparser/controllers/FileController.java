@@ -128,23 +128,32 @@ public class FileController {
     private String share(@ModelAttribute("file") Myfile file,
                          @RequestParam(value = "read", required = false) Boolean read,
                          @RequestParam(value = "edit", required = false) Boolean edit,
-                         @RequestParam(value = "delete", required = false) Boolean delete){
+                         @RequestParam(value = "dowload", required = false) Boolean dowload){
         Integer idUser = 1;
-        fileService.addLink(file, read, edit, delete);
+        fileService.addLink(file, read, edit, dowload);
         return "redirect:/file/myfiles/"+idUser;
     }
 
-    @GetMapping(value = "/file/link/{link}")
-    private String fileToLink(Model model, @PathVariable("link") String link) {
-            Myfile fileToLink = fileService.getLink(link);
-            /*if(fileToLink !=  null){
-                model.addAttribute("file", fileToLink );
-                model.addAttribute("contentPage", "/file/link");
-            }else{
-                model.addAttribute("message", "Activation code is not found!");
-                model.addAttribute("contentPage", "/file/link");
-            }*/
-        System.out.println(fileToLink.getOriginName());
-        return "redirect:/file/link/";
+    @GetMapping(value = "/file/links/{id}")
+    private String openFiles(Model model, @PathVariable("id") Integer idUser) {
+        idUser = 1;
+        model.addAttribute("message", "No open files");
+        model.addAttribute("openfiles", fileService.getOpenFiles(idUser));
+        model.addAttribute("contentPage", "/file/links");
+        return "default";
+    }
+    @PostMapping("/file/addlink")
+    private String addLinkUser(Model model, @ModelAttribute("link") String link){
+        Integer idUser = 1;
+        Boolean flag = fileService.addLinkUser(idUser, link);
+        if(flag){
+            model.addAttribute("nolink", "This not link");
+            model.addAttribute("openfiles", fileService.getOpenFiles(idUser));
+        }else {
+            model.addAttribute("nolink", "This not link");
+            model.addAttribute("openfiles", fileService.getOpenFiles(idUser));
+        }
+        model.addAttribute("contentPage", "/file/links");
+        return "redirect:/file/links/"+idUser;
     }
 }

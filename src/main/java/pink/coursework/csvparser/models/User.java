@@ -29,7 +29,8 @@ public class User {
     @OneToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Myfile> listCreatedFiles = new ArrayList<>();
 
-
+    @OneToMany
+    private List<Myfile> listOpenFiles = new ArrayList<>();
 
     public User() {
     }
@@ -70,4 +71,12 @@ public class User {
 
     public String getActivationCode() {  return activationCode; }
     public void setActivationCode(String activationCode) {  this.activationCode = activationCode; }
+
+    public List<Myfile> getListOpenFiles() {
+        return listOpenFiles;
+    }
+
+    public void setListOpenFiles(List<Myfile> listOpenFiles) {
+        this.listOpenFiles = listOpenFiles;
+    }
 }
