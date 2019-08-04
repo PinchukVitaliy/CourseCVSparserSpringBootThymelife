@@ -15,7 +15,7 @@ public class AccessLink {
     private Boolean delete;
 
     public AccessLink() {
-        this.link="";
+        this.link="No link";
         this.read = false;
         this.edit = false;
         this.delete = false;
