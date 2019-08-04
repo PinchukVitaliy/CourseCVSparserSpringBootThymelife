@@ -180,12 +180,11 @@ public class FileService {
             link.setRead(false);
             link.setEdit(false);
             link.setDelete(false);
-            link.setLink("");
+            link.setLink("No link");
             file.setAccessLink(link);
             fileRepository.save(file);
             return  file;
         }
-
         if(read != null){
             link.setRead(read);
         }else{

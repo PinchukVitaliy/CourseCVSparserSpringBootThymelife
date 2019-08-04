@@ -32,15 +32,15 @@ INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (10, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (11, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (12, 1);
 
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (1, '', false, true, true);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (2, '', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (3, '', false, true, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (4, '', false, true, true);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (5, '', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (6, '', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (7, '', false, false, true);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (8, '', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (9, '', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (1, 'test link 1', false, true, true);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (2, 'No link', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (3, 'test link 2', false, true, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (4, 'test link 3', false, true, true);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (5, 'No link', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (6, 'No link', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (7, 'test lik 4', false, false, true);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (8, 'No link', false, false, false);
+INSERT INTO ACCESSLINKS (id, link, read, edit, delete) VALUES (9, 'No link', false, false, false);
 
 INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (1, 'SatJul13112805EEST2019_1563006485816.csv', 'CSV-1', 1, 1);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (2, 'CSV-2', 1, 2);
