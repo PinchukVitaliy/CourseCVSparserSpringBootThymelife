@@ -66,6 +66,12 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
         </dependency>
+        <!-- OpenCSV  -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
+        </dependency>
         <!--BCryptPasswordEncoder-->
         <!--dependency>
             <groupId>org.springframework.boot</groupId>

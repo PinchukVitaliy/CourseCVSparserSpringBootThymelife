@@ -167,4 +167,10 @@ public class FileController {
         fileService.removeFile(idFile, idUser);
         return "redirect:/file/links/"+idUser;
     }
+    @GetMapping("/file/open/{id}")
+    private String openCSV(Model model, @PathVariable("id") Integer idFile) throws Exception {
+        model.addAttribute("csvfile", fileService.openCSV(idFile));
+        model.addAttribute("contentPage", "/file/opencsv");
+        return "default";
+    }
 }

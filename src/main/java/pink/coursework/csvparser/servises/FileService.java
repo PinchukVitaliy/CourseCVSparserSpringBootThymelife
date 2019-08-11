@@ -1,5 +1,6 @@
 package pink.coursework.csvparser.servises;
 
+import com.opencsv.CSVReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -15,17 +16,13 @@ import pink.coursework.csvparser.repositories.UserRepository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class FileService {
@@ -244,4 +241,46 @@ public class FileService {
     }
 
 
+    public Map<Integer, List<String>> openCSV(Integer idFile) throws Exception {
+        Myfile fileCsv = fileRepository.getOne(idFile);
+        String regex = ",";
+        List<List<String>> records = new ArrayList<>();
+        try (CSVReader csvReader = new CSVReader(new FileReader(filePath + fileCsv.getName()))) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                records.add(Arrays.asList(values));
+            }
+        }
+        return csvDataResult(records, regex);
+    }
+
+    private String divideCsv(){
+
+        return "";
+    }
+    private Map<Integer, List<String>> csvDataResult( List<List<String>> records, String regex){
+        //макс число параметров в файле
+        String countTable = records.get(0).toString();
+        countTable = countTable.substring(1,countTable.length()-1);
+        int count = Arrays.asList(countTable.split(regex)).size();
+
+        Map<Integer, List<String>> states = new HashMap<>();
+        List<String> resultList = new ArrayList<>();
+        for (int i =0; i<records.size();i++)
+        {
+            String sampleString = records.get(i).toString();
+            sampleString = sampleString.substring(1,sampleString.length()-1);
+            resultList = new ArrayList<>(Arrays.asList(sampleString.split(regex)));
+            //заполнение пустых ячеек в csv файле на ""
+            if(resultList.size() != count){
+                int counter = count - resultList.size();
+                while (counter != 0){
+                    counter--;
+                    resultList.add("");
+                }
+            }
+            states.put(i, resultList);
+        }
+        return states;
+    }
 }
