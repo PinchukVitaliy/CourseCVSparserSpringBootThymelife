@@ -9,6 +9,7 @@ import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class FileController {
@@ -169,7 +170,17 @@ public class FileController {
     }
     @GetMapping("/file/open/{id}")
     private String openCSV(Model model, @PathVariable("id") Integer idFile) throws Exception {
-        model.addAttribute("csvfile", fileService.openCSV(idFile));
+        model.addAttribute("curpage", 1);
+        model.addAttribute("pages", fileService.csvPages(idFile));
+        model.addAttribute("csvfile", fileService.openCSV(idFile, 1));
+        model.addAttribute("contentPage", "/file/opencsv");
+        return "default";
+    }
+    @GetMapping("/file/open/{id}/{page}")
+    private String paginationOpenCSV(Model model, @PathVariable("id") Integer idFile, @PathVariable int page) throws Exception {
+        model.addAttribute("curpage", page);
+        model.addAttribute("pages", fileService.csvPages(idFile));
+        model.addAttribute("csvfile", fileService.openCSV(idFile, page));
         model.addAttribute("contentPage", "/file/opencsv");
         return "default";
     }

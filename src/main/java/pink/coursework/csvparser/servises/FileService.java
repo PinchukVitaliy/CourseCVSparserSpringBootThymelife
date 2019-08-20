@@ -31,6 +31,7 @@ public class FileService {
     String filePath;
     private static int FILEPAGE = 7;
     private static int OPENFILEPAGE = 7;
+    private static int CSVFILEPAGE = 50;
     @Autowired
     private FileRepository fileRepository;
     @Autowired
@@ -240,10 +241,30 @@ public class FileService {
         userRepository.save(user);
     }
 
-
-    public Map<Integer, List<String>> openCSV(Integer idFile) throws Exception {
+    //парсин файла и вывод в готовом виде на представление
+    public Map<Integer, List<String>> openCSV(Integer idFile, int page) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
-        String regex = ",";
+        String regex = seperator( fileCsv.getName());
+        List<List<String>> records = new ArrayList<>();
+
+        try (CSVReader csvReader = new CSVReader(new FileReader(filePath + fileCsv.getName()))) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                records.add(Arrays.asList(values));
+            }
+        }
+        List<List<String>> recordsPagination = new ArrayList<>();
+        if(page != 1){
+            recordsPagination.add(records.get(0));
+        }
+        for (int i = (page - 1) * CSVFILEPAGE; i < (page) * CSVFILEPAGE && i < records.size(); i++) {
+            recordsPagination.add(records.get(i));
+        }
+        return csvDataResult(recordsPagination, regex);
+    }
+
+    public int csvPages(Integer idFile) throws Exception {
+        Myfile fileCsv = fileRepository.getOne(idFile);
         List<List<String>> records = new ArrayList<>();
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath + fileCsv.getName()))) {
             String[] values = null;
@@ -251,14 +272,30 @@ public class FileService {
                 records.add(Arrays.asList(values));
             }
         }
-        return csvDataResult(records, regex);
+        return (int) Math.ceil((double) records.size()/ CSVFILEPAGE);
     }
-
-    private String divideCsv(){
-
-        return "";
+    //определяет сеператор
+    public String seperator(String fileName) throws Exception {
+        String line = "";
+        String csvSplitBy = "";
+        BufferedReader br = new BufferedReader(new FileReader(filePath + fileName));
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                if (line.contains(",")) {
+                    csvSplitBy = ",";
+                }else if (line.contains("|")) {
+                    csvSplitBy = "|";
+                } else if (line.contains(";")) {
+                    csvSplitBy = ";";
+                } else {
+                    csvSplitBy ="Wrong separator!";
+                }
+            }
+            br.close();
+        return csvSplitBy;
     }
-    private Map<Integer, List<String>> csvDataResult( List<List<String>> records, String regex){
+    //запись данныйх из csv в колекцию для вывода
+    public Map<Integer, List<String>> csvDataResult( List<List<String>> records, String regex){
         //макс число параметров в файле
         String countTable = records.get(0).toString();
         countTable = countTable.substring(1,countTable.length()-1);

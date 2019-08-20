@@ -30,6 +30,8 @@
             </tbody>
         </table>
     </div>
+    <div th:replace="fragments/pagination_csvOpen :: footer_csvOpen">...</div>
+    <div><a th:href="@{'/file/myfiles/1'}" style="float:left">Back to list</a></div>
 </div>
 </body>
 </html>
