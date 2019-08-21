@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.AccessLink;
+import pink.coursework.csvparser.models.CsvModel;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.AccessLinkRepository;
@@ -241,83 +242,16 @@ public class FileService {
         userRepository.save(user);
     }
 
-    //парсин файла и вывод в готовом виде на представление
-    public Map<Integer, List<String>> openCSV(Integer idFile, int page) throws Exception {
+    public CsvModel openCSV(Integer idFile, int page) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
-        String regex = seperator( fileCsv.getName());
-        List<List<String>> records = new ArrayList<>();
-
-        try (CSVReader csvReader = new CSVReader(new FileReader(filePath + fileCsv.getName()))) {
-            String[] values = null;
-            while ((values = csvReader.readNext()) != null) {
-                records.add(Arrays.asList(values));
-            }
-        }
-        List<List<String>> recordsPagination = new ArrayList<>();
-        if(page != 1){
-            recordsPagination.add(records.get(0));
-        }
-        for (int i = (page - 1) * CSVFILEPAGE; i < (page) * CSVFILEPAGE && i < records.size(); i++) {
-            recordsPagination.add(records.get(i));
-        }
-        return csvDataResult(recordsPagination, regex);
+        CsvModel csvModel = new CsvModel();
+        csvModel.getListRowsData(filePath + fileCsv.getName(), page, CSVFILEPAGE);
+        return csvModel;
     }
-
     public int csvPages(Integer idFile) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
-        List<List<String>> records = new ArrayList<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(filePath + fileCsv.getName()))) {
-            String[] values = null;
-            while ((values = csvReader.readNext()) != null) {
-                records.add(Arrays.asList(values));
-            }
-        }
-        return (int) Math.ceil((double) records.size()/ CSVFILEPAGE);
+        CsvModel csvModel = new CsvModel();
+        return (int) Math.ceil((double) csvModel.countRows(filePath + fileCsv.getName())/ CSVFILEPAGE);
     }
-    //определяет сеператор
-    public String seperator(String fileName) throws Exception {
-        String line = "";
-        String csvSplitBy = "";
-        BufferedReader br = new BufferedReader(new FileReader(filePath + fileName));
-            while ((line = br.readLine()) != null) {
-                // use comma as separator
-                if (line.contains(",")) {
-                    csvSplitBy = ",";
-                }else if (line.contains("|")) {
-                    csvSplitBy = "|";
-                } else if (line.contains(";")) {
-                    csvSplitBy = ";";
-                } else {
-                    csvSplitBy ="Wrong separator!";
-                }
-            }
-            br.close();
-        return csvSplitBy;
-    }
-    //запись данныйх из csv в колекцию для вывода
-    public Map<Integer, List<String>> csvDataResult( List<List<String>> records, String regex){
-        //макс число параметров в файле
-        String countTable = records.get(0).toString();
-        countTable = countTable.substring(1,countTable.length()-1);
-        int count = Arrays.asList(countTable.split(regex)).size();
 
-        Map<Integer, List<String>> states = new HashMap<>();
-        List<String> resultList = new ArrayList<>();
-        for (int i =0; i<records.size();i++)
-        {
-            String sampleString = records.get(i).toString();
-            sampleString = sampleString.substring(1,sampleString.length()-1);
-            resultList = new ArrayList<>(Arrays.asList(sampleString.split(regex)));
-            //заполнение пустых ячеек в csv файле на ""
-            if(resultList.size() != count){
-                int counter = count - resultList.size();
-                while (counter != 0){
-                    counter--;
-                    resultList.add("");
-                }
-            }
-            states.put(i, resultList);
-        }
-        return states;
-    }
 }

@@ -14,17 +14,17 @@
         <table class="table table-striped table-bordered">
             <thead  style="background-color:#563d7c; color:#FFFFFF">
             <tr th:each="csvtitle : ${csvfile}">
-                <th:block  th:if="${csvtitle.getKey() == 0}">
-                    <th scope="col" th:each="titleZN : ${csvtitle.getValue()}" th:text="${titleZN}">
-                    </th>
+                <th>#</th>
+                <th:block th:each="titleZN : ${csvtitle.TitleCsv}">
+                    <th scope="col" th:text="${titleZN}"> </th>
                 </th:block>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="csvinfo : ${csvfile}">
-                <th:block  th:if="${csvinfo.getKey() != 0}">
-                    <td th:each="info : ${csvinfo.getValue()}" th:text="${info}">
-                    </td>
+            <tr th:each="csvinfo : ${csvfile.DataModelRows}">
+                <th:block th:each="info : ${csvinfo}" >
+                    <td th:text="${info.id}"></td>
+                    <td th:each="data : ${info.DataRows}" th:text="${data}"></td>
                 </th:block>
             </tr>
             </tbody>
