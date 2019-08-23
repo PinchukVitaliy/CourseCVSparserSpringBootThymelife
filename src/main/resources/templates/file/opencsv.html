@@ -10,28 +10,49 @@
     <br>
     <link  th:href="@{/css/role_edit.css}" rel="stylesheet" >
     <h2>CSV opening file</h2>
-    <div class="wrap">
-        <table class="table table-striped table-bordered">
-            <thead  style="background-color:#563d7c; color:#FFFFFF">
-            <tr th:each="csvtitle : ${csvfile}">
-                <th>#</th>
-                <th:block th:each="titleZN : ${csvtitle.TitleCsv}">
-                    <th scope="col" th:text="${titleZN}"> </th>
-                </th:block>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="csvinfo : ${csvfile.DataModelRows}">
-                <th:block th:each="info : ${csvinfo}" >
-                    <td th:text="${info.id}"></td>
-                    <td th:each="data : ${info.DataRows}" th:text="${data}"></td>
-                </th:block>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <form name="saveall" th:action="@{/file/saveall}"  method="POST">
+        <div class="panel-heading">
+            <div class="form-control">
+                <input type="hidden" name="file" th:value="${file.id}" >
+                <input type="hidden" name="curpage" th:value="${curpage}" >
+
+                <input type="submit" class="btn btn-primary" value="Save">
+
+                <a class="btn btn-primary" href="/file/addrow" role="button">Add row</a>
+                <a class="btn btn-primary" href="/file/addcolum" role="button">Add colum</a>
+            </div>
+        </div>
+        <br>
+        <div class="wrap">
+            <table class="table table-striped table-bordered" >
+                <thead  style="background-color:#563d7c; color:#FFFFFF">
+                <tr th:each="csvtitle : ${csvfile}">
+                    <th>#</th>
+                    <th:block th:each="titleZN : ${csvtitle.TitleCsv}" >
+                        <th scope="col" th:if="${file.accessLink.edit}" >
+                            <input type="text" id="title" name="title"  th:value="${titleZN}">
+                        </th>
+                        <th scope="col" th:text="${titleZN}" th:if="${file.accessLink.read && !file.accessLink.edit}"></th>
+                    </th:block>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="csvinfo : ${csvfile.DataModelRows}">
+                    <th:block th:each="info : ${csvinfo}" >
+                        <td th:text="${info.id}"></td>
+                        <td th:each="data : ${info.DataRows}"  th:if="${file.accessLink.edit}" >
+                            <input type="text" name="dataList"  th:value="${data}">
+                        </td>
+                        <td th:each="data : ${info.DataRows}" th:text="${data}" th:if="${file.accessLink.read && !file.accessLink.edit}"> </td>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
     <div th:replace="fragments/pagination_csvOpen :: footer_csvOpen">...</div>
     <div><a th:href="@{'/file/myfiles/1'}" style="float:left">Back to list</a></div>
+
 </div>
 </body>
 </html>

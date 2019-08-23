@@ -1,6 +1,9 @@
 package pink.coursework.csvparser.models;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,7 +19,9 @@ public class CsvModel {
     }
     //запись данных + пеженация
     public void getListRowsData(String PathFileName, int page, int CSVFILEPAGE) throws Exception{
-        CSVReader csvReader = new CSVReader(new FileReader(PathFileName), seperator(PathFileName));
+        CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator(PathFileName)).build();
+        CSVReader csvReader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
+
         List<List<String>> records = new ArrayList<>();
         String[] values = null;
         while ((values = csvReader.readNext()) != null) {
@@ -71,6 +76,9 @@ public class CsvModel {
     //заполнение пустых ячеек если они есть в CSV
     public List<String> emptyCells(int rowCount, List<String> record){
         List<String> result = new ArrayList<>();
+        if(record.size() > rowCount){
+            return null;
+        }
         if(record.size() != rowCount){
             for (String elem : record) {
                 result.add(elem);
@@ -85,6 +93,32 @@ public class CsvModel {
         else{
             return record;
         }
+    }
+
+    public void saveCsv(List<String> title, List<String> dataList, String s) {
+
+    }
+    public void writeDates(List<String> title, List<String> dataList){
+        setTitleCsv(title);
+        List<DataCsv> dataCsvList = new ArrayList<>();
+        int count = title.size();
+        int endCount = dataList.size()/count;
+        int start = 0;
+        int end = start + count;
+        for(int i = 0; i<endCount; i++){
+            List<String> stringList = new ArrayList<>();
+            for(int j = start; j < end; j++){
+                stringList.add(dataList.get(j));
+            }
+            start+=count;
+            dataCsvList.add(new DataCsv(i, stringList));
+        }
+        setDataModelRows(dataCsvList);
+        System.out.println(getTitleCsv());
+        for (DataCsv el: getDataModelRows()) {
+            System.out.println(el.getDataRows());
+        }
+
     }
 
     public List<String> getTitleCsv() {
@@ -102,4 +136,6 @@ public class CsvModel {
     public void setDataModelRows(List<DataCsv> dataModelRows) {
         DataModelRows = dataModelRows;
     }
+
+
 }

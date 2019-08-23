@@ -5,11 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pink.coursework.csvparser.models.CsvModel;
+import pink.coursework.csvparser.models.DataCsv;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class FileController {
@@ -170,6 +173,7 @@ public class FileController {
     }
     @GetMapping("/file/open/{id}")
     private String openCSV(Model model, @PathVariable("id") Integer idFile) throws Exception {
+        model.addAttribute("file", fileService.getFile(idFile));
         model.addAttribute("curpage", 1);
         model.addAttribute("pages", fileService.csvPages(idFile));
         model.addAttribute("csvfile", fileService.openCSV(idFile, 1));
@@ -178,10 +182,19 @@ public class FileController {
     }
     @GetMapping("/file/open/{id}/{page}")
     private String paginationOpenCSV(Model model, @PathVariable("id") Integer idFile, @PathVariable int page) throws Exception {
+        model.addAttribute("file", fileService.getFile(idFile));
         model.addAttribute("curpage", page);
         model.addAttribute("pages", fileService.csvPages(idFile));
         model.addAttribute("csvfile", fileService.openCSV(idFile, page));
         model.addAttribute("contentPage", "/file/opencsv");
         return "default";
+    }
+    @PostMapping("/file/saveall")
+    private String saveOpenCSV( @RequestParam("file") Myfile file,
+                               @RequestParam("curpage") int page,
+                               @RequestParam("title") List<String> title,
+                                @RequestParam("dataList") List<String> dataList) {
+        fileService.getCsvModelSave(title, dataList);
+        return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 }
