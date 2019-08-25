@@ -254,9 +254,10 @@ public class FileService {
         return (int) Math.ceil((double) csvModel.countRows(filePath + fileCsv.getName())/ CSVFILEPAGE);
     }
 
-    public void getCsvModelSave(List<String> title, List<String> dataList) {
-        //Myfile fileCsv = fileRepository.getOne(file.getId());
+    public void getCsvModelSave(List<String> title, List<String> dataList, List<Integer> idList, Myfile file) throws Exception{
+        Myfile fileCsv = fileRepository.getOne(file.getId());
         CsvModel csvModel = new CsvModel();
-        csvModel.writeDates( title,  dataList);
+        csvModel.writeModifiedData(title,dataList,idList);
+        csvModel.saveCsv( filePath + fileCsv.getName());
     }
 }

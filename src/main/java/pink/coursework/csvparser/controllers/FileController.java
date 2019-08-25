@@ -192,9 +192,11 @@ public class FileController {
     @PostMapping("/file/saveall")
     private String saveOpenCSV( @RequestParam("file") Myfile file,
                                @RequestParam("curpage") int page,
-                               @RequestParam("title") List<String> title,
-                                @RequestParam("dataList") List<String> dataList) {
-        fileService.getCsvModelSave(title, dataList);
+                               @RequestParam("title") List<String> titleList,
+                                @RequestParam("dataList") List<String> dataList,
+                                @RequestParam("idList") List<Integer> idList) throws Exception {
+        fileService.getCsvModelSave(titleList, dataList, idList, file);
+
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 }

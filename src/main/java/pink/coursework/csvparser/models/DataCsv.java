@@ -1,6 +1,8 @@
 package pink.coursework.csvparser.models;
 
+import javax.persistence.Entity;
 import java.util.List;
+
 
 public class DataCsv {
     Integer Id;

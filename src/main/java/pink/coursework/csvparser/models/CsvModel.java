@@ -1,17 +1,18 @@
 package pink.coursework.csvparser.models;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
+import com.opencsv.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CsvModel {
+
+public class CsvModel implements Serializable {
+
     List<String> TitleCsv;
     List<DataCsv> DataModelRows;
 
@@ -95,30 +96,58 @@ public class CsvModel {
         }
     }
 
-    public void saveCsv(List<String> title, List<String> dataList, String s) {
+    public void saveCsv(String PathFileName) throws Exception {
+        char seperator =seperator(PathFileName);
+        CSVReader reader = new CSVReader(new FileReader(PathFileName), seperator);
+        List<String[]> csvBody = new ArrayList<>();
+        String[] values = null;
+        int count = 0;
+        boolean flag = true;
+        csvBody.add(getTitleCsv().toArray(new String[0]));
+        while ((values = reader.readNext()) != null) {
+            if(count != 0){
+                if(flag){
+                for(DataCsv elem : getDataModelRows()) {
+                    if(elem.getId().equals(count)) {
+                        csvBody.add(elem.getDataRows().toArray(new String[0]));
+                        flag = true;
+                    }
+                }}
+                if(!flag){
+                    csvBody.add(values);
+                    flag =false;
+                }
+            }
+            count++;
+        }
 
+
+        //csvBody.get(2)[2] = "test";
+        reader.close();
+        CSVWriter csvWriter = new CSVWriter(new FileWriter(PathFileName), seperator);
+        //List<String[]> csvBody = new ArrayList<>();
+        //String[] str = {"1","2","3","4","5"};
+        //csvBody.get(2)[2] = "test";
+        //csvBody.add(str);
+        csvWriter.writeAll(csvBody);
+        csvWriter.flush();
+        csvWriter.close();
     }
-    public void writeDates(List<String> title, List<String> dataList){
+    public void writeModifiedData(List<String> title, List<String> dataList, List<Integer> idList){
         setTitleCsv(title);
         List<DataCsv> dataCsvList = new ArrayList<>();
         int count = title.size();
         int endCount = dataList.size()/count;
         int start = 0;
-        int end = start + count;
         for(int i = 0; i<endCount; i++){
             List<String> stringList = new ArrayList<>();
-            for(int j = start; j < end; j++){
+            for(int j = start; j < start+count; j++){
                 stringList.add(dataList.get(j));
             }
             start+=count;
-            dataCsvList.add(new DataCsv(i, stringList));
+            dataCsvList.add(new DataCsv(idList.get(i), stringList));
         }
         setDataModelRows(dataCsvList);
-        System.out.println(getTitleCsv());
-        for (DataCsv el: getDataModelRows()) {
-            System.out.println(el.getDataRows());
-        }
-
     }
 
     public List<String> getTitleCsv() {

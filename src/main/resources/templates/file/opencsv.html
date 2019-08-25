@@ -39,7 +39,8 @@
                 <tbody>
                 <tr th:each="csvinfo : ${csvfile.DataModelRows}">
                     <th:block th:each="info : ${csvinfo}" >
-                        <td th:text="${info.id}"></td>
+                        <input type="hidden" name="idList" th:value="${info.id}">
+                        <td th:text="${info.id}"> </td>
                         <td th:each="data : ${info.DataRows}"  th:if="${file.accessLink.edit}" >
                             <input type="text" name="dataList"  th:value="${data}">
                         </td>
