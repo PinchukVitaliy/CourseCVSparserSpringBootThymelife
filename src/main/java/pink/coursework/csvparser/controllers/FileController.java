@@ -210,4 +210,18 @@ public class FileController {
         fileService.addNewColum(idFile);
         return "redirect:/file/open/"+idFile+"/"+page;
     }
+    @PostMapping("/file/deleterows")
+    public String deleteRows(@RequestParam("file") Myfile file,
+                             @RequestParam("curpage") int page,
+                             @RequestParam("deleterows") List<String> rows) {
+        System.out.println(rows);
+        return "redirect:/file/open/"+file.getId()+"/"+page;
+    }
+    @PostMapping("/file/deletecolums")
+    public String deleteColums(@RequestParam("file") Myfile file,
+                             @RequestParam("curpage") int page,
+                             @RequestParam("deletecolums") List<String> colums) {
+        System.out.println(colums);
+        return "redirect:/file/open/"+file.getId()+"/"+page;
+    }
 }
