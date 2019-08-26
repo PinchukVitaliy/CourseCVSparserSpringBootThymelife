@@ -196,7 +196,18 @@ public class FileController {
                                 @RequestParam("dataList") List<String> dataList,
                                 @RequestParam("idList") List<Integer> idList) throws Exception {
         fileService.getCsvModelSave(titleList, dataList, idList, file);
-
         return "redirect:/file/open/"+file.getId()+"/"+page;
+    }
+    @PostMapping("/file/row")
+    private String addRowOpenCSV( @RequestParam("file") Myfile file,
+                                  @RequestParam("curpage") int page,
+                                @RequestParam("newRow") String newRow) throws Exception{
+        fileService.addNewRow(file, newRow);
+        return "redirect:/file/open/"+file.getId()+"/"+page;
+    }
+    @GetMapping("/file/colum/{id}/{page}")
+    private String addColumOpenCSV(@PathVariable("id") Integer idFile, @PathVariable("page") int page) throws Exception {
+        fileService.addNewColum(idFile);
+        return "redirect:/file/open/"+idFile+"/"+page;
     }
 }

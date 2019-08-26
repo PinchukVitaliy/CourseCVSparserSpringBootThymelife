@@ -2,13 +2,13 @@ package pink.coursework.csvparser.models;
 
 import com.opencsv.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.Serializable;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 public class CsvModel implements Serializable {
@@ -18,6 +18,8 @@ public class CsvModel implements Serializable {
 
     public CsvModel() {
     }
+
+
     //запись данных + пеженация
     public void getListRowsData(String PathFileName, int page, int CSVFILEPAGE) throws Exception{
         CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator(PathFileName)).build();
@@ -95,44 +97,55 @@ public class CsvModel implements Serializable {
             return record;
         }
     }
-
+    //helper to method saveCsv
+    public boolean getDataCsv(Integer id){
+        for (DataCsv elem : DataModelRows){
+            if(elem.getId().equals(id))
+                return true;
+        }
+        return false;
+    }
+    //helper to method saveCsv
+    public String[] getDataCsvMass(Integer id){
+        for (DataCsv elem : DataModelRows){
+            if(elem.getId().equals(id))
+                return elem.getDataRows().toArray(new String[0]);
+        }
+        return null;
+    }
+    //перезапись новых данных в файл
     public void saveCsv(String PathFileName) throws Exception {
-        char seperator =seperator(PathFileName);
-        CSVReader reader = new CSVReader(new FileReader(PathFileName), seperator);
+        char seperator = seperator(PathFileName);
+        CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
+        CSVReader reader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
         List<String[]> csvBody = new ArrayList<>();
         String[] values = null;
         int count = 0;
-        boolean flag = true;
         csvBody.add(getTitleCsv().toArray(new String[0]));
         while ((values = reader.readNext()) != null) {
             if(count != 0){
-                if(flag){
-                for(DataCsv elem : getDataModelRows()) {
-                    if(elem.getId().equals(count)) {
-                        csvBody.add(elem.getDataRows().toArray(new String[0]));
-                        flag = true;
-                    }
-                }}
-                if(!flag){
+                if(getDataCsv(count)){
+                        csvBody.add(getDataCsvMass(count));
+                }else{
                     csvBody.add(values);
-                    flag =false;
                 }
             }
             count++;
         }
 
-
-        //csvBody.get(2)[2] = "test";
         reader.close();
-        CSVWriter csvWriter = new CSVWriter(new FileWriter(PathFileName), seperator);
-        //List<String[]> csvBody = new ArrayList<>();
-        //String[] str = {"1","2","3","4","5"};
-        //csvBody.get(2)[2] = "test";
-        //csvBody.add(str);
+        CSVWriter csvWriter = new CSVWriter(
+                new OutputStreamWriter(new FileOutputStream(PathFileName), StandardCharsets.UTF_8),
+                seperator,
+                CSVWriter.DEFAULT_QUOTE_CHARACTER,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                CSVWriter.DEFAULT_LINE_END);
+
         csvWriter.writeAll(csvBody);
         csvWriter.flush();
         csvWriter.close();
     }
+    //создание новых данных и запись их в обьект
     public void writeModifiedData(List<String> title, List<String> dataList, List<Integer> idList){
         setTitleCsv(title);
         List<DataCsv> dataCsvList = new ArrayList<>();
@@ -149,7 +162,67 @@ public class CsvModel implements Serializable {
         }
         setDataModelRows(dataCsvList);
     }
+    //добавление столбца в файл
+    public void addRow(String PathFileName, String Row) throws Exception {
+        char seperator = seperator(PathFileName);
+        CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
+        CSVReader reader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
+        List<String[]> csvBody = new ArrayList<>();
+        String[] values = null;
+        int count = 0;
+        List<String> title = new ArrayList<>();
+        while ((values = reader.readNext()) != null) {
+            if(count == 0){
+                for(int i = 0; i < values.length; i++){
+                    title.add(values[i]);
+                }
+                title.add(Row);
+                csvBody.add(title.toArray(new String[0]));
+            }else {
+                csvBody.add(values);
+            }
+            count++;
+        }
+        reader.close();
+        CSVWriter csvWriter = new CSVWriter(
+                new OutputStreamWriter(new FileOutputStream(PathFileName), StandardCharsets.UTF_8),
+                seperator,
+                CSVWriter.DEFAULT_QUOTE_CHARACTER,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                CSVWriter.DEFAULT_LINE_END);
 
+        csvWriter.writeAll(csvBody);
+        csvWriter.flush();
+        csvWriter.close();
+    }
+
+    //добавление колонки в файл
+    public void addColum(String PathFileName) throws Exception {
+        char seperator = seperator(PathFileName);
+        CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
+        CSVReader reader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
+        List<String[]> csvBody = new ArrayList<>();
+        String[] values = null;
+        String[] nonValue = {""};
+        int count = 0;
+        List<String> title = new ArrayList<>();
+        while ((values = reader.readNext()) != null) {
+                csvBody.add(values);
+            count++;
+        }
+        csvBody.add(nonValue);
+        reader.close();
+        CSVWriter csvWriter = new CSVWriter(
+                new OutputStreamWriter(new FileOutputStream(PathFileName), StandardCharsets.UTF_8),
+                seperator,
+                CSVWriter.DEFAULT_QUOTE_CHARACTER,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                CSVWriter.DEFAULT_LINE_END);
+
+        csvWriter.writeAll(csvBody);
+        csvWriter.flush();
+        csvWriter.close();
+    }
     public List<String> getTitleCsv() {
         return TitleCsv;
     }
@@ -165,6 +238,5 @@ public class CsvModel implements Serializable {
     public void setDataModelRows(List<DataCsv> dataModelRows) {
         DataModelRows = dataModelRows;
     }
-
 
 }

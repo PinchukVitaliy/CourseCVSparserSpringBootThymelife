@@ -260,4 +260,16 @@ public class FileService {
         csvModel.writeModifiedData(title,dataList,idList);
         csvModel.saveCsv( filePath + fileCsv.getName());
     }
+
+    public void addNewRow(Myfile file, String newRow) throws Exception {
+        Myfile fileCsv = fileRepository.getOne(file.getId());
+        CsvModel csvModel = new CsvModel();
+        csvModel.addRow(filePath + fileCsv.getName(), newRow);
+    }
+
+    public void addNewColum(Integer idFile) throws Exception {
+        Myfile fileCsv = fileRepository.getOne(idFile);
+        CsvModel csvModel = new CsvModel();
+        csvModel.addColum(filePath + fileCsv.getName());
+    }
 }
