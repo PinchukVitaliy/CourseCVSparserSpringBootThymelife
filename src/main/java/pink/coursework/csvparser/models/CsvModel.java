@@ -7,9 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 
 public class CsvModel implements Serializable {
 
@@ -37,6 +34,7 @@ public class CsvModel implements Serializable {
 
     //запись данных + пеженация
     public void getListRowsData(String PathFileName, int page, int CSVFILEPAGE) throws Exception{
+
         CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator(PathFileName)).build();
         CSVReader csvReader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
 
@@ -84,7 +82,7 @@ public class CsvModel implements Serializable {
             } else if (line.contains("\t")) {
                 csvSplitBy = '\t';
             } else {
-                csvSplitBy = 0;
+                csvSplitBy = 'æ';
             }
             break;
         }
@@ -238,7 +236,7 @@ public class CsvModel implements Serializable {
         csvWriter.flush();
         csvWriter.close();
     }
-
+    //delete colums
     public void deleteColumsCSV(String PathFileName, List<String> colums) throws Exception{
         char seperator = seperator(PathFileName);
         CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
@@ -265,7 +263,7 @@ public class CsvModel implements Serializable {
         csvWriter.flush();
         csvWriter.close();
     }
-
+    //delete rows
     public void deleteRowsCSV(String PathFileName, List<String> rows) throws Exception{
         char seperator = seperator(PathFileName);
         CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
@@ -305,7 +303,7 @@ public class CsvModel implements Serializable {
         csvWriter.flush();
         csvWriter.close();
     }
-
+    //helper function to method deleteRowsCSV
     boolean rowsEmpty(List<String> rows, List<String> title, int index){
         boolean flag = false;
         for (String row: rows) {
