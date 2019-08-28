@@ -19,6 +19,21 @@ public class CsvModel implements Serializable {
     public CsvModel() {
     }
 
+    public List<String> getTitleCsv() {
+        return TitleCsv;
+    }
+
+    public void setTitleCsv(List<String> titleCsv) {
+        TitleCsv = titleCsv;
+    }
+
+    public List<DataCsv> getDataModelRows() {
+        return DataModelRows;
+    }
+
+    public void setDataModelRows(List<DataCsv> dataModelRows) {
+        DataModelRows = dataModelRows;
+    }
 
     //запись данных + пеженация
     public void getListRowsData(String PathFileName, int page, int CSVFILEPAGE) throws Exception{
@@ -205,7 +220,7 @@ public class CsvModel implements Serializable {
         String[] values = null;
         String[] nonValue = {""};
         int count = 0;
-        List<String> title = new ArrayList<>();
+        //List<String> title = new ArrayList<>();
         while ((values = reader.readNext()) != null) {
                 csvBody.add(values);
             count++;
@@ -223,20 +238,80 @@ public class CsvModel implements Serializable {
         csvWriter.flush();
         csvWriter.close();
     }
-    public List<String> getTitleCsv() {
-        return TitleCsv;
+
+    public void deleteColumsCSV(String PathFileName, List<String> colums) throws Exception{
+        char seperator = seperator(PathFileName);
+        CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
+        CSVReader reader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
+        List<String[]> csvBody = new ArrayList<>();
+        String[] values = null;
+        int count = 0;
+        while ((values = reader.readNext()) != null) {
+            if(!colums.contains( Integer.toString(count))) {
+                csvBody.add(values);
+            }
+            count++;
+        }
+
+        reader.close();
+        CSVWriter csvWriter = new CSVWriter(
+                new OutputStreamWriter(new FileOutputStream(PathFileName), StandardCharsets.UTF_8),
+                seperator,
+                CSVWriter.DEFAULT_QUOTE_CHARACTER,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                CSVWriter.DEFAULT_LINE_END);
+
+        csvWriter.writeAll(csvBody);
+        csvWriter.flush();
+        csvWriter.close();
     }
 
-    public void setTitleCsv(List<String> titleCsv) {
-        TitleCsv = titleCsv;
+    public void deleteRowsCSV(String PathFileName, List<String> rows) throws Exception{
+        char seperator = seperator(PathFileName);
+        CSVParser csvParser = new CSVParserBuilder().withSeparator(seperator).build();
+        CSVReader reader = new CSVReaderBuilder(new FileReader(PathFileName)).withCSVParser(csvParser).build();
+
+        List<List<String>> csvBody = new ArrayList<>();
+        String[] values = null;
+        while ((values = reader.readNext()) != null) {
+            csvBody.add(Arrays.asList(values));
+        }
+
+        List<List<String>> csvBodyList = new ArrayList<>();
+        for (List<String> elem : csvBody) {
+            List<String> str = new ArrayList<>();
+            for (int i = 0; i < elem.size(); i++) {
+                if(!rowsEmpty(rows, csvBody.get(0), i)) {
+                    str.add(elem.get(i));
+                }
+            }
+            csvBodyList.add(str);
+        }
+        List<String[]> newBody = new ArrayList<>();
+        for (List<String> massList : csvBodyList) {
+            String[] rowLine = new String[massList.size()];
+            newBody.add(massList.toArray(rowLine));
+        }
+
+        reader.close();
+        CSVWriter csvWriter = new CSVWriter(
+                new OutputStreamWriter(new FileOutputStream(PathFileName), StandardCharsets.UTF_8),
+                seperator,
+                CSVWriter.DEFAULT_QUOTE_CHARACTER,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                CSVWriter.DEFAULT_LINE_END);
+
+        csvWriter.writeAll(newBody);
+        csvWriter.flush();
+        csvWriter.close();
     }
 
-    public List<DataCsv> getDataModelRows() {
-        return DataModelRows;
+    boolean rowsEmpty(List<String> rows, List<String> title, int index){
+        boolean flag = false;
+        for (String row: rows) {
+                if(title.contains(row) && index == title.indexOf(row))
+                    flag = true;
+        }
+        return flag;
     }
-
-    public void setDataModelRows(List<DataCsv> dataModelRows) {
-        DataModelRows = dataModelRows;
-    }
-
 }

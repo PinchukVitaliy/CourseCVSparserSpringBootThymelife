@@ -31,7 +31,7 @@
                     <!-- delete rows-->
                     <br>
                     <div>
-                    <label for="delrows"><h5>Delete rows</h5></label>
+                    <label for="delrows" class="panel"><h5>Delete rows</h5></label>
                     <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delrows" name="delrows">
                         <option th:each="titleZN : ${csvfile.TitleCsv}"
                                 th:value="${titleZN}"
@@ -42,7 +42,7 @@
                     <!-- delete colums-->
                     <br>
                     <div>
-                    <label for="delcolums"><h5>Delete colums</h5></label>
+                    <label for="delcolums" class="panel"><h5>Delete colums</h5></label>
                     <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delcolums" name="delcolums">
                         <option th:each="data : ${csvfile.DataModelRows}"
                                 th:value="${data.id}"
@@ -177,63 +177,8 @@
 
     <div th:replace="fragments/pagination_csvOpen :: footer_csvOpen">...</div>
     <div><a th:href="@{'/file/myfiles/1'}" style="float:left">Back to list</a></div>
-    <br>  <br>
-<script>
-    $('.selectpicker').selectpicker();
-    function openModal() {
-             $("#myModal").modal();
-         }
-
-    function delRows(){
-        var x = document.getElementById("delrows");
-        var parent = document.getElementById("parentDiv");
-        parent.innerHTML = '';
-        var optionVal = [];
-        for (i = 0; i < x.length; i++) {
-             if (x.options[i].selected){
-                    optionVal.push(x.options[i].text);
-                    var input=document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'deleterows';
-                    input.value= x.options[i].text;
-                    var label = document.createElement('label');
-                    label.innerHTML = x.options[i].text;
-                    var br = document.createElement('br');
-                    parent.appendChild(input);
-                    parent.appendChild(label);
-                    parent.appendChild(br);
-                }
-        }
-        if(optionVal.length !== 0){
-           $("#myModalDelRows").modal();
-        }
-    }
-
-
-        function delColums(){
-        var x = document.getElementById("delcolums");
-        var parent = document.getElementById("parentDivColum");
-        parent.innerHTML = '';
-        var optionVal = [];
-        for (i = 0; i < x.length; i++) {
-             if (x.options[i].selected){
-                    optionVal.push(x.options[i].text);
-                    var input=document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'deletecolums';
-                    input.value= x.options[i].text;
-                    parent.appendChild(input);
-                }
-        }
-        if(optionVal.length !== 0){
-        var label = document.createElement('label');
-                    label.innerHTML = optionVal;
-                    parent.appendChild(label);
-           $("#myModalDelcolums").modal();
-        }
-    }
-
-</script>
+    <br> <br>
+    <script th:src="@{/js/opencsv.js}"></script>
 </div>
 </body>
 </html>

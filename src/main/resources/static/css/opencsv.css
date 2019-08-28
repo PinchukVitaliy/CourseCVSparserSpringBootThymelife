@@ -6,6 +6,10 @@ div.panel-heading{
      border-bottom: 6px solid red;
      background-color: lightgrey;
 }
+label.panel{
+width: 15%;
+}
+
 #label{
 font-size: 22px;
 }

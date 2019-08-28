@@ -272,4 +272,16 @@ public class FileService {
         CsvModel csvModel = new CsvModel();
         csvModel.addColum(filePath + fileCsv.getName());
     }
+
+    public void deleteColums(Myfile file, List<String> colums) throws Exception{
+        Myfile fileCsv = fileRepository.getOne(file.getId());
+        CsvModel csvModel = new CsvModel();
+        csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
+    }
+
+    public void deleteRows(Myfile file, List<String> rows) throws Exception{
+        Myfile fileCsv = fileRepository.getOne(file.getId());
+        CsvModel csvModel = new CsvModel();
+        csvModel.deleteRowsCSV(filePath + fileCsv.getName(), rows);
+    }
 }
