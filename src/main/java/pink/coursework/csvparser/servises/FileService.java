@@ -1,25 +1,18 @@
 package pink.coursework.csvparser.servises;
 
-import com.opencsv.CSVReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.AccessLink;
-import pink.coursework.csvparser.models.CsvModel;
+import pink.coursework.csvparser.ObjectsHelperCSV.CsvModel;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.AccessLinkRepository;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -244,44 +237,44 @@ public class FileService {
 
     public CsvModel openCSV(Integer idFile, int page) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
-        CsvModel csvModel = new CsvModel();
-        csvModel.getListRowsData(filePath + fileCsv.getName(), page, CSVFILEPAGE);
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
+        csvModel.getListRowsData( page, CSVFILEPAGE);
         return csvModel;
     }
     public int csvPages(Integer idFile) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
-        CsvModel csvModel = new CsvModel();
-        return (int) Math.ceil((double) csvModel.countRows(filePath + fileCsv.getName())/ CSVFILEPAGE);
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
+        return (int) Math.ceil((double) csvModel.countRows()/ CSVFILEPAGE);
     }
 
     public void getCsvModelSave(List<String> title, List<String> dataList, List<Integer> idList, Myfile file) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
-        CsvModel csvModel = new CsvModel();
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.writeModifiedData(title,dataList,idList);
         csvModel.saveCsv( filePath + fileCsv.getName());
     }
 
     public void addNewRow(Myfile file, String newRow) throws Exception {
         Myfile fileCsv = fileRepository.getOne(file.getId());
-        CsvModel csvModel = new CsvModel();
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addRow(filePath + fileCsv.getName(), newRow);
     }
 
     public void addNewColum(Integer idFile) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
-        CsvModel csvModel = new CsvModel();
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addColum(filePath + fileCsv.getName());
     }
 
     public void deleteColums(Myfile file, List<String> colums) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
-        CsvModel csvModel = new CsvModel();
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
     }
 
     public void deleteRows(Myfile file, List<String> rows) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
-        CsvModel csvModel = new CsvModel();
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.deleteRowsCSV(filePath + fileCsv.getName(), rows);
     }
 }

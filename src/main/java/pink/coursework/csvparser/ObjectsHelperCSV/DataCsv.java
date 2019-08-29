@@ -1,9 +1,10 @@
-package pink.coursework.csvparser.models;
+package pink.coursework.csvparser.ObjectsHelperCSV;
 
-import javax.persistence.Entity;
 import java.util.List;
 
-
+/**
+ * <p>Класс который хранит данные</p>
+ */
 public class DataCsv {
     Integer Id;
     List<String> DataRows;

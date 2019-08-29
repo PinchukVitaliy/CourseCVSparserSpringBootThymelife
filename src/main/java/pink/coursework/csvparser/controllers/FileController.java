@@ -5,13 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pink.coursework.csvparser.models.CsvModel;
-import pink.coursework.csvparser.models.DataCsv;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
-
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -192,9 +188,10 @@ public class FileController {
     @PostMapping("/file/saveall")
     private String saveOpenCSV( @RequestParam("file") Myfile file,
                                @RequestParam("curpage") int page,
-                               @RequestParam("title") List<String> titleList,
-                                @RequestParam("dataList") List<String> dataList,
-                                @RequestParam("idList") List<Integer> idList) throws Exception {
+                               @RequestParam(value = "title", required = false) List<String> titleList,
+                                @RequestParam(value = "dataList", required = false) List<String> dataList,
+                                @RequestParam(value = "idList", required = false) List<Integer> idList) throws Exception {
+        // required = false ели такогопараметра нет в HTML то игнорировать
         fileService.getCsvModelSave(titleList, dataList, idList, file);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
