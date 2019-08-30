@@ -6,12 +6,13 @@ import java.util.List;
  * <p>Класс который хранит данные</p>
  */
 public class DataCsv {
+    //идентификатор
     Integer Id;
+    //список с данными файла
     List<String> DataRows;
 
     public DataCsv() {
     }
-
     public DataCsv(Integer id, List<String> dataRows) {
         Id = id;
         DataRows = dataRows;

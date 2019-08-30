@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -59,7 +60,7 @@ public class FileController {
     }
 
     @PostMapping("/file/delete")
-    private String deleteSubmit(@ModelAttribute("id") Integer myfileId) {
+    private String deleteSubmit(@ModelAttribute("id") Integer myfileId) throws IOException {
         Integer idUser = 1;
         fileService.deleteFile(myfileId);
         return "redirect:/file/myfiles/"+idUser;
@@ -162,7 +163,7 @@ public class FileController {
         return "redirect:/file/links/"+idUser;
     }
     @GetMapping("/file/remove/{id}")
-    private String removeFile(@PathVariable("id") Integer idFile){
+    private String removeFile(@PathVariable("id") Integer idFile) throws IOException {
         Integer idUser = 1;
         fileService.removeFile(idFile, idUser);
         return "redirect:/file/links/"+idUser;

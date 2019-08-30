@@ -11,13 +11,17 @@ import java.util.*;
  * <p>Множество методов для открытия файла и работой над содержимым</p>
  */
 public class CsvModel implements Serializable {
-
+    //список который хранит все названия заголовка
     private List<String> TitleCsv;
+    //список DataCsv - тело с данными
     private List<DataCsv> DataModelRows;
-
+    //поле которое хранит сепаратор файла
     private char seperator;
+    //экземпляр класса CSVParser
     private CSVParser csvParser;
+    //экземпляр класса CSVReader
     private  CSVReader csvReader;
+    //экземпляр класса BufferedReader
     private BufferedReader br;
 
     public CsvModel() {
@@ -260,7 +264,6 @@ public class CsvModel implements Serializable {
      * @param Row имя столбца
      */
     public void addRow(String PathFileName, String Row) throws Exception {
-
         List<String[]> csvBody = new ArrayList<>();
         String[] values = null;
         int count = 0;
@@ -277,16 +280,13 @@ public class CsvModel implements Serializable {
             }
             count++;
         }
-
-        System.out.println(searchSameElementToRow(title,  Row));
-
         clearCsvReader();
         CSVWriter csvWriter = openCsvWriter(PathFileName);
         csvWriter.writeAll(csvBody);
         clearCsvWriter(csvWriter);
     }
     /**
-     * <p>Поиск одинакового элемента  addRow</p>
+     * <p>Поиск одинакового элемента в addRow</p>
      * <p>Если есть одинаковый элемент меняем ему название</p>
      * @param title текущий список
      * @return уникальный элемент
