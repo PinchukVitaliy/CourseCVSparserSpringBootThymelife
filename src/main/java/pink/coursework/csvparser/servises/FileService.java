@@ -39,6 +39,9 @@ public class FileService {
     @Autowired
     private AccessLinkRepository accessLinkRepository;
 
+    @Autowired
+    private StatisticService statisticService;
+
     /**
      * <p>Поиск файла</p>
      * <p>Поиск файла по id</p>
@@ -61,6 +64,12 @@ public class FileService {
         userRepository.save(user);
         fileRepository.delete(file);
         Files.deleteIfExists(path);
+
+        statisticService.add(
+                user.getEmail(),
+                "Delete",
+                file.getName(),
+                file.getOriginName());
     }
     /**
      * <p>Пагинация файлов</p>
@@ -179,6 +188,12 @@ public class FileService {
 
             user.getListCreatedFiles().add(newfile);
             userRepository.save(user);
+
+            statisticService.add(
+                    user.getEmail(),
+                    "Upload",
+                    resultFileName,
+                    file.getOriginalFilename());
         }
     }
     /**
@@ -236,6 +251,11 @@ public class FileService {
             try {
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
+                statisticService.add(
+                        "autorise user",
+                        "Dowload",
+                        myfile.getName(),
+                        myfile.getOriginName());
             } catch (IOException e) {
                 throw new RuntimeException("IOError writing file to output stream");
             }
@@ -259,22 +279,57 @@ public class FileService {
             link.setLink("No link");
             file.setAccessLink(link);
             fileRepository.save(file);
+            statisticService.add(
+                    "autorise user",
+                    "Closed access to all",
+                    file.getName(),
+                    file.getOriginName());
             return  file;
         }
         if(read != null){
             link.setRead(read);
+            statisticService.add(
+                    "autorise user",
+                    "Opened access to read",
+                    file.getName(),
+                    file.getOriginName());
         }else{
             link.setRead(false);
+            statisticService.add(
+                    "autorise user",
+                    "Closed access to read",
+                    file.getName(),
+                    file.getOriginName());
         }
            if(edit != null){
                link.setEdit(edit);
+               statisticService.add(
+                       "autorise user",
+                       "Opened access to edit",
+                       file.getName(),
+                       file.getOriginName());
            }else{
                link.setEdit(false);
+               statisticService.add(
+                       "autorise user",
+                       "Closed access to edit",
+                       file.getName(),
+                       file.getOriginName());
            }
                if(dowload != null){
                    link.setDowload(dowload);
+                   statisticService.add(
+                           "autorise user",
+                           "Opened access to dowload",
+                           file.getName(),
+                           file.getOriginName());
                }else{
                    link.setDowload(false);
+                   statisticService.add(
+                           "autorise user",
+                           "Closed access to dowload",
+                           file.getName(),
+                           file.getOriginName());
                }
                     link.setLink(UUID.randomUUID().toString());
                     file.setAccessLink(link);
@@ -328,17 +383,16 @@ public class FileService {
         return true;
     }
     /**
-     * <p>Удалить файл через доступ</p>
+     * <p>Удалить пустую ссылку</p>
+     * <p>Удаляет из коллекции открытых файлов сам файл</p>
      * @param idFile идентификатор файла
      * @param idUser идентификатор пользователя
      */
     public void removeFile(Integer idFile, Integer idUser) throws IOException {
         Myfile file = fileRepository.getOne(idFile);
-        Path path = Paths.get(filePath + file.getName());
         User user = userRepository.getOne(idUser);
         user.getListOpenFiles().remove(file);
         userRepository.save(user);
-        Files.deleteIfExists(path);
     }
     /**
      * <p>Открыть CSV</p>
@@ -376,6 +430,11 @@ public class FileService {
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.writeModifiedData(title,dataList,idList);
         csvModel.saveCsv( filePath + fileCsv.getName());
+        statisticService.add(
+                "autorise user",
+                "Saved changes",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
     }
     /**
      * <p>Добавить колонку в CSV</p>
@@ -387,6 +446,11 @@ public class FileService {
         Myfile fileCsv = fileRepository.getOne(file.getId());
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addRow(filePath + fileCsv.getName(), newRow);
+        statisticService.add(
+                "autorise user",
+                "Add Row",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
     }
     /**
      * <p>Добавить строку в CSV</p>
@@ -397,6 +461,11 @@ public class FileService {
         Myfile fileCsv = fileRepository.getOne(idFile);
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addColum(filePath + fileCsv.getName());
+        statisticService.add(
+                "autorise user",
+                "Add colum",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
     }
     /**
      * <p>Удалить строки в CSV</p>
@@ -407,6 +476,11 @@ public class FileService {
         Myfile fileCsv = fileRepository.getOne(file.getId());
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
+        statisticService.add(
+                "autorise user",
+                "Delete colums",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
     }
     /**
      * <p>Удалить колонки в CSV</p>
@@ -417,5 +491,10 @@ public class FileService {
         Myfile fileCsv = fileRepository.getOne(file.getId());
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.deleteRowsCSV(filePath + fileCsv.getName(), rows);
+        statisticService.add(
+                "autorise user",
+                "Delete rows",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
     }
 }

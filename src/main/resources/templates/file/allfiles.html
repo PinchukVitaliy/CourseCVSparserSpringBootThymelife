@@ -25,7 +25,7 @@
             <td th:text="${file.originName}"></td>
             <td th:text="${file.creatorOfFile.getLogin()}"></td>
             <td th:text="${file.creatorOfFile.getEmail()}"></td>
-            <td ><a th:href="@{'/file/statistics/'+${file.id}}">Open</a></td>
+            <td ><a th:href="@{'/statistic/'+${file.id}}">Open</a></td>
         </tr>
         </tbody>
     </table>

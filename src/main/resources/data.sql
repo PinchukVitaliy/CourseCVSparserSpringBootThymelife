@@ -48,7 +48,7 @@ INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) 
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (4, 'CSV-4', 2, 4);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (5, 'CS', 11, 5);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (6, 'CSV-6', 11, 6);
-INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (7, 'TueAug20162623EEST2019_1566307583438.csv','Cosovo', 12, 7);
+INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (7, 'TueAug20162623EEST2019_1566307583438.csv','Cosovo.csv', 12, 7);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (8, 'CSV-8', 12, 8);
 INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES (9, 'Bound', 12, 9);
 

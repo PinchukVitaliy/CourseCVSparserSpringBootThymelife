@@ -1,7 +1,8 @@
 package pink.coursework.csvparser.models;
 
 import javax.persistence.*;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Myfiles")
