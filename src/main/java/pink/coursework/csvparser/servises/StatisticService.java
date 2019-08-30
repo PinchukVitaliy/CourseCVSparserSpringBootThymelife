@@ -44,11 +44,21 @@ public class StatisticService {
         statistic.setDate(new Date());
         statisticRepository.save(statistic);
     }
-
+    /**
+     * <p>Количество страниц для пеженации</p>
+     * @param idFile идентификатор файла
+     * @return количество страниц
+     */
     public int pages(Integer idFile) {
         return (int) Math.ceil((double) listStatsConcreteFile(idFile).size() / STATICPAGE);
     }
-
+    /**
+     * <p>Информация о файле</p>
+     * <p>Список объектов что было сделано с конкретным файлом</p>
+     * @param idFile идентификатор файла
+     * @param page текущая страница
+     * @return информация о файле
+     */
     public List<Statistic> getFileStat(Integer idFile, int page) {
         List<Statistic> listStats = listStatsConcreteFile(idFile);
         List<Statistic> stats = new ArrayList<>();
@@ -57,6 +67,12 @@ public class StatisticService {
         }
         return stats;
     }
+    /**
+     * <p>Вспомогательный метод для пеженации</p>
+     * <p>Из всего списка возвращает информацию о конкретном файле</p>
+     * @param idFile идентификатор файла
+     * @return информация о конкретном файле
+     */
     List<Statistic> listStatsConcreteFile(Integer idFile){
         Myfile file = fileRepository.getOne(idFile);
         List<Statistic> allStat = statisticRepository.findAll();
