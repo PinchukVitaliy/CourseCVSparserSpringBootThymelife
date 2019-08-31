@@ -7,7 +7,11 @@
 </head>
 <body>
 <div class="container table-responsive text-nowrap" th:fragment="content">
-    <h1>All files</h1>
+    <link  th:href="@{/css/allFiles.css}" rel="stylesheet" >
+    <div class="form-group">
+        <h1 >All files</h1>
+        <a id="statAll"  class="btn btn-outline-info my-2 mr-sm-2" th:href="@{'/statistic/all'}" >All statistic</a>
+    </div>
     <table class="table table-success">
         <thead class="thead-dark">
         <tr>

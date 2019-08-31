@@ -154,9 +154,9 @@ public class FileService {
      * @return список файлов
      */
     public List<Myfile> searchListMyfiles(Integer id, String search) {
-        List<Myfile> searchList = null;
+        List<Myfile> searchList = new ArrayList<>();
         if(search.isEmpty()){
-            return searchList;
+            return null;
         }
         List<Myfile> fileList = userRepository.getOne(id).getListCreatedFiles();
         searchList = new ArrayList<Myfile>();
