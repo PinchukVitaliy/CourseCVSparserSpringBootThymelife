@@ -11,3 +11,8 @@ a.clear {
     margin: 10px;
     float: left;
 }
+
+div.wrap{
+     max-height: 400px;
+     overflow-y: auto;
+ }

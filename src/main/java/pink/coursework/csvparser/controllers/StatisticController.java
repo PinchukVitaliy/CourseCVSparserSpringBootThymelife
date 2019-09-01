@@ -36,33 +36,31 @@ public class StatisticController {
     }
     @GetMapping(value = "/statistic/{id}", params = { "search" })
     private String statFileSearch(Model model, String search,  @PathVariable("id") Integer idFile)  {
-        if(statisticService.searchListStatFile(search, 1) == null || statisticService.searchListStatFile(search, 1).isEmpty()){
+        if(statisticService.searchListStatFile(search, idFile) == null || statisticService.searchListStatFile(search, idFile).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullStatFile");
+            model.addAttribute("idFile",idFile);
             model.addAttribute("pages",  1);
         }else{
-            model.addAttribute("tolist",true);
-            model.addAttribute("curpage", 1);
+            model.addAttribute("pages",  1);
             model.addAttribute("idFile",idFile);
-            model.addAttribute("pages",  statisticService.statFileSearchPages(search));
-            model.addAttribute("statistic", statisticService.searchListStatFile(search, 1));
+            model.addAttribute("statistic", statisticService.searchListStatFile(search, idFile));
             model.addAttribute("message", "No file statistics");
-            model.addAttribute("contentPage", "/statistic/fileStat");
+            model.addAttribute("contentPage", "/statistic/fileStatSearch");
         }
         return "default";
     }
     @GetMapping(value = "/statistic/{id}/{page}", params = { "search" })
     private String statFileSearchPage(Model model, String search, @PathVariable int page,  @PathVariable("id") Integer idFile)  {
-        if(statisticService.searchListStatFile(search, page) == null || statisticService.searchListStatFile(search, page).isEmpty()){
+        if(statisticService.searchListStatFile(search, idFile) == null || statisticService.searchListStatFile(search, idFile).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullStatFile");
+            model.addAttribute("idFile",idFile);
             model.addAttribute("pages",  page);
         }else{
-            model.addAttribute("tolist",true);
-            model.addAttribute("curpage", page);
-            model.addAttribute("idFile",idFile);
-            model.addAttribute("pages", statisticService.statFileSearchPages(search));
-            model.addAttribute("statistic", statisticService.searchListStatFile(search, page));
+            model.addAttribute("pages",  page);
+            model.addAttribute("idFile", idFile);
+            model.addAttribute("statistic", statisticService.searchListStatFile(search, idFile));
             model.addAttribute("message", "No file statistics");
-            model.addAttribute("contentPage", "/statistic/fileStat");
+            model.addAttribute("contentPage", "/statistic/fileStatSearch");
         }
         return "default";
     }
@@ -91,29 +89,25 @@ public class StatisticController {
     }
     @GetMapping(value = "/statistic/all", params = { "search" })
     private String allStatsSearch(Model model, String search)  {
-        if(statisticService.searchListAllStat(search, 1) == null || statisticService.searchListAllStat(search, 1).isEmpty()){
+        if(statisticService.searchListAllStat(search) == null || statisticService.searchListAllStat(search).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullAllStat");
             model.addAttribute("pages",  1);
         }else{
-            model.addAttribute("tolist",true);
-            model.addAttribute("curpage", 1);
-            model.addAttribute("pages",  statisticService.allStatSearchPages(search));
-            model.addAttribute("allStatFiles", statisticService.searchListAllStat(search, 1));
-            model.addAttribute("contentPage", "/statistic/allStats");
+            model.addAttribute("tolist",1);
+            model.addAttribute("allStatFiles", statisticService.searchListAllStat(search));
+            model.addAttribute("contentPage", "/statistic/allStatsSearch");
         }
         return "default";
     }
     @GetMapping(value = "/statistic/all/{page}", params = { "search" })
     private String allStatsSearchPage(Model model, String search, @PathVariable int page)  {
-        if(statisticService.searchListAllStat(search, page) == null || statisticService.searchListAllStat(search, page).isEmpty()){
+        if(statisticService.searchListAllStat(search) == null || statisticService.searchListAllStat(search).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullAllStat");
             model.addAttribute("pages",  page);
         }else{
-            model.addAttribute("tolist",true);
-            model.addAttribute("curpage", page);
-            model.addAttribute("pages", statisticService.allStatSearchPages(search));
-            model.addAttribute("allStatFiles", statisticService.searchListAllStat(search, page));
-            model.addAttribute("contentPage", "/statistic/allStats");
+            model.addAttribute("tolist", page);
+            model.addAttribute("allStatFiles", statisticService.searchListAllStat(search));
+            model.addAttribute("contentPage", "/statistic/allStatsSearch");
         }
         return "default";
     }

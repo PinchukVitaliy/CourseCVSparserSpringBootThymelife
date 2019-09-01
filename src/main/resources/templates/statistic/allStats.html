@@ -43,8 +43,8 @@
     <th:block th:unless="${allStatFiles.isEmpty() || allStatFiles == null}">
         <div th:replace="fragments/pagination_allStat :: footer_allStat">...</div>
     </th:block>
-    <div th:if="${tolist}"><a th:href="@{'/statistic/all/'+${pages}}"  class="btn btn-success">Back to page</a></div>
-    <div th:unless="${tolist}"><a th:href="@{'/file/files/'}" style="float:left">Back to all list</a></div>
+
+    <div ><a th:href="@{'/file/files/'}" style="float:left">Back to all list</a></div>
 </div>
 </body>
 </html>

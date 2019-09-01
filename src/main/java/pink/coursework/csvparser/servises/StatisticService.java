@@ -6,10 +6,6 @@ import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.models.Statistic;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.StatisticRepository;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -86,6 +82,29 @@ public class StatisticService {
         return concretStats;
     }
     /**
+     * <p>Поиск по определенном файлу</p>
+     * @param search фильтр поиска
+     * @param idFile идентификатор файла
+     * @return количество найдених совпадений
+     */
+    public List<Statistic> searchListStatFile(String search, Integer idFile) {
+        search = search.trim();
+        if(search.isEmpty()){
+            return null;
+        }
+        List<Statistic> searchList = new ArrayList<>();
+        List<Statistic> statisticsList = listStatsConcreteFile(idFile);
+        for (int i = 0; i < statisticsList.size(); i++) {
+            if (statisticsList.get(i).getFileAction().regionMatches(true, 0, search, 0, search.length())
+                    || statisticsList.get(i).getFileNameOriginal().regionMatches(true, 0, search, 0, search.length())
+                    || statisticsList.get(i).getUserName().regionMatches(true, 0, search, 0, search.length())
+                    || statisticsList.get(i).getDate().toString().regionMatches(true, 0, search, 0, search.length())) {
+                searchList.add(statisticsList.get(i));
+            }
+        }
+        return searchList;
+    }
+    /**
      * <p>Очистить историю файла</p>
      * <p>Обнуляет всю историю, конкретного файла</p>
      * @param idFile идентификатор файла
@@ -128,29 +147,15 @@ public class StatisticService {
             statisticRepository.deleteAll();
     }
     /**
-     * <p>Количество страниц для пеженации</p>
-     * <p>Количество страниц из поиска всех записей</p>
+     * <p>Поиск по всем файлам </p>
      * @param search фильтр поиска
-     * @return количество страниц
-     */
-    public int allStatSearchPages(String search) {
-        return (int) Math.ceil((double) resultSearch(search).size() / ALLSTATICPAGE);
-    }
-    /**
-     * <p>Поиск по всем файлам с пеженацией</p>
-     * @param search фильтр поиска
-     * @param page текущая страница
      * @return количество найдених совпадений
      */
-    public List<Statistic> searchListAllStat(String search, int page) {
+    public List<Statistic> searchListAllStat(String search) {
         if(search.isEmpty()){
             return null;
         }
-        List<Statistic> statisticsListPagin = new ArrayList<>();
-        for (int i = (page - 1) * ALLSTATICPAGE; i < (page) * ALLSTATICPAGE && i < resultSearch(search).size(); i++) {
-            statisticsListPagin.add(resultSearch(search).get(i));
-        }
-        return  statisticsListPagin;
+        return  resultSearch(search);
     }
     /**
      * <p>Поиск по всем файлам</p>
@@ -160,6 +165,7 @@ public class StatisticService {
      * @return количество найдених совпадений
      */
     List<Statistic> resultSearch(String search){
+        search = search.trim();
         List<Statistic> searchList = new ArrayList<>();
         List<Statistic> statisticsList = statisticRepository.findAll();
         for (int i = 0; i < statisticsList.size(); i++) {
@@ -170,31 +176,6 @@ public class StatisticService {
                 searchList.add(statisticsList.get(i));
             }
         }
-        return statisticsList;
-    }
-    /**
-     * <p>Количество страниц для пеженации</p>
-     * <p>Количество страниц из поиска по конкретном файле</p>
-     * @param search фильтр поиска
-     * @return количество страниц
-     */
-    public int statFileSearchPages(String search) {
-        return (int) Math.ceil((double) resultSearch(search).size() / ALLSTATICPAGE);
-    }
-    /**
-     * <p>Поиск по определенном файлу с пеженацией</p>
-     * @param search фильтр поиска
-     * @param page текущая страница
-     * @return количество найдених совпадений
-     */
-    public List<Statistic> searchListStatFile(String search, int page) {
-        if(search.isEmpty()){
-            return null;
-        }
-        List<Statistic> statisticsListPagin = new ArrayList<>();
-        for (int i = (page - 1) * ALLSTATICPAGE; i < (page) * ALLSTATICPAGE && i < resultSearch(search).size(); i++) {
-            statisticsListPagin.add(resultSearch(search).get(i));
-        }
-        return  statisticsListPagin;
+        return searchList;
     }
 }

@@ -1,9 +1,8 @@
-#previus_stat{
-    width: 90px;
-}
-#next_stat{
-    width: 90px;
-}
 #statAll{
      text-align: end;
 }
+
+div.wrap{
+     max-height: 400px;
+     overflow-y: auto;
+ }

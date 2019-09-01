@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result search file</title>
+</head>
+<body>
+<div class="container" th:fragment="content">
+    <link  th:href="@{/css/fileStat.css}" rel="stylesheet" >
+    <h1>Result search file</h1>
+
+    <div class="panel-heading">
+        <div id="statUs">
+            <th:block th:if="${!statistic.isEmpty() && statistic != null}">
+                <th:block th:each="up : ${statistic}">
+                    <h6 th:if="${up.userCreate}">
+                        <label th:text="${up.fileNameOriginal}"></label> file
+                        <label th:text="${up.userName}"></label>
+                    </h6>
+                </th:block>
+            </th:block>
+        </div>
+        <a th:href="@{'/statistic/clearFile/'+${idFile}}" role="button"
+           class="btn btn-info clear" >Clear statistic</a>
+    </div>
+    <div class="wrap">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">File name</th>
+                <th scope="col">File action</th>
+                <th scope="col">User email</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody th:if="${statistic.isEmpty() || statistic == null}" >
+            <tr>
+                <td colspan="5" th:text="${message}"></td>
+            </tr>
+            </tbody>
+            <tbody th:unless="${statistic.isEmpty() || statistic == null}">
+            <tr th:each="stat : ${statistic}">
+                <th:block th:if="${!stat.userCreate}">
+                    <th scope="row" th:text="${stat.id}"></th>
+                    <td th:text="${stat.fileNameOriginal}"></td>
+                    <td th:text="${stat.fileAction}"></td>
+                    <td th:text="${stat.userName}"></td>
+                    <td th:text="${stat.date}"></td>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ><a th:href="@{'/statistic/'+${idFile}+'/'+${pages}}"  class="btn btn-success">Back to page</a></div>
+</div>
+</body>
+</html>
