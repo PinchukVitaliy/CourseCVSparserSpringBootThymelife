@@ -53,8 +53,10 @@ public class FileController {
         return "default";
     }
     @GetMapping("/file/delete/{id}")
-    private String delete(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("file", fileService.getFile(id));
+    private String delete(@PathVariable("id") Integer idFile, Model model) {
+        Integer idUser = 1;
+        model.addAttribute("file", fileService.getFile(idFile));
+        model.addAttribute("idUser", idUser);
         model.addAttribute("contentPage", "/file/delete");
         return "default";
     }

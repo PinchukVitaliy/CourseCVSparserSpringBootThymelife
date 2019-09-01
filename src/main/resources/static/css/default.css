@@ -1,5 +1,10 @@
-
-body {
-    background: #f8f7e5 url("/images/fon.png") repeat;
+@font-face {
+	font-family: Lobster;
+	src: url('/fonts/Lobster.ttf');
 }
-
+body {
+     background: url("/images/fon2.png") repeat;
+     background-color: rgba(255,255,255,0.9);
+     background-blend-mode: lighten;
+     font-family: Lobster;
+}

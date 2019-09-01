@@ -28,7 +28,7 @@
         </div>
         <th:block sec:authorize="isAnonymous()">
             <div>
-                <a href="/file/files">Back to list files</a>
+                <a th:href="@{'/file/myfiles/'+${idUser}}">Back to list files</a>
             </div>
         </th:block>
     </div>

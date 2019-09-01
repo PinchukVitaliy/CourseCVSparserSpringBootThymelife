@@ -6,3 +6,7 @@ div.wrap{
      max-height: 400px;
      overflow-y: auto;
  }
+
+tbody{
+    background:#E1EBFF;
+}
