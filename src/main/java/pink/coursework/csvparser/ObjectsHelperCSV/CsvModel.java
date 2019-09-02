@@ -23,7 +23,7 @@ public class CsvModel implements Serializable {
     private  CSVReader csvReader;
     //экземпляр класса BufferedReader
     private BufferedReader br;
-
+    //конструктор
     public CsvModel() {
     }
     /**

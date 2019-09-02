@@ -20,6 +20,9 @@ import java.util.*;
 
 /**
  * <p>Класс-сервис описывающий логику работы файла</p>
+ * @Service содержат бизнес-логику и вызывают методы на уровне хранилища.
+ * @Value аннотация позволяет нам использовать значения из вне в поля в bean-компонентах.
+ * @Autowired обеспечивает контроль над тем, где и как автосвязывание должны быть осуществленно.
  */
 @Service
 public class FileService {
@@ -32,13 +35,16 @@ public class FileService {
     private static int OPENFILEPAGE = 7;
     //количество вывода строк из файла на одной странице
     private static int CSVFILEPAGE = 50;
+    //репозиторий объекта файл
     @Autowired
     private FileRepository fileRepository;
+    //репозиторий объекта юзер
     @Autowired
     private UserRepository userRepository;
+    //репозиторий объекта ссылки
     @Autowired
     private AccessLinkRepository accessLinkRepository;
-
+    //репозиторий объекта статистики
     @Autowired
     private StatisticService statisticService;
 

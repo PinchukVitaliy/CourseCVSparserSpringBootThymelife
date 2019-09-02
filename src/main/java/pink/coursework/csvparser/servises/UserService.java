@@ -21,24 +21,36 @@ import java.util.List;
 import java.util.UUID;
 
 
+/**
+ * <p>Ссервис описывающий логику работы пользователя</p>
+ * @Service содержат бизнес-логику и вызывают методы на уровне хранилища.
+ * @Value аннотация позволяет нам использовать значения из вне в поля в bean-компонентах.
+ * @Autowired обеспечивает контроль над тем, где и как автосвязывание должны быть осуществленно.
+ */
 @Service
 public class UserService {
-
+    //Экземпляр репозитория юзер
     @Autowired
     private UserRepository userRepository;
+    //Экземпляр репозитория роли
     @Autowired
     private RoleRepository roleRepository;
+    //Экземпляр репозитория почты
     @Autowired
     private MailSender mailSender;
     //@Autowired
     //private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    //Save the uploaded file to this folder
+    //путь к папке где хранятся аватары пользователей
     @Value("${avatar.path}")
     String avatarPath;
-
+    //количество отображаемых пользователей при пеженации
     private static int USERPAGE = 9;
 
+    /**<p>Добавление нового пользователя</p>
+     * @param user обьек пользователь
+     * @return true нет такого и создается пользователь false есть такой и ничего не создавать
+     */
     public boolean addUser(User user){
         if(userRepository.findByEmail(user.getEmail()) != null){
             return false;
@@ -65,6 +77,10 @@ public class UserService {
         return true;
     }
 
+    /**<p>Список пользователей с пеженацией</p>
+     * @param page текущая страница
+     * @return список пользователей
+     */
     public List<User> listUsers(int page) {
         List<User> allUsers = userRepository.findAll();
         List<User> users = new ArrayList<>();
@@ -73,14 +89,31 @@ public class UserService {
         }
         return users;
     }
+
+    /**<p>Количество страниц при пеженации</p>
+     * @return количество страниц
+     */
     public int pages(){
         return (int) Math.ceil((double) userRepository.findAll().size() / USERPAGE);
     }
 
+    /**<p>Информация по пользователю</p>
+     * @param id идентификатор пользователя
+     * @return пользователь
+     */
     public User getDetails(Integer id) {return userRepository.getOne(id);}
+
+    /**<p>Удаление пользователя</p>
+     * @param user обьект пользователя
+     */
     public void delete(User user) {
         userRepository.delete(user);
     }
+
+    /**<p>Поиск пользователей</p>
+     * @param search фильтр поиска
+     * @return список найдених пользователей
+     */
     public List<User> searchList(String search)
     {
         List<User> searchList = null;
@@ -99,6 +132,10 @@ public class UserService {
         return searchList;
     }
 
+    /**<p>Сохранение изменений пользователя</p>
+     * @param user измененный пользователь
+     * @param file передаваемый файл
+     */
     public void setUser(User user, MultipartFile file) {
         if(!file.isEmpty()){
             String resultFileName = generateUniqueFileName(file.getOriginalFilename());
@@ -108,6 +145,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**<p>Загрузка файла на сервер</p>
+     * @param file загружаемый файл
+     * @param resultFileName уникальное имя загружаемого файла
+     */
     public void singleFileUpload(MultipartFile file, String resultFileName) {
         Path path = Paths.get(avatarPath + resultFileName);
 
@@ -120,6 +161,10 @@ public class UserService {
     }
 
 
+    /**<p>Создания уникального имени файла</p>
+     * @param filename оригинальное имя файла
+     * @return уникальное имя файла
+     */
     public String generateUniqueFileName(String filename) {
         //определяем типфайла
         String extension = "";
@@ -136,6 +181,11 @@ public class UserService {
         return filename+"."+extension;
     }
 
+    /**<p>Подтверждения регистрации пользователя по ссылке которая приходит ему на почту</p>
+     * @param code ссылка с почты
+     * @return если такая ссылка есть то присваиваем пользователю роль user и обнуляем ссылку - true
+     * в противном случае false
+     */
     public boolean getActivate(String code) {
         User user = userRepository.findByActivationCode(code);
 
@@ -149,6 +199,10 @@ public class UserService {
         return true;
     }
 
+    /**<p>Восстановление пароля через почту</p>
+     * @param email имя почты пользователя
+     * @return нет такого пользователя - false, true - есть и присылаем новый пароль на почту
+     */
     public boolean recovery(String email) {
         User user = userRepository.findByEmail(email);
         if(user == null){

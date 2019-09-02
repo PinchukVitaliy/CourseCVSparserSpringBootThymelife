@@ -11,6 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Контроллер класса файл
+ * @Controller определяет класс как Контроллер Spring MVC
+ * @Autowired обеспечивает контроль над тем, где и как автосвязывание должны быть осуществленно.
+ * @GetMapping аннотация для отображения HTTP- GET запросов на определенные методы-обработчики.
+ * В частности, @GetMapping это составная аннотация, которая действует как ярлык для @RequestMapping(method = RequestMethod.GET).
+ * @PostMapping аннотация для отображения HTTP- POSTзапросов на определенные методы-обработчики.
+ * В частности, @PostMapping это составная аннотация, которая действует как ярлык для @RequestMapping(method = RequestMethod.POST).
+ * @RequestParam аннотация используется для привязки параметров запроса к методу в вашем контроллере.
+ * @PathVariable определяет шаблон, который используется в URI для входящего запроса.
+ * PathVariable имеет только одно значение атрибута для привязки шаблона URI запроса
+ * @ModelAttribute это аннотация, которая связывает параметр метода или возвращаемое значение метода с
+ * именованным атрибутом модели, а затем предоставляет его веб-представлению.
+ */
 @Controller
 public class FileController {
     @Autowired

@@ -4,37 +4,59 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Модель пользователя
+ * все анотации в классе для работы с базой данных при помощи Hibernate
+ * <p>
+ * @Entity — Указывает, что данный бин (класс) является сущностью.
+ * @Table — указывает на имя таблицы, которая будет отображаться в этой сущности.
+ * @Id — id колонки.
+ * @GeneratedValue — указывает, что данное свойство будет создаваться согласно указанной стратегии.
+ * @Column — указывает на имя колонки, которая отображается в свойство сущности.
+ * @ManyToMany — связь многие ко многим.
+ * @OneToMany — указывает на связь один ко многим. Применяется с другой стороны от сущности с @ManyToOne.
+ * @JoinTable — указывает на связь с таблицей.
+ * @JoinColumn  — применяется когда внешний ключ находится в одной из сущностей. Может применяться с обеих сторон взаимосвязи.
+ * </p>
+ */
 @Entity
 @Table(name = "Users")
 public class User {
+    //идентификатор
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     protected Integer id;
+    //Логин
     private String login;
+    //почта
     private String email;
+    //пароль
     private String password;
+    //картинка(аватар)
     private String icon;
-    private boolean active;
 
+    private boolean active;
+    //код активации
     private String activationCode;
 
+    //связь многие ко многим пользователь и роли (список ролей)
     @ManyToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name="User_Role",
             joinColumns=@JoinColumn(name="User_id"),
             inverseJoinColumns=@JoinColumn(name="Role_id")
     )
     private List<Role> roleList = new ArrayList<>();
-
+    //связь один пользователь много его личных файлов
     @OneToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Myfile> listCreatedFiles = new ArrayList<>();
-
+    //связь один пользователь много файлов с открытым доступом
     @OneToMany
     private List<Myfile> listOpenFiles = new ArrayList<>();
-
+    //конструктор
     public User() {
     }
-
+    //геттеры и сеттеры
     public List<Role> getRoleList() {return roleList;}
     public void setRoleList(List<Role> roleList) { this.roleList = roleList;}
     public Integer getId() {

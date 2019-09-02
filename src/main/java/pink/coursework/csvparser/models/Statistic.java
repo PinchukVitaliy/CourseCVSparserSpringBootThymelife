@@ -2,25 +2,42 @@ package pink.coursework.csvparser.models;
 
 import javax.persistence.*;
 import java.util.Date;
-
+/**
+ * Модель статистики
+ * все анотации в классе для работы с базой данных при помощи Hibernate
+ * <p>
+ * @Entity — Указывает, что данный бин (класс) является сущностью.
+ * @Table — указывает на имя таблицы, которая будет отображаться в этой сущности.
+ * @Id — id колонки.
+ * @GeneratedValue — указывает, что данное свойство будет создаваться согласно указанной стратегии.
+ * @Column — указывает на имя колонки, которая отображается в свойство сущности.
+ * </p>
+ */
 @Entity
 @Table(name = "Statistics")
 public class Statistic {
+    //идентификатор
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     protected Integer id;
+    //уникальное имя файла
     private String fileName;
+    //оригинальное имя файла
     private String fileNameOriginal;
+    //почта пользователя
     private String userName;
+    //поле отвечает за загрузку файла на сервер
     private Boolean userCreate;
+    //событие которое произошло с файлом
     private String fileAction;
+    //дата
     private Date date;
-
+    //конструктор
     public Statistic() {
         this.userCreate = false;
     }
-
+    //геттеры и сеттеры
     public Integer getId() {
         return id;
     }
