@@ -1,10 +1,10 @@
 @font-face {
-	font-family: Lobster;
-	src: url('/fonts/Lobster.ttf');
+	font-family: VAG_Rounded_M_Bold;
+	src: url('/fonts/VAG_Rounded_M_Bold.ttf');
 }
 body {
      background: url("/images/fon2.png") repeat;
      background-color: rgba(255,255,255,0.9);
      background-blend-mode: lighten;
-     font-family: Lobster;
+     font-family: VAG_Rounded_M_Bold;
 }
