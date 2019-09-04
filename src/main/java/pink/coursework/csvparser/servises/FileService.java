@@ -57,10 +57,12 @@ public class FileService {
     public Myfile getFile(Integer id){
         return fileRepository.getOne(id);
     }
+
     /**
      * <p>Удаление файла</p>
      * <p>Удаляет указаый файл по заданаму id</p>
      * @param myfileId id удаляемого файла
+     * @throws IOException может быть исключение так как идет работа с файловой системой
      */
     public void deleteFile(Integer myfileId) throws IOException {
         Myfile file = fileRepository.getOne(myfileId);
@@ -126,12 +128,12 @@ public class FileService {
      * <p>Список файлов у пользователя</p>
      * <p>Возвращает список файлов текущего пользователя
      * с уже умеренным количеством записей</p>
-     * @param id идентификатор текущего пользователя
+     * @param idUser идентификатор текущего пользователя
      * @param page текущая страница
      * @return список файлов
      */
-    public List<Myfile> listUserFiles(Integer id, int page) {
-        List<Myfile> filesUser = userRepository.getOne(id).getListCreatedFiles();
+    public List<Myfile> listUserFiles(Integer idUser, int page) {
+        List<Myfile> filesUser = userRepository.getOne(idUser).getListCreatedFiles();
         List<Myfile> files = new ArrayList<>();
         for (int i = (page - 1) * FILEPAGE; i < (page) * FILEPAGE && i < filesUser.size(); i++) {
             files.add(filesUser.get(i));
@@ -146,25 +148,25 @@ public class FileService {
      * <p>Количество страниц по текущему пользователю</p>
      * <p>Возвращает количество страниц текущего пользователя
      * для отображения всех его файлов</p>
-     * @param id идентификатор текущего пользователя
+     * @param idUser идентификатор текущего пользователя
      * @return количество страниц
      */
-    public int myPages(Integer id){
-        return (int) Math.ceil((double)  userRepository.getOne(id).getListCreatedFiles().size() / FILEPAGE);
+    public int myPages(Integer idUser){
+        return (int) Math.ceil((double)  userRepository.getOne(idUser).getListCreatedFiles().size() / FILEPAGE);
     }
     /**
      * <p>Поиск по своим файлам</p>
      * <p>Возвращает список файлов по названию файла</p>
-     * @param id идентификатор текущего пользователя
+     * @param idUser идентификатор текущего пользователя
      * @param search фильтр поиска
      * @return список файлов
      */
-    public List<Myfile> searchListMyfiles(Integer id, String search) {
+    public List<Myfile> searchListMyfiles(Integer idUser, String search) {
         List<Myfile> searchList = new ArrayList<>();
         if(search.isEmpty()){
             return null;
         }
-        List<Myfile> fileList = userRepository.getOne(id).getListCreatedFiles();
+        List<Myfile> fileList = userRepository.getOne(idUser).getListCreatedFiles();
         searchList = new ArrayList<Myfile>();
             for (int i = 0; i < fileList.size(); i++) {
                 if (fileList.get(i).getOriginName().regionMatches(true, 0, search, 0, search.length())) {
@@ -388,24 +390,27 @@ public class FileService {
         userRepository.save(user);
         return true;
     }
+
     /**
      * <p>Удалить пустую ссылку</p>
      * <p>Удаляет из коллекции открытых файлов сам файл</p>
      * @param idFile идентификатор файла
      * @param idUser идентификатор пользователя
      */
-    public void removeFile(Integer idFile, Integer idUser) throws IOException {
+    public void removeFile(Integer idFile, Integer idUser) {
         Myfile file = fileRepository.getOne(idFile);
         User user = userRepository.getOne(idUser);
         user.getListOpenFiles().remove(file);
         userRepository.save(user);
     }
+
     /**
      * <p>Открыть CSV</p>
      * <p>Открывает содержимое CSV-файла с пеженецией</p>
      * @param idFile идентификатор файла
      * @param page текущая страница
      * @return обьект  CsvModel
+     * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public CsvModel openCSV(Integer idFile, int page) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
@@ -430,6 +435,7 @@ public class FileService {
      * @param dataList список данных
      * @param idList список id dataList
      * @param file обьект класса Myfile
+     * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public void getCsvModelSave(List<String> title, List<String> dataList, List<Integer> idList, Myfile file) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
@@ -447,6 +453,7 @@ public class FileService {
      * <p>Создает и добавляет новую колонку</p>
      * @param file обьект класса Myfile
      * @param newRow назнвние новой колонки
+     * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public void addNewRow(Myfile file, String newRow) throws Exception {
         Myfile fileCsv = fileRepository.getOne(file.getId());
@@ -462,6 +469,7 @@ public class FileService {
      * <p>Добавить строку в CSV</p>
      * <p>Создает и добавляет новую строку</p>
      * @param idFile дентификатор файла
+     * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public void addNewColum(Integer idFile) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
@@ -477,6 +485,7 @@ public class FileService {
      * <p>Удалить строки в CSV</p>
      * @param file обьект класса Myfile
      * @param colums список удаляемых строк
+     * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public void deleteColums(Myfile file, List<String> colums) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
@@ -492,6 +501,7 @@ public class FileService {
      * <p>Удалить колонки в CSV</p>
      * @param file обьект класса Myfile
      * @param rows список удаляемых колонок
+     * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public void deleteRows(Myfile file, List<String> rows) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());

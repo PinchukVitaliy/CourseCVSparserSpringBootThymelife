@@ -27,9 +27,14 @@ import java.util.List;
  */
 @Controller
 public class FileController {
+    //сервис объекта файл
     @Autowired
     private FileService fileService;
 
+    /**<p>Get маппинг на все файлы</p>
+     * @param model объект который передает данные в представление
+     * @return переход страницу allfiles
+     */
     @GetMapping("/file/files")
     private String getAllFiles(Model model) {
         model.addAttribute("curpage", 1);
@@ -38,6 +43,12 @@ public class FileController {
         model.addAttribute("contentPage", "/file/allfiles");
         return "default";
     }
+
+    /**<p>Get маппинг на все файлы с пеженацией</p>
+     * @param model объект который передает данные в представление
+     * @param page текущая страница
+     * @return переход страницу allfiles
+     */
     @GetMapping("/file/files/{page}")
     private String getFilesPaginationList(Model model, @PathVariable int page) {
         model.addAttribute("curpage", page);
@@ -46,6 +57,12 @@ public class FileController {
         model.addAttribute("contentPage", "/file/allfiles");
         return "default";
     }
+
+    /**<p>Get маппинг поиска по файлам</p>
+     * @param model объект который передает данные в представление
+     * @param search фильтр поиска
+     * @return переход страницу search
+     */
     @GetMapping(value = "/file/files", params = { "search" })
     private String getSearchFileAndUser(Model model, String search) {
         if(fileService.searchList(search) == null || fileService.searchList(search).isEmpty()){
@@ -56,6 +73,11 @@ public class FileController {
         }
         return "default";
     }
+    /**<p>Get маппинг поиска по файлам + пеженация</p>
+     * @param model объект который передает данные в представление
+     * @param search фильтр поиска
+     * @return переход страницу search
+     */
     @GetMapping(value = "/file/files/{page}", params = { "search" })
     private String getSearchFileAndUserPage(Model model, String search) {
         if(fileService.searchList(search) == null || fileService.searchList(search).isEmpty()){
@@ -66,6 +88,12 @@ public class FileController {
         }
         return "default";
     }
+
+    /**<p>Get маппинг удаления файла</p>
+     * @param idFile идентификатор файла
+     * @param model объект который передает данные в представление
+     * @return переход страницу delete
+     */
     @GetMapping("/file/delete/{id}")
     private String delete(@PathVariable("id") Integer idFile, Model model) {
         Integer idUser = 1;
@@ -75,6 +103,11 @@ public class FileController {
         return "default";
     }
 
+    /**<p>Post маппинг удаления файла</p>
+     * @param myfileId идентификатор файла
+     * @return редирект на страницу myfiles
+     * @throws IOException при обработке метода в маппинге может возникнуть исключение
+     */
     @PostMapping("/file/delete")
     private String deleteSubmit(@ModelAttribute("id") Integer myfileId) throws IOException {
         Integer idUser = 1;
@@ -82,65 +115,108 @@ public class FileController {
         return "redirect:/file/myfiles/"+idUser;
     }
 
+    /**<p>Get маппинг на список файлов пользователя</p>
+     * @param idUser идентификатор пользователя
+     * @param model  объект который передает данные в представление
+     * @return переход страницу myfiles
+     */
     @GetMapping("/file/myfiles/{id}")
-    private  String myFiles(@PathVariable("id") Integer id, Model model){
+    private  String myFiles(@PathVariable("id") Integer idUser, Model model){
             model.addAttribute("message", "You have no uploaded files!");
             model.addAttribute("curpage", 1);
-            model.addAttribute("pages", fileService.myPages(id));
-            model.addAttribute("myfiles", fileService.listUserFiles(id, 1));
-            model.addAttribute("contentPage", "/file/myfiles");
-        return "default";
-    }
-    @GetMapping("/file/myfiles/{id}/{page}")
-    private  String myFiles(@PathVariable("id") Integer id, @PathVariable int page, Model model){
-            model.addAttribute("message", "You have no uploaded files!");
-            model.addAttribute("id", id);
-            model.addAttribute("curpage", page);
-            model.addAttribute("pages", fileService.myPages(id));
-            model.addAttribute("myfiles", fileService.listUserFiles(id, page));
+            model.addAttribute("pages", fileService.myPages(idUser));
+            model.addAttribute("myfiles", fileService.listUserFiles(idUser, 1));
             model.addAttribute("contentPage", "/file/myfiles");
         return "default";
     }
 
+    /**<p>Get маппинг на список файлов пользователя + пеженация</p>
+     * @param idUser идентификатор пользователя
+     * @param page текущая страница
+     * @param model  объект который передает данные в представление
+     * @return переход страницу myfiles
+     */
+    @GetMapping("/file/myfiles/{id}/{page}")
+    private  String myFiles(@PathVariable("id") Integer idUser, @PathVariable int page, Model model){
+            model.addAttribute("message", "You have no uploaded files!");
+            model.addAttribute("id", idUser);
+            model.addAttribute("curpage", page);
+            model.addAttribute("pages", fileService.myPages(idUser));
+            model.addAttribute("myfiles", fileService.listUserFiles(idUser, page));
+            model.addAttribute("contentPage", "/file/myfiles");
+        return "default";
+    }
+
+    /**<p>Get маппинг поиска по файлам пользователя</p>
+     * @param idUser идентификатор пользователя
+     * @param model  объект который передает данные в представление
+     * @param search фильтр поиска
+     * @return переход страницу myfiles
+     */
     @GetMapping(value = "/file/myfiles/{id}", params = { "search" })
-    private String myFilesSearch(@PathVariable("id") Integer id, Model model, String search) {
-        if(fileService.searchListMyfiles(id,  search) == null || fileService.searchListMyfiles(id,  search).isEmpty()){
+    private String myFilesSearch(@PathVariable("id") Integer idUser, Model model, String search) {
+        if(fileService.searchListMyfiles(idUser,  search) == null || fileService.searchListMyfiles(idUser,  search).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullMyFiles");
         }else{
             model.addAttribute("tolist",true);
             model.addAttribute("curpage", 1);
-            model.addAttribute("pages", fileService.myPages(id));
-            model.addAttribute("myfiles", fileService.searchListMyfiles(id,  search));
+            model.addAttribute("pages", fileService.myPages(idUser));
+            model.addAttribute("myfiles", fileService.searchListMyfiles(idUser,  search));
             model.addAttribute("contentPage", "/file/myfiles");
         }
         return "default";
     }
+    /**<p>Get маппинг поиска по файлам пользователя + пеженация</p>
+     * @param idUser идентификатор пользователя
+     * @param model  объект который передает данные в представление
+     * @param search фильтр поиска
+     * @param page текущая страница
+     * @return переход страницу myfiles
+     */
     @GetMapping(value = "/file/myfiles/{id}/{page}", params = { "search" })
-    private String myFilesSearchPage(@PathVariable("id") Integer id, Model model, String search, @PathVariable int page) {
-        if(fileService.searchListMyfiles(id, search) == null || fileService.searchListMyfiles(id, search).isEmpty()){
+    private String myFilesSearchPage(@PathVariable("id") Integer idUser, Model model, String search, @PathVariable int page) {
+        if(fileService.searchListMyfiles(idUser, search) == null || fileService.searchListMyfiles(idUser, search).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullMyFiles");
         }else{
             model.addAttribute("tolist",true);
             model.addAttribute("curpage", page);
-            model.addAttribute("pages", fileService.myPages(id));
-            model.addAttribute("myfiles", fileService.searchListMyfiles(id, search));
+            model.addAttribute("pages", fileService.myPages(idUser));
+            model.addAttribute("myfiles", fileService.searchListMyfiles(idUser, search));
             model.addAttribute("contentPage", "/file/myfiles");
         }
         return "default";
     }
+
+    /**<p>Post маппинг добавления файла</p>
+     * @param file обьект класса MultipartFile
+     * @return редирект на страницу myfiles
+     */
     @PostMapping("/file/addcsv")
     private String addcsvSubmit(@RequestParam("file") MultipartFile file) {
         Integer idUser = 1;
         fileService.add(file, idUser);
         return "redirect:/file/myfiles/"+idUser;
     }
+
+    /**<p>Get маппинг скачки файла</p>
+     * @param idFile идентификатор файла
+     * @param response обьект класса HttpServletResponse
+     * @return редирект на страницу myfiles
+     */
     @GetMapping("/file/dowload")
-    private String dowloadFile(@ModelAttribute("idFile") Integer id, HttpServletResponse response) {
+    private String dowloadFile(@ModelAttribute("idFile") Integer idFile, HttpServletResponse response) {
         Integer idUser = 1;
-        fileService.dowload(id, response);
+        fileService.dowload(idFile, response);
         return "redirect:/file/myfiles/"+idUser;
     }
 
+    /**<p>Post маппинг на откритие доступа к файлу</p>
+     * @param file обьект файла
+     * @param read поле для чтения
+     * @param edit поле для редактирования
+     * @param dowload поле для скачки
+     * @return редирект на страницу myfiles
+     */
     @PostMapping("/file/share")
     private String share(@ModelAttribute("file") Myfile file,
                          @RequestParam(value = "read", required = false) Boolean read,
@@ -151,6 +227,11 @@ public class FileController {
         return "redirect:/file/myfiles/"+idUser;
     }
 
+    /**<p>Get маппинг на откритие файлы</p>
+     * @param model объект который передает данные в представление
+     * @param idUser идентификатор пользователя
+     * @return переход на страницу links
+     */
     @GetMapping(value = "/file/links/{id}")
     private String openFiles(Model model, @PathVariable("id") Integer idUser) {
         idUser = 1;
@@ -161,6 +242,13 @@ public class FileController {
         model.addAttribute("contentPage", "/file/links");
         return "default";
     }
+
+    /**<p>Get маппинг на откритие файлы + пеженация</p>
+     * @param model объект который передает данные в представление
+     * @param idUser идентификатор пользователя
+     * @param page текущая страница
+     * @return переход на страницу links
+     */
     @GetMapping(value = "/file/links/{id}/{page}")
     private String openFilesPagination(Model model, @PathVariable("id") Integer idUser, @PathVariable int page) {
         idUser = 1;
@@ -171,6 +259,12 @@ public class FileController {
         model.addAttribute("contentPage", "/file/links");
         return "default";
     }
+
+    /**<p>Post маппинг добавления файла по ссылке</p>
+     * @param model объект который передает данные в представление
+     * @param link ссылка доступа
+     * @return редирект на страницу links
+     */
     @PostMapping("/file/addlink")
     private String addLinkUser(Model model, @ModelAttribute("link") String link){
         Integer idUser = 1;
@@ -178,12 +272,24 @@ public class FileController {
         model.addAttribute("openfiles", fileService.getOpenFiles(idUser,1));
         return "redirect:/file/links/"+idUser;
     }
+
+    /**<p>Get маппинг удаления файла по ссылке</p>
+     * @param idFile идентификатор файла
+     * @return редирект на страницу links
+     */
     @GetMapping("/file/remove/{id}")
-    private String removeFile(@PathVariable("id") Integer idFile) throws IOException {
+    private String removeFile(@PathVariable("id") Integer idFile) {
         Integer idUser = 1;
         fileService.removeFile(idFile, idUser);
         return "redirect:/file/links/"+idUser;
     }
+
+    /**<p>Get маппинг просмотра содержимого файла</p>
+     * @param model объект который передает данные в представление
+     * @param idFile идентификатор файла
+     * @return переход на страницу opencsv
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @GetMapping("/file/open/{id}")
     private String openCSV(Model model, @PathVariable("id") Integer idFile) throws Exception {
         model.addAttribute("file", fileService.getFile(idFile));
@@ -193,6 +299,14 @@ public class FileController {
         model.addAttribute("contentPage", "/file/opencsv");
         return "default";
     }
+
+    /**<p>Get маппинг просмотра содержимого файла + пеженация</p>
+     * @param model объект который передает данные в представление
+     * @param idFile идентификатор файла
+     * @param page текущая страница
+     * @return переход на страницу opencsv
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @GetMapping("/file/open/{id}/{page}")
     private String paginationOpenCSV(Model model, @PathVariable("id") Integer idFile, @PathVariable int page) throws Exception {
         model.addAttribute("file", fileService.getFile(idFile));
@@ -202,6 +316,16 @@ public class FileController {
         model.addAttribute("contentPage", "/file/opencsv");
         return "default";
     }
+
+    /**<p>Post маппинг сохранения изменений в файле</p>
+     * @param file обьект файла
+     * @param page текущая страница
+     * @param titleList лист заголовков файла
+     * @param dataList лист данных файла
+     * @param idList лис идентификаторв данных файла
+     * @return редирект на страницу open
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @PostMapping("/file/saveall")
     private String saveOpenCSV( @RequestParam("file") Myfile file,
                                @RequestParam("curpage") int page,
@@ -212,6 +336,14 @@ public class FileController {
         fileService.getCsvModelSave(titleList, dataList, idList, file);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
+
+    /**<p>Post маппинг на добавления столбца в файл</p>
+     * @param file обьект файла
+     * @param page текущая страница
+     * @param newRow название нового стобца
+     * @return редирект на страницу open
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @PostMapping("/file/row")
     private String addRowOpenCSV( @RequestParam("file") Myfile file,
                                   @RequestParam("curpage") int page,
@@ -219,11 +351,26 @@ public class FileController {
         fileService.addNewRow(file, newRow);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
+
+    /**<p>Post маппинг на добавления колонки в файл</p>
+     * @param idFile идентификатор файла
+     * @param page текущая страница
+     * @return редирект на страницу open
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @GetMapping("/file/colum/{id}/{page}")
     private String addColumOpenCSV(@PathVariable("id") Integer idFile, @PathVariable("page") int page) throws Exception {
         fileService.addNewColum(idFile);
         return "redirect:/file/open/"+idFile+"/"+page;
     }
+
+    /**<p>Post маппинг на удаления столбцов из файла</p>
+     * @param file обьект файла
+     * @param page текущая страница
+     * @param rows список удаляемых столбцов
+     * @return редирект на страницу open
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @PostMapping("/file/deleterows")
     public String deleteRows(@RequestParam("file") Myfile file,
                              @RequestParam("curpage") int page,
@@ -231,6 +378,14 @@ public class FileController {
         fileService.deleteRows(file, rows);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
+
+    /**<p>Post маппинг на удаления колонок из файла</p>
+     * @param file обьект файла
+     * @param page текущая страница
+     * @param colums список удаляемых колонок
+     * @return редирект на страницу open
+     * @throws Exception при обработке метода в маппинге может возникнуть исключение
+     */
     @PostMapping("/file/deletecolums")
     public String deleteColums(@RequestParam("file") Myfile file,
                              @RequestParam("curpage") int page,
