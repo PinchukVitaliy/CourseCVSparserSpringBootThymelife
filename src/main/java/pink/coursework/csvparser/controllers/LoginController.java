@@ -10,9 +10,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
+/**
+ *  Контроллер логинизации пользователя
+ *  @Controller определяет класс как Контроллер Spring MVC
+ *  @GetMapping аннотация для отображения HTTP- GET запросов на определенные методы-обработчики.
+ *  В частности, @GetMapping это составная аннотация, которая действует как ярлык для @RequestMapping(method = RequestMethod.GET).
+ */
 @Controller
 public class LoginController {
 
+    /**<p>Get маппинг на страницу login</p>
+     * @param model model объект который передает данные в представление
+     * @return переход страницу login
+     */
     @GetMapping(value = "/login/login")
     public String getLoginPage(Model model) {
             model.addAttribute("contentPage", "/login/login");
