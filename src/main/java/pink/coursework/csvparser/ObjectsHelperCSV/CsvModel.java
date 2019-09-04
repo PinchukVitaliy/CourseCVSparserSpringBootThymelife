@@ -30,6 +30,7 @@ public class CsvModel implements Serializable {
      * <p>Конструктор с параметром </p>
      * <p>При создании екзепляра класса создаем поля для работы над ним</p>
      *  @param PathFileName путь к файлу
+     *  @throws Exception этот коструктор работает с файловой системой которая может вызвать ошибку
      */
     public CsvModel(String PathFileName) throws Exception {
         this.br = new BufferedReader(new FileReader(PathFileName));
@@ -60,6 +61,7 @@ public class CsvModel implements Serializable {
      * и записывает данные в поля чтобы передать объект класса в Представление</p>
      * @param page если данных много определяет на какой странице отображать их
      * @param CSVFILEPAGE константа сколько будет max записей
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public void getListRowsData(int page, int CSVFILEPAGE) throws Exception{
         List<List<String>> records = new ArrayList<>();
@@ -86,6 +88,7 @@ public class CsvModel implements Serializable {
      * <p>Число записей</p>
      * <p>Сколько всего записей в файле</p>
      * @return количество записей
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public int countRows() throws Exception {
         int count = 0;
@@ -98,6 +101,7 @@ public class CsvModel implements Serializable {
     /**
      * <p>Определяет сепаратор(разделитель)</p>
      * @return возвращает сепаратор
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public char seperator() throws Exception {
         String line = "";
@@ -179,6 +183,7 @@ public class CsvModel implements Serializable {
      * <p>Сохраняет измененные данные из ранее записанных полей объекта
      * при помощи метода writeModifiedData</p>
      * @param PathFileName путь к файлу для открытия CSVWriter текущего файла
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public void saveCsv(String PathFileName) throws Exception {
         List<String[]> csvBody = new ArrayList<>();
@@ -262,6 +267,7 @@ public class CsvModel implements Serializable {
      * <p>Метод создает и записывает в файл новый столбец</p>
      * @param PathFileName путь к файлу
      * @param Row имя столбца
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public void addRow(String PathFileName, String Row) throws Exception {
         List<String[]> csvBody = new ArrayList<>();
@@ -311,6 +317,7 @@ public class CsvModel implements Serializable {
      * <p>Добавление колонки в файл</p>
      * <p>Метод создает и записывает в файл новую колонку</p>
      * @param PathFileName путь к файлу
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public void addColum(String PathFileName) throws Exception {
         List<String[]> csvBody = new ArrayList<>();
@@ -332,6 +339,7 @@ public class CsvModel implements Serializable {
      * <p>Метод удаляет ранее выбранные колонки по id</p>
      * @param PathFileName путь к файлу
      * @param colums список удаляемых колонок
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public void deleteColumsCSV(String PathFileName, List<String> colums) throws Exception{
         List<String[]> csvBody = new ArrayList<>();
@@ -354,6 +362,7 @@ public class CsvModel implements Serializable {
      * <p>Метод удаляет ранее выбранные столбцы по их названию</p>
      * @param PathFileName путь к файлу
      * @param rows список удаляемых столбцов
+     * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
     public void deleteRowsCSV(String PathFileName, List<String> rows) throws Exception{
         List<List<String>> csvBody = new ArrayList<>();
