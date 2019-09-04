@@ -20,7 +20,7 @@ import java.util.Optional;
 public class LoginController {
 
     /**<p>Get маппинг на страницу login</p>
-     * @param model model объект который передает данные в представление
+     * @param model объект который передает данные в представление
      * @return переход страницу login
      */
     @GetMapping(value = "/login/login")
