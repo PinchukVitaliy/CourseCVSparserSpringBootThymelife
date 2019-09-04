@@ -60,7 +60,7 @@ public class UserService {
         //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         user.getRoleList().add(roleRepository.findByName("goust"));
-        user.setActive(true);
+        //user.setActive(true);
         user.setIcon("no_user.jpg");
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
@@ -194,6 +194,7 @@ public class UserService {
         }
         user.getRoleList().add(roleRepository.findByName("user"));
         user.setActivationCode(null);
+        user.setActive(true);
         userRepository.save(user);
 
         return true;

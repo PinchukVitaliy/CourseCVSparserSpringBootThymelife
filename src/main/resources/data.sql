@@ -5,7 +5,7 @@ INSERT INTO Roles (id, name) VALUES (4, 'administrator');
 INSERT INTO Roles (id, name) VALUES (5, 'owner');
 
 
-INSERT INTO Users (id, login, email, password, icon, active) VALUES (1, 'goust', 'goust@i.ua', 'goust', 'no_user.jpg',false);
+INSERT INTO Users (id, login, email, password, icon, active) VALUES (1, 'goust', 'goust@i.ua', 'goust', 'no_user.jpg',true);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (2, 'user', 'user@i.ua', 'user', 'no_user.jpg',false);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (3, 'moderator', 'moderator@i.ua', 'moderator', 'no_user.jpg',false);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (4, 'administrator', 'administrator@i.ua', 'administrator', 'no_user.jpg',false);

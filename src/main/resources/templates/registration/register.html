@@ -15,9 +15,9 @@
                 <div class="alert alert-danger" th:if="${error}">
                     User with this email has already been created!
                 </div>
-                <!--div class="alert alert-danger" th:if="${param.logout}">
+                <div class="alert alert-danger" th:if="${param.logout}">
                   You are logged out
-                </div-->
+                </div>
             </div>
             <div class="card-body">
                 <form th:action="@{/registration/register}" method="post" >

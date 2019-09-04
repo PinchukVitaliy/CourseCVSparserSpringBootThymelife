@@ -41,7 +41,7 @@ public class User {
     private String activationCode;
 
     //связь многие ко многим пользователь и роли (список ролей)
-    @ManyToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(name="User_Role",
             joinColumns=@JoinColumn(name="User_id"),
             inverseJoinColumns=@JoinColumn(name="Role_id")
