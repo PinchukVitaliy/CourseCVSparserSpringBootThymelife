@@ -46,7 +46,7 @@ public class RegistrationController {
      */
     @PostMapping(value = "/registration/register")
     private String getRegisterSubmit(@ModelAttribute("user") User user, Model model) {
-        boolean flag = userService.addUser(user);
+        boolean flag = userService.saveUser(user);
         if(flag){
             model.addAttribute("user", user);
             model.addAttribute("contentPage", "/registration/activation");

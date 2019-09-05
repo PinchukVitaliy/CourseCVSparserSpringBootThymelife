@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.User;
@@ -38,6 +39,7 @@ public class UserService {
     //Экземпляр репозитория почты
     @Autowired
     private MailSender mailSender;
+    //обьект BCryptPasswordEncoder для шифрования паролей
     //@Autowired
     //private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -51,14 +53,13 @@ public class UserService {
      * @param user обьек пользователь
      * @return true нет такого и создается пользователь false есть такой и ничего не создавать
      */
-    public boolean addUser(User user){
+    public boolean saveUser(User user){
         if(userRepository.findByEmail(user.getEmail()) != null){
             return false;
         }
 
-        //String password = user.getPassword();
         //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
+        user.setPassword(user.getPassword());
         user.getRoleList().add(roleRepository.findByName("goust"));
         //user.setActive(true);
         user.setIcon("no_user.jpg");
@@ -224,6 +225,13 @@ public class UserService {
             mailSender.send(user.getEmail(), "Password recovery", message);
         }
         return true;
+    }
+    /**<p>Поиск пользователя по почте</p>
+     * @param email имя почты пользователя
+     * @return обьект пользователя
+     */
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
 

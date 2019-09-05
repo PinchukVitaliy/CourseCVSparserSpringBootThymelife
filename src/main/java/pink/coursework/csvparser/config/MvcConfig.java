@@ -34,8 +34,4 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**").
                 addResourceLocations("classpath:/static/images/");
     }
-
-    public void addViewControllers(ViewControllerRegistry registry){
-        registry.addViewController("/login/login").setViewName("login");
-    }
 }
