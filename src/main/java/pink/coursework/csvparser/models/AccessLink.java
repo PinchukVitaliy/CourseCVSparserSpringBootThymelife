@@ -1,5 +1,8 @@
 package pink.coursework.csvparser.models;
 
+import com.sun.istack.internal.NotNull;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 /**
  * Модель ссылка доступа
@@ -23,15 +26,15 @@ public class AccessLink {
     //ссылка
     private String link;
     //доступ к чтению
-    private Boolean read;
+    private boolean reading;
     //доступ к редактированию
-    private Boolean edit;
+    private boolean edit;
     //доступ к скачиванию
-    private Boolean dowload;
+    private boolean dowload;
     //конструктор
     public AccessLink() {
         this.link="No link";
-        this.read = false;
+        this.reading = false;
         this.edit = false;
         this.dowload = false;
     }
@@ -48,27 +51,27 @@ public class AccessLink {
         this.link = link;
     }
 
-    public Boolean getRead() {
-        return read;
+    public boolean isRead() {
+        return reading;
     }
 
-    public void setRead(Boolean read) {
-        this.read = read;
+    public void setRead(boolean reading) {
+        this.reading = reading;
     }
 
-    public Boolean getEdit() {
+    public boolean isEdit() {
         return edit;
     }
 
-    public void setEdit(Boolean edit) {
+    public void setEdit(boolean edit) {
         this.edit = edit;
     }
 
-    public Boolean getDowload() {
+    public boolean isDowload() {
         return dowload;
     }
 
-    public void setDowload(Boolean delete) {
-        this.dowload = delete;
+    public void setDowload(boolean dowload) {
+        this.dowload = dowload;
     }
 }

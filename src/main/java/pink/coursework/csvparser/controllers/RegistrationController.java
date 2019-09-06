@@ -3,10 +3,7 @@ package pink.coursework.csvparser.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.UserService;
 /**
@@ -41,18 +38,25 @@ public class RegistrationController {
     /**<p>Post маппинг отправки модели пользователя на сервер</p>
      * @param user обьект пользователя
      * @param model объект который передает данные в представление
-     * @return переход на страницу register с ошибкой ели такой пользователь есть, ибо
+     * @param confirm поле с повторным паролем
+     * @return переход на страницу register с ошибкой ели такой пользователь есть,
+     * или не совпадают пароль и повторный пароль, ибо
      * отправка кода активации на почту
      */
     @PostMapping(value = "/registration/register")
-    private String getRegisterSubmit(@ModelAttribute("user") User user, Model model) {
-        boolean flag = userService.saveUser(user);
-        if(flag){
-            model.addAttribute("user", user);
-            model.addAttribute("contentPage", "/registration/activation");
-        }else{
-            model.addAttribute("error", true);
+    private String getRegisterSubmit(@ModelAttribute("user") User user, Model model, @RequestParam("confirm") String confirm) {
+        if(!user.getPassword().trim().equals(confirm.trim())){
+            model.addAttribute("errorConfirm", true);
             model.addAttribute("contentPage", "/registration/register");
+        }else{
+            boolean flag = userService.saveUser(user);
+            if(flag){
+                model.addAttribute("user", user);
+                model.addAttribute("contentPage", "/registration/activation");
+            }else{
+                model.addAttribute("error", true);
+                model.addAttribute("contentPage", "/registration/register");
+            }
         }
         return "default";
     }

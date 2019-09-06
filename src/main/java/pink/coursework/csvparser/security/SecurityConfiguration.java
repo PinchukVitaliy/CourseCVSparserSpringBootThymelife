@@ -50,6 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login/login").permitAll()
                 .antMatchers("/registration/register").permitAll()
+                .antMatchers("/registration/active/{code}").permitAll()
+                .antMatchers("/user/password").permitAll()
                 .antMatchers("/admin/**").hasAuthority("administrator").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login/login").failureUrl("/login/login?error=true")

@@ -18,6 +18,9 @@
                 <div class="alert alert-danger" th:if="${param.logout}">
                   You are logged out
                 </div>
+                <div class="alert alert-danger" th:if="${errorConfirm}">
+                    Field 'password' must coincide with field 'confirm'!
+                </div>
             </div>
             <div class="card-body">
                 <form th:action="@{/registration/register}" method="post" >

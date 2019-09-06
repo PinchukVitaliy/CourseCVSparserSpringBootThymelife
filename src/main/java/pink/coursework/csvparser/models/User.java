@@ -35,7 +35,7 @@ public class User {
     private String password;
     //картинка(аватар)
     private String icon;
-
+    //активация пользователя
     private boolean active;
     //код активации
     private String activationCode;

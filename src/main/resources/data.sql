@@ -32,15 +32,15 @@ INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (10, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (11, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (12, 1);
 
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (1, 'test link 1', false, true, true);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (2, 'No link', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (3, 'test link 2', false, true, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (4, 'test link 3', false, false, true);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (5, 'No link', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (6, 'No link', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (7, 'test lik 4', true, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (8, 'No link', false, false, false);
-INSERT INTO ACCESSLINKS (id, link, read, edit, dowload) VALUES (9, '8462beb7-9c86-48be-9f3d-dddc7a426acf', true, false, false);
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (1, false, true, true, 'test link 1');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (2, false, false, true, 'No link');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (3, false, true, true, 'test link 2');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (4, false, false, true, 'test link 3');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (5, false, false, true, 'No link');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (6, false, false, true, 'No link');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (7, true, true, true, 'test lik 4');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (8, false, false, true, 'No link');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (9, true, false, true, '8462beb7-9c86-48be-9f3d-dddc7a426acf');
 
 INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (1, 'SunAug11133950EEST2019_1565519990799.csv', 'CSV-1.csv', 1, 1);
 INSERT INTO Myfiles (id, name, origin_name, creator_of_file_id, access_link_id) VALUES (2, 'SatAug31185155EEST2019_1567266715012.csv', 'CSV-2.csv', 1, 2);
@@ -66,27 +66,27 @@ INSERT INTO USERS_LIST_CREATED_FILES (USER_ID, LIST_CREATED_FILES_ID) VALUES (12
 INSERT INTO USERS_LIST_CREATED_FILES (USER_ID, LIST_CREATED_FILES_ID) VALUES (12, 9);
 
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (1, TO_DATE('2019-09-01 12:05:49.628', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','SunAug11133950EEST2019_1565519990799.csv','CSV-1.csv', FALSE, 'autorise user');
+VALUES (1, '2019-09-01 12:05:49.628', 'Opened access to read','SunAug11133950EEST2019_1565519990799.csv','CSV-1.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (2, TO_DATE('2019-09-01 12:05:49.662', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','SunAug11133950EEST2019_1565519990799.csv','CSV-1.csv', FALSE, 'autorise user');
+VALUES (2, '2019-09-01 12:05:49.662', 'Opened access to read','SunAug11133950EEST2019_1565519990799.csv','CSV-1.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (3, TO_DATE('2019-09-01 12:05:49.667', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','SunAug11133950EEST2019_1565519990799.csv','CSV-1.csv', FALSE, 'autorise user');
+VALUES (3, '2019-09-01 12:05:49.667', 'Opened access to read','SunAug11133950EEST2019_1565519990799.csv','CSV-1.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (4, TO_DATE('2019-09-01 12:05:53.031', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','SatAug31185155EEST2019_1567266715012.csv','CSV-2.csv', FALSE, 'autorise user');
+VALUES (4, '2019-09-01 12:05:53.031', 'Opened access to read','SatAug31185155EEST2019_1567266715012.csv','CSV-2.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (5, TO_DATE('2019-09-01 12:05:53.054', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','SatAug31185155EEST2019_1567266715012.csv','CSV-2.csv', FALSE, 'autorise user');
+VALUES (5, '2019-09-01 12:05:53.054', 'Opened access to read','SatAug31185155EEST2019_1567266715012.csv','CSV-2.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (6, TO_DATE('2019-09-01 12:05:53.057', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','SatAug31185155EEST2019_1567266715012.csv','CSV-2.csv', FALSE, 'autorise user');
+VALUES (6, '2019-09-01 12:05:53.057', 'Opened access to read','SatAug31185155EEST2019_1567266715012.csv','CSV-2.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (7, TO_DATE('2019-09-01 12:05:57.131', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
+VALUES (7, '2019-09-01 12:05:57.131', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (8, TO_DATE('2019-09-01 12:05:57.133', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
+VALUES (8, '2019-09-01 12:05:57.133', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (9, TO_DATE('2019-09-01 12:05:57.136', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
+VALUES (9, '2019-09-01 12:05:57.136', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (10, TO_DATE('2019-09-01 12:06:57.136', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
+VALUES (10, '2019-09-01 12:06:57.136', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (11, TO_DATE('2019-09-01 14:05:57.136', 'YYYY-MM-DD HH:MI:SS.fff'), 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', TRUE, 'autorise user');
+VALUES (11, '2019-09-01 14:05:57.136', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', TRUE, 'autorise user');
 
 
 
