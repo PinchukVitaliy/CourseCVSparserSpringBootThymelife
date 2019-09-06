@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity4" >
 <head>
     <title>Log in</title>
 </head>
 <body >
 <div class="container table-responsive text-nowrap" th:fragment="content">
     <link  th:href="@{/css/login.css}" rel="stylesheet" >
-
     <div class="container d-flex justify-content-center align-items-center alert ">
         <div class="card alert-success col align-self-center" id="auth">
             <div class="card-header">
@@ -19,7 +18,7 @@
                 <div class="alert alert-danger" th:if="${param.logout}">
                     You have been logged out.
                 </div>
-                <div class="alert alert-danger" th:if="${message != null}" th:text="${message}">
+                <div class="alert alert-danger" th:if="${message}" th:text="${message}">
                 </div>
             </div>
             <div class="card-body">

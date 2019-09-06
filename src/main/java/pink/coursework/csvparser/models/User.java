@@ -101,4 +101,5 @@ public class User {
     public void setListOpenFiles(List<Myfile> listOpenFiles) {
         this.listOpenFiles = listOpenFiles;
     }
+
 }
