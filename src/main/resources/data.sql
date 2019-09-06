@@ -19,7 +19,7 @@ INSERT INTO Users (id, login, email, password, icon, active) VALUES (11, 'macar'
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (12, 'focus', 'focus@i.ua', 'focus', 'no_user.jpg',false);
 
 
-INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 1);
+INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 1);INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 4);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (2, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (3, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (4, 1);

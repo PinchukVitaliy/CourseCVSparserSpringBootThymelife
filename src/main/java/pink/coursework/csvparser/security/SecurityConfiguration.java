@@ -47,21 +47,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.
                 authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login/login").permitAll()
-                .antMatchers("/registration/register").permitAll()
-                .antMatchers("/registration/active/{code}").permitAll()
-                .antMatchers("/user/password").permitAll()
-                .antMatchers("/admin/**").hasAuthority("administrator").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login/login").failureUrl("/login/login?error=true")
-                .defaultSuccessUrl("/")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login/login").and().exceptionHandling()
-                .accessDeniedPage("/access-denied");
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/login/login").permitAll()
+                    .antMatchers("/registration/register").permitAll()
+                    .antMatchers("/registration/active/{code}").permitAll()
+                    .antMatchers("/user/password").permitAll()
+                    .antMatchers("/home/admin/**").hasAuthority("administrator").anyRequest()
+                    .authenticated()
+                .and()
+                    .csrf()
+                    .disable()
+                    .formLogin()
+                    .loginPage("/login/login").failureUrl("/login/login?error=true")
+                    .defaultSuccessUrl("/")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                .and()
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login/login")
+                .and()
+                    .exceptionHandling()
+                    .accessDeniedPage("/access-denied");
     }
 
     @Override

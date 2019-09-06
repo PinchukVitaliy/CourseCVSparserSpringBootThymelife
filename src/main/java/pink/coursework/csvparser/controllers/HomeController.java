@@ -33,4 +33,13 @@ public class HomeController {
         return "default";
     }
 
+    /**<p>Get маппинг на страницу 404</p>
+     * @param model объект который передает данные в представление
+     * @return  переход страницу access-denied
+     */
+    @GetMapping("/access-denied")
+    private String accessdenied(Model model) {
+        model.addAttribute("contentPage", "/fragments/access-denied");
+        return "default";
+    }
 }
