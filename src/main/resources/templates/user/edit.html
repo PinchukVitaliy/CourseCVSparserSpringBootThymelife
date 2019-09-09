@@ -11,8 +11,8 @@
     <form class="mt-3" name="edit" th:action="@{/user/edit}"  enctype="multipart/form-data" method="POST">
         <div class="input-group mb-3">
             <div class="form-group">
-                    <label for="icon">User icon</label>
-                    <input type="text" class="form-control" id="icon" name="icon" th:value="${user.icon}" readonly>
+                <label for="icon">User icon</label>
+                <input type="text" class="form-control" id="icon" name="icon" th:value="${user.icon}" readonly>
                 <img th:src="@{'/icon/'+${user.icon}}" alt="icon" class="img-thumbnail" style="width: 180px;height:180px; margin: 3px;">
                 <div class="form-control">
                     <label for="choose-file" class="btn alert-info">Select Image</label>
@@ -23,41 +23,35 @@
             </div>
         </div>
 
-        <input type="text" class="form-control" id="id" name="id" th:value="${user.id}" hidden>
-
+        <input type="hidden" id="id" name="id" th:value="${user.id}">
+        <input type="hidden" id="active" name="active" th:value="${user.active}">
         <div class="form-group">
             <label for="login">User login</label>
             <input type="text" class="form-control" id="login" name="login" th:value="${user.login}">
         </div>
         <div class="form-group">
-            <label for="email">User login</label>
+            <label for="email">User email</label>
             <input type="email" class="form-control" id="email" name="email" th:value="${user.email}">
         </div>
         <div class="form-group">
             <label for="password">User password</label>
-            <input type="password" class="form-control" id="password" name="password" th:value="${user.password}">
+            <input type="text" class="form-control" id="password" name="password" th:value="${user.password}">
         </div>
         <button type="submit" class="form-group btn btn-primary">Keep the changes</button>
     </form>
     <th:block sec:authorize="isAuthenticated()">
-        <div>
-            <a href="/user/users/1">Back to list</a>|
-            <a th:href="@{'/user/details/'+${user.id}}">Details</a>|
+        <div >
+            <th:block sec:authorize="hasAuthority('administrator')">
+                <a href="/user/users/1">Back to list </a>|
+            </th:block>
+            <a href="/">Back to home </a>|
+            <a th:href="@{'/user/details/'+${user.id}}">Details </a>|
             <a th:href="@{'/user/delete/'+${user.id}}">Delete</a>
         </div>
     </th:block>
-
-    <th:block sec:authorize="isAnonymous()">
-        <div>
-            <a href="/user/users/1">Back to list</a>
-        </div>
-    </th:block>
-    <script>
-        $("#choose-file").change(function() {
-          filename = this.files[0].name;
-          $("#image-name").text(filename);
-        });
-    </script>
+    <br>
+    <br>
+    <script th:src="@{/js/edituser.js}"></script>
 </div>
 </body>
 </html>

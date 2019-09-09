@@ -11,6 +11,7 @@ import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.RoleRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -136,14 +137,20 @@ public class UserService {
     /**<p>Сохранение изменений пользователя</p>
      * @param user измененный пользователь
      * @param file передаваемый файл
+     * @param httpSession объекта сессии в сервлете объекта HttpServletRequest
      */
-    public void setUser(User user, MultipartFile file) {
+    public void setUser(User user, MultipartFile file, HttpSession httpSession) {
+        User userReal = userRepository.getOne(user.getId());
         if(!file.isEmpty()){
             String resultFileName = generateUniqueFileName(file.getOriginalFilename());
             singleFileUpload(file, resultFileName);
-            user.setIcon(resultFileName);
+            userReal.setIcon(resultFileName);
         }
-        userRepository.save(user);
+        userRepository.save(userReal);
+        User userSession = (User)httpSession.getAttribute("user");
+        if(userSession.getEmail().equals(userReal.getEmail())){
+            httpSession.setAttribute("user", userReal);
+        }
     }
 
     /**<p>Загрузка файла на сервер</p>

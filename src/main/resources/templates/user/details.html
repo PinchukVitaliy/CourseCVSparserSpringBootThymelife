@@ -17,12 +17,6 @@
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text">id</span>
-        </div>
-        <input type="text" class="form-control" th:field="*{user.id}" readonly>
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
             <span class="input-group-text">login</span>
         </div>
         <input type="text" class="form-control" th:field="*{user.login}" readonly>
@@ -39,18 +33,14 @@
         </div>
         <input type="text" class="form-control" th:field="*{user.password}" readonly>
     </div>
-
     <th:block sec:authorize="isAuthenticated()">
-        <div>
-            <a href="/user/users/1">Back to list</a>|
-            <a th:href="@{'/user/edit/'+${user.id}}">Edit</a>|
+        <div >
+            <th:block sec:authorize="hasAuthority('administrator')">
+                <a href="/user/users/1">Back to list </a>|
+            </th:block>
+            <a href="/">Back to home </a>|
+            <a th:href="@{'/user/edit/'+${user.id}}">Edit </a>|
             <a th:href="@{'/user/delete/'+${user.id}}">Delete</a>
-        </div>
-    </th:block>
-
-    <th:block sec:authorize="isAnonymous()">
-        <div>
-            <a href="/user/users/1">Back to list</a>
         </div>
     </th:block>
 </div>

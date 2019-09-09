@@ -37,15 +37,15 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/home/admin">Administration Page</a>
+                <a class="nav-link" sec:authorize="hasAuthority('administrator')" href="/home/admin">Administration Page</a>
             </li>
         </ul>
 
         <div sec:authorize="isAuthenticated()" id="hello">
-            <a class="navbar-brand" href="/">
-                <img class="navbar-toggler-icon rounded-circle" th:src="@{'/icon/no_user.jpg'}">
+            <a class="navbar-brand" th:href="@{'/user/details/'+${session.user.id}}">
+                <img th:if="${session != null}" class="navbar-toggler-icon rounded-circle" th:src="@{'/icon/'+${session.user.icon}}">
             </a>
-            <span>Hello, No name</span>
+            <span>Hello, <span th:if="${session != null}"  th:text="${session.user.login}"></span></span>
         </div>
 
         <form class="form-inline my-2 my-lg-0" th:action="${search}">

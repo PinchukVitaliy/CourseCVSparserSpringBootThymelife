@@ -5,9 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.UserService;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 /**
  * Контроллер класса пользователь
@@ -50,6 +52,7 @@ public class UserController {
      */
     @GetMapping("/user/details/{id}")
     private String details(@PathVariable("id") Integer id, Model model) {
+
         model.addAttribute("user", userService.getDetails(id));
         model.addAttribute("contentPage", "/user/details");
         return "default";
@@ -71,11 +74,12 @@ public class UserController {
     /**<p>Post маппинг отправки измененной информации о пользователе</p>
      * @param file обьект класса MultipartFile
      * @param user обьект класса пользователь
+     * @param httpSession объекта текущей сессии в сервлете объекта HttpServletRequest
      * @return редирект на страницу details
      */
     @PostMapping("/user/edit")
-    private String editSubmit(@RequestParam("file") MultipartFile file, @ModelAttribute("user") User user) {
-        userService.setUser(user, file);
+    private String editSubmit(@RequestParam("file") MultipartFile file, @ModelAttribute("user") User user, HttpSession httpSession) {
+        userService.setUser(user, file, httpSession);
         return "redirect:/user/details/"+user.getId();
     }
 
