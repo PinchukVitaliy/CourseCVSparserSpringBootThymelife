@@ -12,6 +12,7 @@ import pink.coursework.csvparser.repositories.AccessLinkRepository;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,7 +48,9 @@ public class FileService {
     //репозиторий объекта статистики
     @Autowired
     private StatisticService statisticService;
-
+    //объекта сессии в сервлете объекта HttpServletRequest
+    @Autowired
+    private HttpSession httpSession;
     /**
      * <p>Поиск файла</p>
      * <p>Поиск файла по id</p>
@@ -249,6 +252,7 @@ public class FileService {
      */
     public void dowload(Integer fileId, HttpServletResponse response){
         Myfile myfile = fileRepository.getOne(fileId);
+        User authUser = (User)httpSession.getAttribute("user");
         //Добавить заголовок ответа HTTP с именем Content-Disposition
         //и присвойте ему значение attachment; filename=fileName,
         //где fileName — имя файла по умолчанию.
@@ -260,7 +264,7 @@ public class FileService {
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
                 statisticService.add(
-                        "autorise user",
+                        authUser.getEmail(),
                         "Dowload",
                         myfile.getName(),
                         myfile.getOriginName());
@@ -279,6 +283,7 @@ public class FileService {
      * @return обьект класса Myfile
      */
     public Myfile addLink(Myfile file, Boolean read, Boolean edit, Boolean dowload) {
+        User authUser = (User)httpSession.getAttribute("user");
         AccessLink link = accessLinkRepository.getOne(file.getAccessLink().getId());
         if(read == null && edit == null && dowload == null){
             link.setRead(false);
@@ -288,7 +293,7 @@ public class FileService {
             file.setAccessLink(link);
             fileRepository.save(file);
             statisticService.add(
-                    "autorise user",
+                    authUser.getEmail(),
                     "Closed access to all",
                     file.getName(),
                     file.getOriginName());
@@ -297,14 +302,14 @@ public class FileService {
         if(read != null){
             link.setRead(read);
             statisticService.add(
-                    "autorise user",
+                    authUser.getEmail(),
                     "Opened access to read",
                     file.getName(),
                     file.getOriginName());
         }else{
             link.setRead(false);
             statisticService.add(
-                    "autorise user",
+                    authUser.getEmail(),
                     "Closed access to read",
                     file.getName(),
                     file.getOriginName());
@@ -312,14 +317,14 @@ public class FileService {
            if(edit != null){
                link.setEdit(edit);
                statisticService.add(
-                       "autorise user",
+                       authUser.getEmail(),
                        "Opened access to edit",
                        file.getName(),
                        file.getOriginName());
            }else{
                link.setEdit(false);
                statisticService.add(
-                       "autorise user",
+                       authUser.getEmail(),
                        "Closed access to edit",
                        file.getName(),
                        file.getOriginName());
@@ -327,14 +332,14 @@ public class FileService {
                if(dowload != null){
                    link.setDowload(dowload);
                    statisticService.add(
-                           "autorise user",
+                           authUser.getEmail(),
                            "Opened access to dowload",
                            file.getName(),
                            file.getOriginName());
                }else{
                    link.setDowload(false);
                    statisticService.add(
-                           "autorise user",
+                           authUser.getEmail(),
                            "Closed access to dowload",
                            file.getName(),
                            file.getOriginName());
@@ -439,11 +444,12 @@ public class FileService {
      */
     public void getCsvModelSave(List<String> title, List<String> dataList, List<Integer> idList, Myfile file) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
+        User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.writeModifiedData(title,dataList,idList);
         csvModel.saveCsv( filePath + fileCsv.getName());
         statisticService.add(
-                "autorise user",
+                authUser.getEmail(),
                 "Saved changes",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
@@ -457,10 +463,11 @@ public class FileService {
      */
     public void addNewRow(Myfile file, String newRow) throws Exception {
         Myfile fileCsv = fileRepository.getOne(file.getId());
+        User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addRow(filePath + fileCsv.getName(), newRow);
         statisticService.add(
-                "autorise user",
+                authUser.getEmail(),
                 "Add Row",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
@@ -473,10 +480,11 @@ public class FileService {
      */
     public void addNewColum(Integer idFile) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
+        User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addColum(filePath + fileCsv.getName());
         statisticService.add(
-                "autorise user",
+                authUser.getEmail(),
                 "Add colum",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
@@ -489,10 +497,11 @@ public class FileService {
      */
     public void deleteColums(Myfile file, List<String> colums) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
+        User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
         statisticService.add(
-                "autorise user",
+                authUser.getEmail(),
                 "Delete colums",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
@@ -505,10 +514,11 @@ public class FileService {
      */
     public void deleteRows(Myfile file, List<String> rows) throws Exception{
         Myfile fileCsv = fileRepository.getOne(file.getId());
+        User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.deleteRowsCSV(filePath + fileCsv.getName(), rows);
         statisticService.add(
-                "autorise user",
+                authUser.getEmail(),
                 "Delete rows",
                 fileCsv.getName(),
                 fileCsv.getOriginName());

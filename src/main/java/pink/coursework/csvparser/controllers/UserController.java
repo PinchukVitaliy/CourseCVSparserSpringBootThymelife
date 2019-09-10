@@ -74,12 +74,11 @@ public class UserController {
     /**<p>Post маппинг отправки измененной информации о пользователе</p>
      * @param file обьект класса MultipartFile
      * @param user обьект класса пользователь
-     * @param httpSession объекта текущей сессии в сервлете объекта HttpServletRequest
      * @return редирект на страницу details
      */
     @PostMapping("/user/edit")
-    private String editSubmit(@RequestParam("file") MultipartFile file, @ModelAttribute("user") User user, HttpSession httpSession) {
-        userService.setUser(user, file, httpSession);
+    private String editSubmit(@RequestParam("file") MultipartFile file, @ModelAttribute("user") User user) {
+        userService.setUser(user, file);
         return "redirect:/user/details/"+user.getId();
     }
 

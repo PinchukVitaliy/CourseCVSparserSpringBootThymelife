@@ -12,7 +12,6 @@ import pink.coursework.csvparser.repositories.RoleRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,6 +39,9 @@ public class UserService {
     //Экземпляр репозитория почты
     @Autowired
     private MailSender mailSender;
+    //объекта сессии в сервлете объекта HttpServletRequest
+    @Autowired
+    private HttpSession httpSession;
     //обьект BCryptPasswordEncoder для шифрования паролей
     //@Autowired
     //private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -137,9 +139,8 @@ public class UserService {
     /**<p>Сохранение изменений пользователя</p>
      * @param user измененный пользователь
      * @param file передаваемый файл
-     * @param httpSession объекта сессии в сервлете объекта HttpServletRequest
      */
-    public void setUser(User user, MultipartFile file, HttpSession httpSession) {
+    public void setUser(User user, MultipartFile file) {
         User userReal = userRepository.getOne(user.getId());
         if(!file.isEmpty()){
             String resultFileName = generateUniqueFileName(file.getOriginalFilename());

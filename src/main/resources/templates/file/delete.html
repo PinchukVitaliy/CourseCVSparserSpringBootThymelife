@@ -26,11 +26,11 @@
             </div>
             <input type="text" class="form-control" th:field="*{file.creatorOfFile.login}" readonly>
         </div>
-        <th:block sec:authorize="isAnonymous()">
-            <div>
-                <a th:href="@{'/file/myfiles/'+${idUser}}">Back to list files</a>
-            </div>
-        </th:block>
+
+        <div>
+            <a th:href="@{'/file/myfiles/'+${session.user.id}}">Back to list files</a>
+        </div>
+
     </div>
 </div>
 </body>

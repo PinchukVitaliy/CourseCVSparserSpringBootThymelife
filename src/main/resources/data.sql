@@ -35,7 +35,7 @@ INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (12, 1);
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (1, false, true, true, 'test link 1');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (2, false, false, true, 'No link');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (3, false, true, true, 'test link 2');
-INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (4, false, false, true, 'test link 3');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (4, true, true, true, 'test link 3');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (5, false, false, true, 'No link');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (6, false, false, true, 'No link');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (7, true, true, true, 'test lik 4');

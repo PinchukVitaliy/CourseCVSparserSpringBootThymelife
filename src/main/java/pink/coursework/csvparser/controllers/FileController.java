@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Myfile;
+import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.FileService;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,9 @@ public class FileController {
     //сервис объекта файл
     @Autowired
     private FileService fileService;
+    //объекта сессии в сервлете объекта HttpServletRequest
+    @Autowired
+    private HttpSession httpSession;
 
     /**<p>Get маппинг на все файлы</p>
      * @param model объект который передает данные в представление
@@ -97,9 +101,7 @@ public class FileController {
      */
     @GetMapping("/file/delete/{id}")
     private String delete(@PathVariable("id") Integer idFile, Model model) {
-        Integer idUser = 1;
         model.addAttribute("file", fileService.getFile(idFile));
-        model.addAttribute("idUser", idUser);
         model.addAttribute("contentPage", "/file/delete");
         return "default";
     }
@@ -111,9 +113,9 @@ public class FileController {
      */
     @PostMapping("/file/delete")
     private String deleteSubmit(@ModelAttribute("id") Integer myfileId) throws IOException {
-        Integer idUser = 1;
+        User userSession = (User)httpSession.getAttribute("user");
         fileService.deleteFile(myfileId);
-        return "redirect:/file/myfiles/"+idUser;
+        return "redirect:/file/myfiles/"+userSession.getId();
     }
 
     /**<p>Get маппинг на список файлов пользователя</p>
@@ -194,9 +196,9 @@ public class FileController {
      */
     @PostMapping("/file/addcsv")
     private String addcsvSubmit(@RequestParam("file") MultipartFile file) {
-        Integer idUser = 1;
-        fileService.add(file, idUser);
-        return "redirect:/file/myfiles/"+idUser;
+        User userSession = (User)httpSession.getAttribute("user");
+        fileService.add(file, userSession.getId());
+        return "redirect:/file/myfiles/"+userSession.getId();
     }
 
     /**<p>Get маппинг скачки файла</p>
@@ -206,9 +208,9 @@ public class FileController {
      */
     @GetMapping("/file/dowload")
     private String dowloadFile(@ModelAttribute("idFile") Integer idFile, HttpServletResponse response) {
-        Integer idUser = 1;
+        User userSession = (User)httpSession.getAttribute("user");
         fileService.dowload(idFile, response);
-        return "redirect:/file/myfiles/"+idUser;
+        return "redirect:/file/myfiles/"+userSession.getId();
     }
 
     /**<p>Post маппинг на откритие доступа к файлу</p>
@@ -223,9 +225,9 @@ public class FileController {
                          @RequestParam(value = "read", required = false) Boolean read,
                          @RequestParam(value = "edit", required = false) Boolean edit,
                          @RequestParam(value = "dowload", required = false) Boolean dowload){
-        Integer idUser = 1;
+        User userSession = (User)httpSession.getAttribute("user");
         fileService.addLink(file, read, edit, dowload);
-        return "redirect:/file/myfiles/"+idUser;
+        return "redirect:/file/myfiles/"+userSession.getId();
     }
 
     /**<p>Get маппинг на откритие файлы</p>
@@ -266,10 +268,10 @@ public class FileController {
      */
     @PostMapping("/file/addlink")
     private String addLinkUser(Model model, @ModelAttribute("link") String link){
-        Integer idUser = 1;
-        fileService.addLinkUser(idUser, link);
-        model.addAttribute("openfiles", fileService.getOpenFiles(idUser,1));
-        return "redirect:/file/links/"+idUser;
+        User userSession = (User)httpSession.getAttribute("user");
+        fileService.addLinkUser(userSession.getId(), link);
+        model.addAttribute("openfiles", fileService.getOpenFiles(userSession.getId(),1));
+        return "redirect:/file/links/"+userSession.getId();
     }
 
     /**<p>Get маппинг удаления файла по ссылке</p>
@@ -278,9 +280,9 @@ public class FileController {
      */
     @GetMapping("/file/remove/{id}")
     private String removeFile(@PathVariable("id") Integer idFile) {
-        Integer idUser = 1;
-        fileService.removeFile(idFile, idUser);
-        return "redirect:/file/links/"+idUser;
+        User userSession = (User)httpSession.getAttribute("user");
+        fileService.removeFile(idFile, userSession.getId());
+        return "redirect:/file/links/"+userSession.getId();
     }
 
     /**<p>Get маппинг просмотра содержимого файла</p>
