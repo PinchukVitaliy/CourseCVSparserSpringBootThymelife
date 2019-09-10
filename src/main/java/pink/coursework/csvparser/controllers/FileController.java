@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.servises.FileService;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -234,7 +235,6 @@ public class FileController {
      */
     @GetMapping(value = "/file/links/{id}")
     private String openFiles(Model model, @PathVariable("id") Integer idUser) {
-        idUser = 1;
         model.addAttribute("message", "No open files");
         model.addAttribute("curpage", 1);
         model.addAttribute("pages", fileService.openPages(idUser));
@@ -251,7 +251,6 @@ public class FileController {
      */
     @GetMapping(value = "/file/links/{id}/{page}")
     private String openFilesPagination(Model model, @PathVariable("id") Integer idUser, @PathVariable int page) {
-        idUser = 1;
         model.addAttribute("message", "No open files");
         model.addAttribute("curpage", page);
         model.addAttribute("pages", fileService.openPages(idUser));
