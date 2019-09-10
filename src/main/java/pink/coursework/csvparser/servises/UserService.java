@@ -16,10 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -43,8 +40,8 @@ public class UserService {
     @Autowired
     private HttpSession httpSession;
     //обьект BCryptPasswordEncoder для шифрования паролей
-    //@Autowired
-    //private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //путь к папке где хранятся аватары пользователей
     @Value("${avatar.path}")
@@ -64,14 +61,15 @@ public class UserService {
         //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
         user.getRoleList().add(roleRepository.findByName("goust"));
-        //user.setActive(true);
         user.setIcon("no_user.jpg");
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
         if(!StringUtils.isEmpty(user.getEmail())){
             String message = String.format(
                "Hello, %s! \n" +
-                       "Welcom to Sweater. Please, visit next link: http:localhost:8080/registration/active/%s",
+                       "Welcom to Csv-Parser. \n" +
+                       "Please click on the following link to activate your account! \n" +
+                       "http:localhost:8080/registration/active/%s",
                     user.getLogin(),
                     user.getActivationCode()
             );
@@ -105,7 +103,7 @@ public class UserService {
      * @param id идентификатор пользователя
      * @return пользователь
      */
-    public User getDetails(Integer id) {return userRepository.getOne(id);}
+    public User getDetails(Integer id) {;return userRepository.getOne(id);}
 
     /**<p>Удаление пользователя</p>
      * @param user обьект пользователя
@@ -218,8 +216,8 @@ public class UserService {
         if(user == null){
             return false;
         }
-        /**/
-        user.setPassword("new password");
+        String password =generatePassword();
+        user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
         if(!StringUtils.isEmpty(user.getEmail())){
             String message = String.format(
@@ -227,12 +225,40 @@ public class UserService {
                             "Here is your new password: '%s'\n" +
                             "Do not tell anyone!",
                     user.getLogin(),
-                    user.getPassword()
+                    password
             );
 
             mailSender.send(user.getEmail(), "Password recovery", message);
         }
         return true;
+    }
+
+    /**<p>Генератор случайных паролей</p>
+     * @return случайный пароль
+     */
+    private String generatePassword(){
+        //И символы из диапазона ASCII 33-122, которые являются специальными символами, цифрами в верхнем и нижнем регистре.
+        int size = 0;
+        String password ="";
+        int random_number = 1 + (int) (Math.random() * 3);
+        while(size < 8){
+            if(random_number == 1) {
+                password += new Random().ints(1, 65, 90).collect(StringBuilder::new,
+                        StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+            }else if(random_number == 2) {
+                password += new Random().ints(1, 97, 122).collect(StringBuilder::new,
+                        StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+            }else{
+                password += new Random().ints(1, 48, 57).collect(StringBuilder::new,
+                        StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
+            }
+            random_number = 1 + (int) (Math.random() * 3);
+            size++;
+        }
+        return password;
     }
     /**<p>Поиск пользователя по почте</p>
      * @param email имя почты пользователя
