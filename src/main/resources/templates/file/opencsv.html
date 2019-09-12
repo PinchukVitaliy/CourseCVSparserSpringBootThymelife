@@ -9,79 +9,22 @@
 <div class="container table-responsive text-nowrap" th:fragment="content">
     <br>
     <link  th:href="@{/css/opencsv.css}" rel="stylesheet" >
-    <h2>CSV opening file</h2>
+    <h2>CSV opening file: <span th:text="${file.originName}"></span></h2>
     <form name="saveall" th:action="@{/file/saveall}"  method="POST">
-        <div class="panel-heading demo">
-            <input class="hide" id="hd-1" type="checkbox">
-            <label for="hd-1" id="label">Setting panel!!</label>
-            <div class="form-control">
-                <input type="hidden" name="file" th:value="${file.id}" >
-                <input type="hidden" name="curpage" th:value="${curpage}" >
-                <div class="from-group">
-                    <div>
-                    <!-- save data in table-->
-                    <input type="submit" class="btn btn-primary" id="save"  value="Save">
-                    <!-- add row-->
-                    <input type="button" class="btn btn-primary"
-                       th:onclick="openModal()"
-                       value="Add row">
-                    <!-- add colum-->
-                    <a class="btn btn-primary" th:href="@{'/file/colum/'+${file.id}+'/'+${curpage}}" role="button">Add colum</a>
-                    </div>
-                    <!-- delete rows-->
-                    <br>
-                    <div>
-                    <label for="delrows" class="panel"><h5>Delete rows</h5></label>
-                    <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delrows" name="delrows">
-                        <option th:each="titleZN : ${csvfile.TitleCsv}"
-                                th:value="${titleZN}"
-                                th:utext="${titleZN}"/>
-                    </select>
-                        <input type="button" onclick="delRows()" class="btn btn-primary" value="Delete">
-                    </div>
-                    <!-- delete colums-->
-                    <br>
-                    <div>
-                    <label for="delcolums" class="panel"><h5>Delete colums</h5></label>
-                    <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delcolums" name="delcolums">
-                        <option th:each="data : ${csvfile.DataModelRows}"
-                                th:value="${data.id}"
-                                th:utext="${data.id}"/>
-                    </select>
-                        <input type="button" onclick="delColums()" class="btn btn-primary" value="Delete">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- отображать панель инструментов если файл не текущего пользователя и есть доступ к редактированию-->
+        <div th:insert="/fragments/panelSetting :: panelsetting"
+             th:if="${file.accessLink.edit && file.creatorOfFile.id != session.user.id}">Panel</div>
+        <!-- отображать панель инструментов всегда если текущий пользователь и его файл-->
+        <div th:insert="/fragments/panelSetting :: panelsetting"
+             th:if="${file.creatorOfFile.id == session.user.id}">Panel</div>
 
         <br>
-        <div class="wrap">
-            <table class="table table-striped table-bordered" >
-                <thead  style="background-color:#563d7c; color:#FFFFFF">
-                <tr th:each="csvtitle : ${csvfile}">
-                    <th>#</th>
-                    <th:block th:each="titleZN : ${csvtitle.TitleCsv}" >
-                        <th scope="col" th:if="${file.accessLink.edit}" >
-                            <input type="text" id="title" name="title"  th:value="${titleZN}">
-                        </th>
-                        <th scope="col" th:text="${titleZN}" th:if="${file.accessLink.read && !file.accessLink.edit}"></th>
-                    </th:block>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="csvinfo : ${csvfile.DataModelRows}">
-                    <th:block th:each="info : ${csvinfo}" >
-                        <input type="hidden" name="idList" th:value="${info.id}">
-                        <td th:text="${info.id}"> </td>
-                        <td th:each="data : ${info.DataRows}"  th:if="${file.accessLink.edit}" >
-                            <input type="text" name="dataList"  th:value="${data}">
-                        </td>
-                        <td th:each="data : ${info.DataRows}" th:text="${data}" th:if="${file.accessLink.read && !file.accessLink.edit}"> </td>
-                    </th:block>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- отображать содержимое файла по доступу если файл не пользователя -->
+        <div th:insert="/fragments/opencsvtableotheruser :: opencsvtableotheruser"
+             th:if="${file.creatorOfFile.id != session.user.id}">Other user</div>
+        <!-- отображать содержимое файла пользователю если файл его -->
+        <div th:insert="/fragments/opencsvtablecurrentuser :: opencsvtablecurrentuser"
+             th:if="${file.creatorOfFile.id == session.user.id}">Other user</div>
     </form>
     <!-- Modal new row-->
     <form name="row" th:action="@{/file/row}"  method="POST">
@@ -176,7 +119,10 @@
 
 
     <div th:replace="fragments/pagination_csvOpen :: footer_csvOpen">...</div>
-    <div><a th:href="@{'/file/myfiles/1'}" style="float:left">Back to list</a></div>
+    <div>
+        <a th:if="${session.user.id == file.creatorOfFile.id}" th:href="@{'/file/myfiles/'+${session.user.id}}" style="float:left">Back to list</a>
+        <a th:unless="${session.user.id == file.creatorOfFile.id}" th:href="@{'/file/links/'+${session.user.id}}" style="float:left">Back to list</a>
+    </div>
     <br> <br>
     <script th:src="@{/js/opencsv.js}"></script>
 </div>

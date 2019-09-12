@@ -32,9 +32,9 @@ INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (10, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (11, 1);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (12, 1);
 
-INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (1, false, true, true, 'test link 1');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (1, true, false, false, 'test link 1');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (2, false, false, true, 'No link');
-INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (3, false, true, true, 'test link 2');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (3, false, true, false, 'test link 2');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (4, true, true, true, 'test link 3');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (5, false, false, true, 'No link');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (6, false, false, true, 'No link');
@@ -54,6 +54,10 @@ INSERT INTO Myfiles (id, origin_name, creator_of_file_id, access_link_id) VALUES
 
 INSERT INTO USERS_LIST_OPEN_FILES (USER_ID, LIST_OPEN_FILES_ID) VALUES (1, 4);
 INSERT INTO USERS_LIST_OPEN_FILES (USER_ID, LIST_OPEN_FILES_ID) VALUES (1, 7);
+
+INSERT INTO USERS_LIST_OPEN_FILES (USER_ID, LIST_OPEN_FILES_ID) VALUES (2, 1);
+INSERT INTO USERS_LIST_OPEN_FILES (USER_ID, LIST_OPEN_FILES_ID) VALUES (2, 2);
+INSERT INTO USERS_LIST_OPEN_FILES (USER_ID, LIST_OPEN_FILES_ID) VALUES (2, 3);
 
 INSERT INTO USERS_LIST_CREATED_FILES (USER_ID, LIST_CREATED_FILES_ID) VALUES (1, 1);
 INSERT INTO USERS_LIST_CREATED_FILES (USER_ID, LIST_CREATED_FILES_ID) VALUES (1, 2);

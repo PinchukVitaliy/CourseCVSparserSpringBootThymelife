@@ -35,7 +35,9 @@
             <td th:text="${file.originName}"></td>
             <td th:text="${file.creatorOfFile.email}"></td>
             <td th:if="${file.accessLink.read || file.accessLink.edit}">
-                <a th:href="@{'/file/open/'+${file.id}}" class="href btn btn-success btn-xs">Open</a>
+                <a th:href="@{'/file/open/'+${file.id}}" class="href btn btn-success btn-xs">
+                    <span th:if="${file.accessLink.edit}">Open to edit</span>
+                    <span th:if="${!file.accessLink.edit && file.accessLink.read}">Open to read</span></a>
             </td>
             <td th:if="${file.accessLink.dowload}">
                 <form name="dowload" th:action="@{/file/dowload}"   method="GET">

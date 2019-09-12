@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Open CSV current users</title>
+</head>
+<body>
+<div class="wrap" th:fragment="opencsvtablecurrentuser">
+    <table class="table table-striped table-bordered" >
+        <thead  style="background-color:#563d7c; color:#FFFFFF">
+        <tr th:each="csvtitle : ${csvfile}">
+            <th>#</th>
+            <th:block th:each="titleZN : ${csvtitle.TitleCsv}" >
+                <th scope="col">
+                    <input type="text" id="title" name="title"  th:value="${titleZN}">
+                </th>
+            </th:block>
+        </tr>
+        </thead>
+        <tbody style="background:#E1EBFF">
+        <tr th:each="csvinfo : ${csvfile.DataModelRows}">
+            <th:block th:each="info : ${csvinfo}" >
+                <input type="hidden" name="idList" th:value="${info.id}">
+                <td th:text="${info.id}"> </td>
+                <td th:each="data : ${info.DataRows}">
+                    <input type="text" name="dataList"  th:value="${data}">
+                </td>
+            </th:block>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
