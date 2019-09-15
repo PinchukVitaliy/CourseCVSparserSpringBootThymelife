@@ -27,12 +27,6 @@
         </div>
         <input type="email" class="form-control" th:field="*{user.email}" readonly>
     </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">password</span>
-        </div>
-        <input type="text" class="form-control" th:field="*{user.password}" readonly>
-    </div>
     <th:block sec:authorize="isAuthenticated()">
         <div >
             <th:block sec:authorize="hasAuthority('administrator')">

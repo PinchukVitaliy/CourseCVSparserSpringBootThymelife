@@ -58,7 +58,7 @@ public class UserService {
             return false;
         }
 
-        //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
         user.getRoleList().add(roleRepository.findByName("goust"));
         user.setIcon("no_user.jpg");
@@ -145,6 +145,9 @@ public class UserService {
             singleFileUpload(file, resultFileName);
             userReal.setIcon(resultFileName);
         }
+        userReal.setLogin(user.getLogin());
+        userReal.setEmail(user.getEmail());
+        userReal.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(userReal);
         User userSession = (User)httpSession.getAttribute("user");
         if(userSession.getEmail().equals(userReal.getEmail())){

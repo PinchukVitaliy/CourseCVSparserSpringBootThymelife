@@ -125,7 +125,7 @@ public class StatisticController {
         return "default";
     }
 
-    /**<p>Get маппинг на статистики всех файлов + пеженация</p>
+    /**<p>Get маппинг на статистику всех файлов + пеженация</p>
      * @param model объект который передает данные в представление
      * @param page текущая страница
      * @return переход на страницу allStats
@@ -184,5 +184,45 @@ public class StatisticController {
     private String clearAllStats() {
             statisticService.clearAllStats();
         return "redirect:/statistic/all";
+    }
+
+    /**<p>Get маппинг на статистику всех файлов одного пользователя</p>
+     * @param model объект который передает данные в представление
+     * @param idUser идентификатор пользователя
+     * @return переход на страницу myStats
+     */
+    @GetMapping("/statistic/myStat/{id}")
+    private String myStatFile(Model model, @PathVariable("id") Integer idUser) {
+        model.addAttribute("curpage", 1);
+        model.addAttribute("pages", statisticService.pagesMyStat(idUser));
+        model.addAttribute("myStatFiles",statisticService.myStatFiles(1, idUser));
+        model.addAttribute("message", "No file statistics");
+        model.addAttribute("contentPage", "/statistic/myStats");
+        return "default";
+    }
+
+    /**<p>Get маппинг на статистику всех файлов одного пользователя + пеженация</p>
+     * @param model объект который передает данные в представление
+     * @param idUser идентификатор пользователя
+     * @param page текущая страница
+     * @return переход на страницу myStats
+     */
+    @GetMapping("/statistic/myStat/{id}/{page}")
+    private String myStatFilePagination(Model model, @PathVariable("id") Integer idUser, @PathVariable int page) {
+        model.addAttribute("curpage", page);
+        model.addAttribute("pages", statisticService.pagesMyStat(idUser));
+        model.addAttribute("myStatFiles",statisticService.myStatFiles(page, idUser));
+        model.addAttribute("message", "No file statistics");
+        model.addAttribute("contentPage", "/statistic/myStats");
+        return "default";
+    }
+
+    /**<p>Get маппинг на очистку всей статистики одного пользователя</p>
+     * @return редирект на страницу all
+     */
+    @GetMapping("/statistic/clearMyStat/{id}")
+    private String clearMyStats(@PathVariable("id") Integer idUser) {
+        statisticService.clearMyStats(idUser);
+        return "redirect:/statistic/myStat/"+idUser;
     }
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My statistic</title>
+</head>
+<body>
+<div class="container table-responsive text-nowrap" th:fragment="content">
+    <link  th:href="@{/css/allStat.css}" rel="stylesheet" >
+    <h1>My statistics</h1>
+
+    <div class="panel-heading" id="statAll">
+        <a th:href="@{'/statistic/clearMyStat/'+${session.user.id}}" role="button"
+           class="btn btn-outline-info my-2 mr-sm-2" >Clear all statistic</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">File name</th>
+            <th scope="col">File action</th>
+            <th scope="col">Date</th>
+        </tr>
+        </thead>
+        <tbody th:if="${myStatFiles.isEmpty() || myStatFiles == null}" >
+        <tr>
+            <td colspan="5" th:text="${message}"></td>
+        </tr>
+        </tbody>
+        <tbody th:unless="${myStatFiles.isEmpty() || myStatFiles == null}">
+        <tr th:each="stat : ${myStatFiles}">
+            <td th:text="${stat.fileNameOriginal}"></td>
+            <td th:text="${stat.fileAction}"></td>
+            <td th:text="${stat.date}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <th:block th:unless="${myStatFiles.isEmpty() || myStatFiles == null}">
+        <div th:replace="fragments/pagination_myStat :: footer_myStat">...</div>
+    </th:block>
+
+    <div ><a th:href="@{'/'}" style="float:left">Back to home</a></div>
+</div>
+</body>
+</html>

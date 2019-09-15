@@ -11,28 +11,40 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pink.coursework.csvparser.config.AuthSuccessApplicationListener;
+import pink.coursework.csvparser.config.CustomLogoutHandler;
 
 import javax.sql.DataSource;
 
+/**
+ * настройка конфигураций spring security
+ * @Autowired обеспечивает контроль над тем, где и как автосвязывание должны быть осуществленно.
+ * @Override аннотация позволяет переопределить метод у родителя.
+ * @Value аннотация позволяет нам использовать значения из вне в поля в bean-компонентах.
+ * @Bean аннотация позволяет определить bean-компоненты.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    //@Autowired
-    //private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    //объект класса BCryptPasswordEncoder для шифрования паролей
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    //объект класса DataSource
     @Autowired
     private DataSource dataSource;
-
+    //sql запрос на существование пользователя и его активность
     @Value("${spring.queries.users-query}")
     private String usersQuery;
-
+    //sql запрос на получение ролей пользователя
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
+    /**<p>Настройка конфигурации авторизации пользователя в spring security</p>
+     * @param auth обьект AuthenticationManagerBuilder
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -41,10 +53,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery(usersQuery)
                 .authoritiesByUsernameQuery(rolesQuery)
                 .dataSource(dataSource)
-                //.passwordEncoder(bCryptPasswordEncoder);
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
+    /**<p>Настройка конфигурации путей страниц в spring security</p>
+     * @param http обьект HttpSecurity
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -68,12 +83,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login/login")
+                    .addLogoutHandler(new CustomLogoutHandler())
+                    .logoutSuccessUrl("/login/login").permitAll()
                 .and()
                     .exceptionHandling()
                     .accessDeniedPage("/access-denied");
     }
 
+    /**<p>Настройка доступа статических объектов в spring security</p>
+     * @param web параметр WebSecurity для настройки статики
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -81,14 +101,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/static/**", "/css/**","/files/**","/fonts/**","/icons_users/**", "/images/**", "/js/**");
     }
 
+    /**<p>Регистрация бина класса-слушателя для пользователя в spring security</p>
+     * @return обьект AuthSuccessApplicationListener
+     */
     @Bean
     public ApplicationListener applicationListener(){
-
         return new AuthSuccessApplicationListener();
     }
-
+    /**<p>Регистрация бина класса-обработчика LogoutHandler в spring security</p>
+     * @return обьект AuthSuccessApplicationListener
+     */
+    @Bean
+    public LogoutHandler logoutSuccessHandler(){
+        return new CustomLogoutHandler();
+    }
+    /**<p>Регистрация бина класса BCryptPasswordEncoder в spring security</p>
+     * @return обьект BCryptPasswordEncoder
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 }

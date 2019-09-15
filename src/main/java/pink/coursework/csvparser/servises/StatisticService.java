@@ -1,11 +1,15 @@
 package pink.coursework.csvparser.servises;
 
+import org.hibernate.dialect.MyISAMStorageEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pink.coursework.csvparser.models.Myfile;
 import pink.coursework.csvparser.models.Statistic;
+import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.StatisticRepository;
+import pink.coursework.csvparser.repositories.UserRepository;
+
 import java.util.*;
 
 /**
@@ -19,9 +23,15 @@ public class StatisticService {
     private static int STATICPAGE = 7;
     //количество вывода всех записей
     private static int ALLSTATICPAGE = 7;
+    //количество вывода всех записей конкретного пользователя
+    private static int MYSTATICPAGE = 7;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private StatisticRepository statisticRepository;
+
     @Autowired
     private FileRepository fileRepository;
     /**
@@ -179,5 +189,54 @@ public class StatisticService {
             }
         }
         return searchList;
+    }
+
+    /**<p>Количество страниц для пеженации конкретного пользователя</p>
+     * @param idUser идентификатор пользователя
+     * @return  количество страниц
+     */
+    public int pagesMyStat(Integer idUser) {
+        return (int) Math.ceil((double) myStatsAll(idUser).size() / MYSTATICPAGE);
+    }
+
+    /**<p>Информация о всех файлах с пеженацией конкретного пользователя</p>
+     * @param page текущая страница
+     * @param idUser  идентификатор пользователя
+     * @return список статистики
+     */
+    public List<Statistic> myStatFiles(int page, Integer idUser) {
+        List<Statistic> paginMyStatsList = new ArrayList<>();
+        for (int i = (page - 1) * MYSTATICPAGE; i < (page) * MYSTATICPAGE && i < myStatsAll(idUser).size(); i++) {
+            paginMyStatsList.add(myStatsAll(idUser).get(i));
+        }
+        return paginMyStatsList;
+    }
+
+    /**<p>запись в коллекцию информации по всем файлам пользователя</p>
+     * @param idUser идентификатор пользователя
+     * @return список статистики
+     */
+    private List<Statistic> myStatsAll(Integer idUser){
+        User user = userRepository.getOne(idUser);
+        if(user.getListCreatedFiles().isEmpty() || user.getListCreatedFiles() == null){
+            return null;
+        }
+        List<Statistic> listAllStats = statisticRepository.findAll();
+        List<Statistic> listMyStats = new ArrayList<>();
+        for (Myfile file : user.getListCreatedFiles()){
+            for (Statistic stat : listAllStats) {
+                if(stat.getFileName().equals(file.getName())){
+                    listMyStats.add(stat);
+                }
+            }
+        }
+        return listMyStats;
+    }
+    /**
+     * <p>Очистить всю историю одного пользователя</p>
+     * <p>Обнуляет всю историю, всех файлов одного пользователя</p>
+     */
+    public void clearMyStats(Integer idUser) {
+        statisticRepository.deleteAll(myStatsAll(idUser));
     }
 }
