@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //(тот, который содержит аннотацию @SpringBootApplication) в базовом пакете.
 @SpringBootApplication
 public class CsvparserApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(CsvparserApplication.class, args);
 	}
-
 }

@@ -18,7 +18,6 @@
     <table class="table table-striped table-bordered " >
         <thead class="thead-dark">
         <tr>
-            <th class="th-sm" scope="col">Id</th>
             <th class="th-sm" scope="col">File name</th>
             <th class="th-sm" scope="col">File action</th>
             <th class="th-sm" scope="col">User email</th>
@@ -27,7 +26,6 @@
         </thead>
             <tbody >
                     <tr th:each="stat : ${allStatFiles}">
-                        <th scope="row" th:text="${stat.id}"></th>
                         <td th:text="${stat.fileNameOriginal}"></td>
                         <td th:text="${stat.fileAction}"></td>
                         <td th:text="${stat.userName}"></td>

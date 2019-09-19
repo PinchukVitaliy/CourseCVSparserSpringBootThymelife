@@ -21,18 +21,8 @@
     </div>
     <br/>
     <div>
-        <th:block sec:authorize="isAuthenticated()">
-            <div>
-                <a href="/role/roles">Back to list</a>|
-                <a th:href="@{'/role/edit/'+${role.id}}">Edit</a>|
-            </div>
-        </th:block>
-
-        <th:block sec:authorize="isAnonymous()">
-            <div>
-                <a href="/role/roles">Back to list</a>
-            </div>
-        </th:block>
+           <a href="/role/roles">Back to list</a> |
+           <a th:href="@{'/role/edit/'+${role.id}}">Edit role</a>
     </div>
 </div>
 </body>

@@ -9,30 +9,26 @@
 <div class="container table-responsive text-nowrap" th:fragment="content">
     <br>
         <div class="input-group mb-3">
-            <a href="/user/users/1" class="btn btn-success">Back to list users</a>
+            <a th:href="@{'/user/users/'+${page}}" class="btn btn-success">Back to list users</a>
         </div>
     <table class="table table-striped">
-        <thead>
+        <thead style="background:#B3A9FF">
         <tr>
-            <th scope="col">Id</th>
             <th scope="col">Login</th>
             <th scope="col">E-mail</th>
-            <th scope="col">Password</th>
-            <th></th>
-            <th></th>
             <th></th>
         </tr>
         </thead>
 
-        <tbody>
+        <tbody style="background:#E1EBFF">
         <tr th:each="user : ${users}">
-            <th scope="row" th:text="${user.id}"></th>
             <td th:text="${user.login}"></td>
             <td th:text="${user.email}"></td>
-            <td th:text="${user.password}"></td>
-            <td ><a th:href="@{'/user/details/'+${user.id}}">Details</a></td>
-            <td ><a th:href="@{'/user/edit/'+${user.id}}">Edit</a></td>
-            <td ><a th:href="@{'/user/delete/'+${user.id}}">Delete</a></td>
+            <td ><a th:href="@{'/user/block/'+${user.id}}">
+                    <span th:if="${user.active}" style="color:red">Block</span>
+                    <span th:unless="${user.active}" style="color:green">Anblock</span>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

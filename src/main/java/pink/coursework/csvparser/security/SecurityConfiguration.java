@@ -87,8 +87,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/login/login").permitAll()
                 .and()
                     .exceptionHandling()
-                    .accessDeniedPage("/access-denied");
+                    .accessDeniedPage("/error");
     }
+
 
     /**<p>Настройка доступа статических объектов в spring security</p>
      * @param web параметр WebSecurity для настройки статики

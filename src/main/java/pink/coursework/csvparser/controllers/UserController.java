@@ -110,10 +110,12 @@ public class UserController {
      * @return если есть результат переход на страницу search, или searchResultNullUsers
      */
     @GetMapping(value = "/user/users/{page}", params = { "search" })
-    private String getSearchUser(Model model, String search) {
+    private String getSearchUser(Model model, String search, @PathVariable("page") int page) {
         if(userService.searchList(search) == null || userService.searchList(search).isEmpty()){
+            model.addAttribute("page", page);
             model.addAttribute("contentPage", "/fragments/searchResultNullUsers");
         }else{
+            model.addAttribute("page", page);
             model.addAttribute("users", userService.searchList(search));
             model.addAttribute("contentPage", "/user/search");
         }

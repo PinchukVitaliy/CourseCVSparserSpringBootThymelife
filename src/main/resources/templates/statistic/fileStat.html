@@ -28,7 +28,6 @@
     <table class="table table-striped table-bordered">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Id</th>
             <th scope="col">File name</th>
             <th scope="col">File action</th>
             <th scope="col">User email</th>
@@ -43,7 +42,6 @@
         <tbody th:unless="${statistic.isEmpty() || statistic == null}">
         <tr th:each="stat : ${statistic}">
             <th:block th:if="${!stat.userCreate}">
-                <th scope="row" th:text="${stat.id}"></th>
                 <td th:text="${stat.fileNameOriginal}"></td>
                 <td th:text="${stat.fileAction}"></td>
                 <td th:text="${stat.userName}"></td>

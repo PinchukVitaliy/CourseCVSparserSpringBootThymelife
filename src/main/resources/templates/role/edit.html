@@ -72,7 +72,7 @@
         <br/>
         <button type="submit" class="btn btn-primary">Save</button>&nbsp;
         <a th:href="@{'/role/roles'}" class="href btn btn-info btn-xs">Back</a>&nbsp;
-        <a th:href="@{/role/edit/{id}(id=${role.id})}" class="btn btn-success">Back to role edit</a>
+        <a th:if="${search}" th:href="@{/role/edit/{id}(id=${role.id})}" class="btn btn-success">Back to role edit</a>
     </form>
     <br/>
     <br/>

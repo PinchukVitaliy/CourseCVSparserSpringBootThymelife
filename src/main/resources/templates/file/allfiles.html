@@ -15,7 +15,6 @@
     <table class="table table-success">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Id</th>
             <th scope="col">File name</th>
             <th scope="col">User login</th>
             <th scope="col">User email</th>
@@ -25,7 +24,6 @@
 
         <tbody>
         <tr th:each="file : ${files}">
-            <th scope="row" th:text="${file.id}"></th>
             <td th:text="${file.originName}"></td>
             <td th:text="${file.creatorOfFile.getLogin()}"></td>
             <td th:text="${file.creatorOfFile.getEmail()}"></td>

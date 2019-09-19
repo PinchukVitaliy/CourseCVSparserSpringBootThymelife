@@ -16,7 +16,6 @@
         <table class="table table-striped">
             <thead class="thead thead-dark">
                 <tr>
-                    <th>ID</th>
                     <th>Role</th>
                     <th>Users</th>
                     <th>Settings</th>
@@ -29,7 +28,6 @@
             </tr>
             <!-- ELSE -->
             <tr th:unless="${roles.size() == 0}" th:each="role : ${roles}">
-                <th scope="row" th:text="${role.id}"></th>
                 <td  th:text="${role.name}"></td>
                 <!-- IF CUSTOMER IS ANONYMOUS -->
                 <td  th:if="${role.userList == null || role.userList.size() == 0}">
