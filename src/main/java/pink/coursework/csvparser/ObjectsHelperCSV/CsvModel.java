@@ -4,6 +4,8 @@ import com.opencsv.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -431,5 +433,29 @@ public class CsvModel implements Serializable {
                 CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                 CSVWriter.DEFAULT_LINE_END);
         return  csvWriter;
+    }
+
+    /**<p>Метод по созданию файла с нуля + начальные данные</p>
+     * @param PathFileName полный путь к папке с файлами + сам файл с разрешением
+     */
+    public void createNewCSV(String PathFileName) {
+        try (
+                Writer writer = Files.newBufferedWriter(Paths.get(PathFileName));
+
+                CSVWriter csvWriter = new CSVWriter(writer,
+                        CSVWriter.DEFAULT_SEPARATOR,
+                        CSVWriter.NO_QUOTE_CHARACTER,
+                        CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                        CSVWriter.DEFAULT_LINE_END);
+        ){
+            String[] headerRecord = {"title 1", "title 2", "title 3", "title 4"};
+            csvWriter.writeNext(headerRecord);
+
+            csvWriter.writeNext(new String[]{"data 1 1", "data 1 2", "data 1 3", "data 1 4"});
+            csvWriter.writeNext(new String[]{"data 2 1", "data 2 2", "data 2 3", "data 2 4"});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

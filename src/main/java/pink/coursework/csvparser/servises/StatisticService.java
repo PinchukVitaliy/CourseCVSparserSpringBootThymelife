@@ -44,7 +44,7 @@ public class StatisticService {
     public void add(String userMail, String fileAction, String fileName, String fileOriginalName){
         Statistic statistic = new Statistic();
         statistic.setUserName(userMail);
-        if (fileAction.equals("Upload"))  {
+        if (fileAction.equals("Upload") || fileAction.equals("Create"))  {
             statistic.setUserCreate(true);
         }
         statistic.setFileAction(fileAction);

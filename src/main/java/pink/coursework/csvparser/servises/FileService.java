@@ -523,4 +523,36 @@ public class FileService {
                 fileCsv.getName(),
                 fileCsv.getOriginName());
     }
+
+    /**<p>Метод создать файл с нулями</p>
+     * @param filename путь к папке с файлами
+     * @return возвращает id текущего пользователя
+     */
+    public int createNewFile(String filename) {
+            User authUser = (User)httpSession.getAttribute("user");
+            Myfile newfile = new Myfile();
+
+            User user = userRepository.getOne(authUser.getId());
+            String resultFileName = generateUniqueFileName(filename.trim());
+
+            newfile.setOriginName(filename.trim());
+            newfile.setName(resultFileName+"csv");
+            newfile.setCreatorOfFile(user);
+            newfile.setAccessLink(new AccessLink());
+            fileRepository.save(newfile);
+
+            user.getListCreatedFiles().add(newfile);
+            userRepository.save(user);
+
+            statisticService.add(
+                    user.getEmail(),
+                    "Create",
+                    resultFileName,
+                    filename.trim());
+
+        CsvModel csvModel = new CsvModel();
+        csvModel.createNewCSV(filePath+resultFileName+"csv");
+
+        return authUser.getId();
+    }
 }

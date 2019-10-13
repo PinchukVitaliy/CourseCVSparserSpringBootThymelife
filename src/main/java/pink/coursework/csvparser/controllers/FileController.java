@@ -394,4 +394,14 @@ public class FileController {
         fileService.deleteColums(file, colums);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
+
+    /**<p>Post маппинг по созданию чистого CSV файла</p>
+     * @param filename название самого файла
+     * @return редирект на список своих файлов
+     */
+    @PostMapping("/file/newFile")
+    private String createNewFile(@RequestParam("filename") String filename) {
+        int idUser = fileService.createNewFile(filename);
+        return "redirect:/file/myfiles/"+idUser;
+    }
 }
