@@ -149,4 +149,14 @@ public class UserController {
         }
         return "default";
     }
+
+    /**<p>Get маппинг блокировка и разблокировка пользователя</p>
+     * @param idUser идентификатор пользователя
+     * @return редирект на список всех пользователей
+     */
+    @GetMapping("/user/block/{id}")
+    private String block(@PathVariable("id") Integer idUser) {
+        userService.blockUser(idUser);
+        return "redirect:/user/users/1";
+    }
 }

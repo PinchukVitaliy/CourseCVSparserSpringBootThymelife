@@ -196,7 +196,11 @@ public class StatisticService {
      * @return  количество страниц
      */
     public int pagesMyStat(Integer idUser) {
-        return (int) Math.ceil((double) myStatsAll(idUser).size() / MYSTATICPAGE);
+        int count = 0;
+        if(myStatsAll(idUser) != null){
+            count = myStatsAll(idUser).size();
+        }
+        return (int) Math.ceil((double)  count / MYSTATICPAGE);
     }
 
     /**<p>Информация о всех файлах с пеженацией конкретного пользователя</p>
@@ -205,8 +209,12 @@ public class StatisticService {
      * @return список статистики
      */
     public List<Statistic> myStatFiles(int page, Integer idUser) {
+        int count = 0;
+        if(myStatsAll(idUser) != null){
+            count = myStatsAll(idUser).size();
+        }
         List<Statistic> paginMyStatsList = new ArrayList<>();
-        for (int i = (page - 1) * MYSTATICPAGE; i < (page) * MYSTATICPAGE && i < myStatsAll(idUser).size(); i++) {
+        for (int i = (page - 1) * MYSTATICPAGE; i < (page) * MYSTATICPAGE && i < count; i++) {
             paginMyStatsList.add(myStatsAll(idUser).get(i));
         }
         return paginMyStatsList;

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
@@ -9,7 +10,7 @@
 <div class="container  mt-5" th:fragment="content">
     <h1>Admin page</h1>
     <div class="d-flex flex-wrap justify-content-around row">
-        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
+        <div sec:authorize="hasAuthority('administrator')" class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
             <div class="card-header"><h4>Setting user role</h4></div>
             <a href="/role/roles">
                 <img class="card-img" th:src="@{'/images/roles.jpg'}" alt="roles">

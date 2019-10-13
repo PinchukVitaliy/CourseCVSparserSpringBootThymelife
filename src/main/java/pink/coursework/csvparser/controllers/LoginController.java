@@ -1,15 +1,10 @@
 package pink.coursework.csvparser.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import pink.coursework.csvparser.models.Role;
-import pink.coursework.csvparser.models.User;
-import pink.coursework.csvparser.servises.UserService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  *  Контроллер логинизации пользователя
@@ -20,16 +15,12 @@ import pink.coursework.csvparser.servises.UserService;
 @Controller
 public class LoginController {
 
-    //сервис объекта пользователь
-    @Autowired
-    private UserService userService;
-
     /**<p>Get маппинг на страницу login</p>
      * @param model объект который передает данные в представление
      * @return переход страницу login
      */
-    @GetMapping(value = "/login/login")
-    public String getLoginPage(Model model) {
+    @GetMapping("/login/login")
+    public String getLoginPage(Model model, HttpSession httpSession) {
             model.addAttribute("contentPage", "/login/login");
             return "default";
         }

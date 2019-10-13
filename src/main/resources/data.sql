@@ -12,14 +12,14 @@ INSERT INTO Users (id, login, email, password, icon, active) VALUES (4, 'adminis
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (5, 'owner', 'owner@i.ua', '$2a$10$aEucJ9D4KoDzzCOQlF39t.2qEfbUAwaZOzMukGUSXFOKgh89VmEmG', 'no_user.jpg',true);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (6, 'goblin', 'goblin@i.ua', '$2a$10$1ENkPyiH0gT/BJkqfpQOJ.up2j5YyQVVQdS0sber9cRJwlotyYEwW', 'no_user.jpg',false);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (7, 'pasha', 'gpashat@i.ua', '$2a$10$bPk3dNKp4cSGg/Kmd3WCUuXYve37kkEKPx.JgA61elr24qjgce51q', 'no_user.jpg',false);
-INSERT INTO Users (id, login, email, password, icon, active) VALUES (8, 'lenya', 'lenya@i.ua', '$2a$10$8MSTFQVI3PURuvLVyUO4FuGdxagrDXT52AMTqkLMEL0DcKwWTndP2', 'no_user.jpg',false);
+INSERT INTO Users (id, login, email, password, icon, active) VALUES (8, 'lenya', 'lenya@i.ua', '$2a$10$8MSTFQVI3PURuvLVyUO4FuGdxagrDXT52AMTqkLMEL0DcKwWTndP2', 'no_user.jpg',true);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (9, 'ben', 'moddern@i.ua', '$2a$10$QalfqJAJAjUhPcqgZlYHlOLgh5j0x2oRhBDbsevUizdDfaqul6iSC', 'no_user.jpg',false);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (10, 'zigo', 'zigo@ukr.net', '$2a$10$Uh66jrFJ2tynqxviBna6xu1j/PxqtObj71zRky2RptL6jZLXVUaSa', 'no_user.jpg',true);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (11, 'macar', 'macar@i.ua', '$2a$10$djesjIZlPbyUxScE8.urxeaYJalZg.NJ4rFD2RxR9TOd7liFdHW8a', 'no_user.jpg',false);
 INSERT INTO Users (id, login, email, password, icon, active) VALUES (12, 'focus', 'focus@i.ua', '$2a$10$xJBgOmVqLGibQ3nKrQI9Q.VEABxHMB9oiyZi/jFZKK/U4OXA/NkOa', 'no_user.jpg',false);
 
 
-INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 1); INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 4);
+INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 1);INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 3); INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (1, 4);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (2, 1); INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (2, 2);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (3, 1); INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (3, 2);  INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (3, 3);
 INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (4, 1); INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (4, 2);  INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (4, 3); INSERT INTO USER_ROLE  (USER_ID, ROLE_ID) VALUES (4, 4);

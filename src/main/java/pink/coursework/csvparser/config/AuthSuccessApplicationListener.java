@@ -3,13 +3,19 @@ package pink.coursework.csvparser.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import pink.coursework.csvparser.models.User;
 import pink.coursework.csvparser.servises.UserService;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 
 /**
@@ -49,4 +55,6 @@ public class AuthSuccessApplicationListener implements
 
         }
     }
+
+
 }

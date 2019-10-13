@@ -70,13 +70,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/registration/register").permitAll()
                     .antMatchers("/registration/active/{code}").permitAll()
                     .antMatchers("/user/password").permitAll()
-                    .antMatchers("/home/admin/**").hasAuthority("administrator").anyRequest()
+                    .antMatchers("/home/admin/**").hasAuthority("moderator").anyRequest()
                     .authenticated()
                 .and()
                     .csrf()
                     .disable()
                     .formLogin()
-                    .loginPage("/login/login").failureUrl("/login/login?error=true")
+                    .loginPage("/login/login")
+                    .failureUrl("/login/login?error=true")
                     .defaultSuccessUrl("/")
                     .usernameParameter("email")
                     .passwordParameter("password")
@@ -89,7 +90,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .exceptionHandling()
                     .accessDeniedPage("/error");
     }
-
 
     /**<p>Настройка доступа статических объектов в spring security</p>
      * @param web параметр WebSecurity для настройки статики
@@ -109,6 +109,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public ApplicationListener applicationListener(){
         return new AuthSuccessApplicationListener();
     }
+
     /**<p>Регистрация бина класса-обработчика LogoutHandler в spring security</p>
      * @return обьект AuthSuccessApplicationListener
      */
@@ -116,6 +117,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public LogoutHandler logoutSuccessHandler(){
         return new CustomLogoutHandler();
     }
+
     /**<p>Регистрация бина класса BCryptPasswordEncoder в spring security</p>
      * @return обьект BCryptPasswordEncoder
      */

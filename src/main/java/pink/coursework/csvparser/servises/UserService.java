@@ -270,5 +270,19 @@ public class UserService {
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+
+    /**<p>Блокировка и разблокировка пользователя</p>
+     * @param idUser идентификатор пользователя
+     */
+    public void blockUser(Integer idUser) {
+        User user = userRepository.getOne(idUser);
+        if(user.isActive()){
+            user.setActive(false);
+        }else{
+            user.setActive(true);
+        }
+        userRepository.save(user);
+    }
 }
 

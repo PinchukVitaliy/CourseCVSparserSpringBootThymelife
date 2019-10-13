@@ -87,17 +87,13 @@ public class User {
     public void setIcon(String icon) {this.icon = icon; }
     public List<Myfile> getListCreatedFiles() { return listCreatedFiles;}
     public void setListCreatedFiles(List<Myfile> listCreatedFiles) {this.listCreatedFiles = listCreatedFiles; }
-
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active;  }
-
     public String getActivationCode() {  return activationCode; }
     public void setActivationCode(String activationCode) {  this.activationCode = activationCode; }
-
     public List<Myfile> getListOpenFiles() {
         return listOpenFiles;
     }
-
     public void setListOpenFiles(List<Myfile> listOpenFiles) {
         this.listOpenFiles = listOpenFiles;
     }
