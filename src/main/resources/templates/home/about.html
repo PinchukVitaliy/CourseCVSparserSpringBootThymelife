@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>About</title>
 </head>
 <body>
-
+<div class="container  mt-5" th:fragment="content">
+    <header>
+    <h1>About the project</h1>
+        <p>The product was created to work on CSV-format files. Any user has the right to register and work on</p>
+        <p>the contents of the file from any place where there is Internet access. Since this is a web site, access to it</p>
+        <p>possible from anywhere in the world. The site contains statistics of each created or downloaded file,</p>
+        <p>namely, what was done on this file. Ability to disable users and assignment of certain rights (roles).</p>
+    </header>
+    <div>
+        <h2>Features of ordinary users:</h2>
+        <ul>
+            <li>upload existing file</li>
+            <li>modify file contents</li>
+            <li>create new file</li>
+            <li>download the file itself</li>
+            <li>give editing access, viewing or downloading a file to another user</li>
+        </ul>
+        <h2>Administration features:</h2>
+        <ul>
+            <li>setting roles</li>
+            <li>lock and unlock user</li>
+            <li>view and clear all statistics for all files</li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>

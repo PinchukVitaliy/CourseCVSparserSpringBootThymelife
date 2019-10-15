@@ -32,13 +32,19 @@ public class HomeController {
         model.addAttribute("contentPage", "/home/admin");
         return "default";
     }
-
+    /**<p>Get маппинг на страницу контакты</p>
+     * @param model объект который передает данные в представление
+     * @return  переход страницу contacts
+     */
     @GetMapping("/home/contacts")
     private String contacts(Model model) {
         model.addAttribute("contentPage", "/home/contacts");
         return "default";
     }
-
+    /**<p>Get маппинг на страницу о сайте</p>
+     * @param model объект который передает данные в представление
+     * @return  переход страницу about
+     */
     @GetMapping("/home/about")
     private String about(Model model) {
         model.addAttribute("contentPage", "/home/about");
