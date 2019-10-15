@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+</head>
+<body>
+<div class="container  mt-5" th:fragment="content">
+    <header>
+        <h1>Contacts</h1>
+        <img itemprop="logo" class="navbar-toggler-icon rounded-circle" th:src="@{'/images/csv_parser.png'}" />
+        <a itemprop="url" href="http://mysite.ua/"><span itemprop="name">PP «Distant work»</span></a>
+        <h2>work with documents</h2>
+    </header>
+
+    <p>Thank you for your interest!</p>
+    <p itemprop="telephone">Phone: +3 000 000‒00‒00</p>
+    <p itemprop="faxNumber">Fax: +3 000 000‒00‒00</p>
+    <p>Email: <a href="mailto:mysite@site.ru" target="_blank" itemprop="email">mysite@site.ru</a> The answer to letters comes within 15 minutes</p>
+    <p> Working hours:</p>
+        <time itemprop="openingHours" datetime="Mo-Th 8:00-17:00">Mon-Thu 08:00-17:00, break 12:00-12:48</time><br>
+        <time itemprop="openingHours" datetime="Fr 8:00-16:00">Fri 08:00-16:00, break 12:00-12:48</time><br>
+        <time itemprop="openingHours" datetime="Sat-Sun">Sat-Sun days off</time>
+</div>
+</body>
+</html>

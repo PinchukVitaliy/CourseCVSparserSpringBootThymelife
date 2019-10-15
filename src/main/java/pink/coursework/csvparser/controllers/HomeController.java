@@ -32,4 +32,16 @@ public class HomeController {
         model.addAttribute("contentPage", "/home/admin");
         return "default";
     }
+
+    @GetMapping("/home/contacts")
+    private String contacts(Model model) {
+        model.addAttribute("contentPage", "/home/contacts");
+        return "default";
+    }
+
+    @GetMapping("/home/about")
+    private String about(Model model) {
+        model.addAttribute("contentPage", "/home/about");
+        return "default";
+    }
 }
