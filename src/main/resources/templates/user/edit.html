@@ -34,11 +34,17 @@
             <input type="email" class="form-control" id="email" name="email" th:value="${user.email}">
         </div>
         <div class="form-group">
-            <label for="password">User password</label>
-            <input type="password" class="form-control" id="password" name="password" th:value="${user.password}">
+            <input type="password" id="pass" name="password" th:value="${user.password}" hidden>
+            <label >User password</label>
+            <br>
+            <a id="password" class="btn btn-outline-info" href="/user/newpassword">
+                Edit password
+            </a>
         </div>
         <button type="submit" class="form-group btn btn-primary">Keep the changes</button>
     </form>
+
+
     <th:block sec:authorize="isAuthenticated()">
         <div >
             <th:block sec:authorize="hasAuthority('administrator')">

@@ -159,4 +159,41 @@ public class UserController {
         userService.blockUser(idUser);
         return "redirect:/user/users/1";
     }
+
+    /**<p>Get маппинг на смену пароля</p>
+     * @param model объект который передает данные в представление
+     * @return переход на страницу смена пароля
+     */
+    @GetMapping("/user/newpassword")
+    private String newpassword(Model model) {
+        model.addAttribute("contentPage", "/user/newpassword");
+        return "default";
+    }
+
+    /**<p>Post маппинг на смену пароля</p>
+     * @param oldpassword старый пароль
+     * @param newpassword новый пароль
+     * @param confirmnewpassword подтверждения  нового пароля
+     * @param model объект который передает данные в представление
+     * @return переход на страницу смена пароля
+     */
+    @PostMapping("/user/newpassword")
+    private String newpasswordSubmit(@ModelAttribute("oldpassword") String oldpassword,
+                                     @ModelAttribute("newpassword") String newpassword,
+                                     @ModelAttribute("confirmnewpassword") String confirmnewpassword,
+                                     Model model) {
+        if(!newpassword.equals(confirmnewpassword)){
+            model.addAttribute("confirm", "The password you entered does not match!");
+            model.addAttribute("contentPage", "/user/newpassword");
+            return "default";
+        }
+        boolean flag = userService.newpassword(oldpassword, newpassword);
+        if(!flag){
+            model.addAttribute("message", "Wrong password!");
+        }else{
+            model.addAttribute("success", "Password changed!");
+        }
+        model.addAttribute("contentPage", "/user/newpassword");
+        return "default";
+    }
 }

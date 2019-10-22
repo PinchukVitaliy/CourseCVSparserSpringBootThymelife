@@ -284,5 +284,24 @@ public class UserService {
         }
         userRepository.save(user);
     }
+
+    /**<p>Метод на смену пароля</p>
+     * @param oldpassword старый пароль
+     * @param newpassword новый пароль
+     * @return false - введенный пароль не совпадает с текущим или true - совпадает
+     */
+    public boolean newpassword(String oldpassword, String newpassword) {
+        User userSession = (User)httpSession.getAttribute("user");
+
+        if(!bCryptPasswordEncoder.matches(oldpassword.trim(), userSession.getPassword())){
+            return false;
+        }else{
+            User user = userRepository.getOne(userSession.getId());
+            user.setPassword(bCryptPasswordEncoder.encode(newpassword.trim()));
+            userRepository.save(user);
+            return true;
+        }
+    }
+
 }
 
