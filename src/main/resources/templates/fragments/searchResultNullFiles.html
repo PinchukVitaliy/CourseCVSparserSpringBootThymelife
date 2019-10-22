@@ -11,7 +11,7 @@
     <h1 style="color: red">No results found for your request!</h1>
     <br>
     <div class="input-group mb-3">
-        <a href="/file/files" class="btn btn-success">Back to list files</a>
+        <a th:href="@{'/file/files/'+${pages}}" class="btn btn-success">Back to list files</a>
     </div>
 </div>
 </body>

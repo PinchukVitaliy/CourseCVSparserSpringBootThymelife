@@ -38,7 +38,7 @@ INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (3, false, tru
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (4, true, true, true, 'test link 3');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (5, false, false, true, 'No link');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (6, false, false, true, 'No link');
-INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (7, true, true, true, 'test lik 4');
+INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (7, true, false, false, 'test lik 4');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (8, false, false, true, 'No link');
 INSERT INTO Accesslinks (id, reading, dowload, edit, link) VALUES (9, true, false, true, '8462beb7-9c86-48be-9f3d-dddc7a426acf');
 
@@ -90,7 +90,7 @@ VALUES (9, '2019-09-01 12:05:57.136', 'Opened access to read','TueAug20162623EES
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
 VALUES (10, '2019-09-01 12:06:57.136', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', FALSE, 'autorise user');
 INSERT INTO STATISTICS  (ID, DATE, FILE_ACTION, FILE_NAME, FILE_NAME_ORIGINAL, USER_CREATE, USER_NAME)
-VALUES (11, '2019-09-01 14:05:57.136', 'Opened access to read','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', TRUE, 'autorise user');
+VALUES (11, '2019-09-01 14:05:57.136', 'Create','TueAug20162623EEST2019_1566307583438.csv','CSV-3.csv', TRUE, 'autorise user');
 
 
 

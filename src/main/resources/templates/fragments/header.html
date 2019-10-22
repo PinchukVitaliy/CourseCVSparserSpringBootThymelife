@@ -25,7 +25,7 @@
             </li>
             <th:block sec:authorize="isAuthenticated()">
                <li class="nav-item">
-                   <a class="nav-link" th:if="${session != null}" th:href="@{'/statistic/myStat/'+${session.user.id}}" >Statistic my files</a>
+                   <a class="nav-link" th:if="${session != null}" th:href="@{'/statistic/myStat/'+${session.user.id}}" >Log of my files</a>
                </li>
             </th:block>
            <li class="nav-item dropdown">
@@ -52,6 +52,7 @@
         <form class="form-inline my-2 my-lg-0" th:action="${search}">
             <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <span th:if="${find}">OK</span>
         </form>
         &nbsp;
         <th:block sec:authorize="isAuthenticated()">

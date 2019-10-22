@@ -10,7 +10,7 @@
     <link  th:href="@{/css/allFiles.css}" rel="stylesheet" >
     <div class="form-group">
         <h1 >All files</h1>
-        <a id="statAll"  class="btn btn-outline-info my-2 mr-sm-2" th:href="@{'/statistic/all'}" >All statistic</a>
+        <a id="statAll"  class="btn btn-outline-info my-2 mr-sm-2" th:href="@{'/statistic/all'}" >Log of all files</a>
     </div>
     <table class="table table-success">
         <thead class="thead-dark">
@@ -18,7 +18,7 @@
             <th scope="col">File name</th>
             <th scope="col">User login</th>
             <th scope="col">User email</th>
-            <th scope="col">Statistics</th>
+            <th scope="col">Log</th>
         </tr>
         </thead>
 
@@ -27,7 +27,7 @@
             <td th:text="${file.originName}"></td>
             <td th:text="${file.creatorOfFile.getLogin()}"></td>
             <td th:text="${file.creatorOfFile.getEmail()}"></td>
-            <td ><a th:href="@{'/statistic/'+${file.id}}">Open</a></td>
+            <td ><a th:href="@{'/statistic/'+${file.id}}">Open log</a></td>
         </tr>
         </tbody>
     </table>

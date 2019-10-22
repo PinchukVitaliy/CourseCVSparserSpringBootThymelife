@@ -21,10 +21,39 @@
         <tr th:each="user : ${users}">
             <td th:text="${user.login}"></td>
             <td th:text="${user.email}"></td>
-            <td ><a th:href="@{'/user/block/'+${user.id}}">
-                <span th:if="${user.active}" style="color:red">Block</span>
-                <span th:unless="${user.active}" style="color:green">Anblock</span>
-            </a>
+            <td >
+                <button data-toggle="modal" th:attr="data-target='#lockuser'+${user.id}"
+                        class="btn btn-outline-info">
+                    <span th:if="${user.active}" style="color:red">Lock</span>
+                    <span th:unless="${user.active}" style="color:green">Unlock</span>
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='lockuser'+${user.id}"
+                     tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" style="color:black" id="createFileTitle">Lock and Unlock</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>
+                                <span th:if="${user.active}" style="color:green">Unlock</span>
+                                <span th:unless="${user.active}" style="color:red">Lock</span>
+                                <span style="color:blu" th:text="${user.email}"></span>
+                                </h4>
+                            </div>
+                            <div class="modal-footer">
+                                <form class="mt-3" name="clearFile" th:action="@{'/user/block/'+${user.id}}"  method="GET">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Ok</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>

@@ -71,8 +71,10 @@ public class FileController {
     @GetMapping(value = "/file/files", params = { "search" })
     private String getSearchFileAndUser(Model model, String search) {
         if(fileService.searchList(search) == null || fileService.searchList(search).isEmpty()){
+            model.addAttribute("pages",  1);
             model.addAttribute("contentPage", "/fragments/searchResultNullFiles");
         }else{
+            model.addAttribute("pages",  1);
             model.addAttribute("files", fileService.searchList(search));
             model.addAttribute("contentPage", "/file/search");
         }
@@ -84,10 +86,12 @@ public class FileController {
      * @return переход страницу search
      */
     @GetMapping(value = "/file/files/{page}", params = { "search" })
-    private String getSearchFileAndUserPage(Model model, String search) {
+    private String getSearchFileAndUserPage(Model model, String search,  @PathVariable int page) {
         if(fileService.searchList(search) == null || fileService.searchList(search).isEmpty()){
+            model.addAttribute("pages",  page);
             model.addAttribute("contentPage", "/fragments/searchResultNullFiles");
         }else{
+            model.addAttribute("pages",  page);
             model.addAttribute("files", fileService.searchList(search));
             model.addAttribute("contentPage", "/file/search");
         }

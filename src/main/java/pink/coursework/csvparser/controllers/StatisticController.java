@@ -34,7 +34,7 @@ public class StatisticController {
         model.addAttribute("idFile",idFile);
         model.addAttribute("pages", statisticService.pages(idFile));
         model.addAttribute("statistic", statisticService.getFileStat(idFile, 1));
-        model.addAttribute("message", "No file statistics");
+        model.addAttribute("message", "No records");
         model.addAttribute("contentPage", "/statistic/fileStat");
         return "default";
     }
@@ -51,7 +51,7 @@ public class StatisticController {
         model.addAttribute("idFile",idFile);
         model.addAttribute("pages", statisticService.pages(idFile));
         model.addAttribute("statistic", statisticService.getFileStat(idFile, page));
-        model.addAttribute("message", "No file statistics");
+        model.addAttribute("message", "No records");
         model.addAttribute("contentPage", "/statistic/fileStat");
         return "default";
     }
@@ -72,7 +72,7 @@ public class StatisticController {
             model.addAttribute("pages",  1);
             model.addAttribute("idFile",idFile);
             model.addAttribute("statistic", statisticService.searchListStatFile(search, idFile));
-            model.addAttribute("message", "No file statistics");
+            model.addAttribute("message", "No records");
             model.addAttribute("contentPage", "/statistic/fileStatSearch");
         }
         return "default";
@@ -95,7 +95,7 @@ public class StatisticController {
             model.addAttribute("pages",  page);
             model.addAttribute("idFile", idFile);
             model.addAttribute("statistic", statisticService.searchListStatFile(search, idFile));
-            model.addAttribute("message", "No file statistics");
+            model.addAttribute("message", "No records");
             model.addAttribute("contentPage", "/statistic/fileStatSearch");
         }
         return "default";
@@ -120,7 +120,7 @@ public class StatisticController {
         model.addAttribute("curpage", 1);
         model.addAttribute("pages", statisticService.pagesAllStat());
         model.addAttribute("allStatFiles",statisticService.allStatFiles(1));
-        model.addAttribute("message", "No file statistics");
+        model.addAttribute("message", "No records");
         model.addAttribute("contentPage", "/statistic/allStats");
         return "default";
     }
@@ -135,7 +135,7 @@ public class StatisticController {
         model.addAttribute("curpage", page);
         model.addAttribute("pages", statisticService.pagesAllStat());
         model.addAttribute("allStatFiles",statisticService.allStatFiles(page));
-        model.addAttribute("message", "No file statistics");
+        model.addAttribute("message", "No records");
         model.addAttribute("contentPage", "/statistic/allStats");
         return "default";
     }
@@ -196,7 +196,7 @@ public class StatisticController {
         model.addAttribute("curpage", 1);
         model.addAttribute("pages", statisticService.pagesMyStat(idUser));
         model.addAttribute("myStatFiles",statisticService.myStatFiles(1, idUser));
-        model.addAttribute("message", "No file statistics");
+        model.addAttribute("message", "No records");
         model.addAttribute("contentPage", "/statistic/myStats");
         return "default";
     }
@@ -212,7 +212,7 @@ public class StatisticController {
         model.addAttribute("curpage", page);
         model.addAttribute("pages", statisticService.pagesMyStat(idUser));
         model.addAttribute("myStatFiles",statisticService.myStatFiles(page, idUser));
-        model.addAttribute("message", "No file statistics");
+        model.addAttribute("message", "No records");
         model.addAttribute("contentPage", "/statistic/myStats");
         return "default";
     }

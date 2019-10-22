@@ -125,7 +125,7 @@ public class StatisticService {
         Myfile file = fileRepository.getOne(idFile);
         List<Statistic> allStat = statisticRepository.findAll();
         for (Statistic st : allStat){
-            if(st.getFileName() == file.getName() && !st.getUserCreate()){
+            if(st.getFileName().equals(file.getName()) && !st.getUserCreate()){
                 statisticRepository.delete(st);
             }
         }
