@@ -126,7 +126,7 @@ public class UserService {
             List<User> userList = userRepository.findAll();
             searchList = new ArrayList<User>();
             for (int i = 0; i < userList.size(); i++) {
-                if (userList.get(i).getLogin().regionMatches(true, 0, search, 0, search.length())) {
+                if (userList.get(i).getLogin().toLowerCase().contains(search.toLowerCase())) {
                     searchList.add(userList.get(i));
                 }
             }

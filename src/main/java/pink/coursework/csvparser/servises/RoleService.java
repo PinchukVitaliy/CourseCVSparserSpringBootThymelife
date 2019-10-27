@@ -108,7 +108,7 @@ public class RoleService {
             List<User> userList = resultList;
             searchList = new ArrayList<User>();
             for (int i = 0; i < userList.size(); i++) {
-                if (userList.get(i).getEmail().regionMatches(true, 0, search, 0, search.length())) {
+                if (userList.get(i).getEmail().toLowerCase().contains(search.toLowerCase())) {
                     searchList.add(userList.get(i));
                 }
             }

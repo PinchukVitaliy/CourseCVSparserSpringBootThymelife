@@ -107,10 +107,10 @@ public class StatisticService {
         List<Statistic> searchList = new ArrayList<>();
         List<Statistic> statisticsList = listStatsConcreteFile(idFile);
         for (int i = 0; i < statisticsList.size(); i++) {
-            if (statisticsList.get(i).getFileAction().regionMatches(true, 0, search, 0, search.length())
-                    || statisticsList.get(i).getFileNameOriginal().regionMatches(true, 0, search, 0, search.length())
-                    || statisticsList.get(i).getUserName().regionMatches(true, 0, search, 0, search.length())
-                    || statisticsList.get(i).getDate().toString().regionMatches(true, 0, search, 0, search.length())) {
+            if (statisticsList.get(i).getFileAction().toLowerCase().contains(search.toLowerCase())
+                    || statisticsList.get(i).getFileNameOriginal().toLowerCase().contains(search.toLowerCase())
+                    || statisticsList.get(i).getUserName().toLowerCase().contains(search.toLowerCase())
+                    || statisticsList.get(i).getDate().toString().toLowerCase().contains(search.toLowerCase())) {
                 searchList.add(statisticsList.get(i));
             }
         }
@@ -181,10 +181,10 @@ public class StatisticService {
         List<Statistic> searchList = new ArrayList<>();
         List<Statistic> statisticsList = statisticRepository.findAll();
         for (int i = 0; i < statisticsList.size(); i++) {
-            if (statisticsList.get(i).getFileAction().regionMatches(true, 0, search, 0, search.length())
-                    || statisticsList.get(i).getFileNameOriginal().regionMatches(true, 0, search, 0, search.length())
-                    || statisticsList.get(i).getUserName().regionMatches(true, 0, search, 0, search.length())
-                    || statisticsList.get(i).getDate().toString().regionMatches(true, 0, search, 0, search.length())) {
+            if (statisticsList.get(i).getFileAction().toLowerCase().contains(search.toLowerCase())
+                    || statisticsList.get(i).getFileNameOriginal().toLowerCase().contains(search.toLowerCase())
+                    || statisticsList.get(i).getUserName().toLowerCase().contains(search.toLowerCase())
+                    || statisticsList.get(i).getDate().toString().toLowerCase().contains(search.toLowerCase())) {
                 searchList.add(statisticsList.get(i));
             }
         }

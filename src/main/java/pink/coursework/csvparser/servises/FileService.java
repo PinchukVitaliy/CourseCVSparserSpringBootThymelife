@@ -118,9 +118,10 @@ public class FileService {
             List<Myfile> fileList = fileRepository.findAll();
             searchList = new ArrayList<Myfile>();
             for (int i = 0; i < fileList.size(); i++) {
-                if (fileList.get(i).getOriginName().regionMatches(true, 0, search, 0, search.length())
+                if (fileList.get(i).getOriginName().toLowerCase().contains(search.toLowerCase())
                         ||
-                fileList.get(i).getCreatorOfFile().getLogin().regionMatches(true,0,search,0,search.length())) {
+                fileList.get(i).getCreatorOfFile().getLogin().toLowerCase().contains(search.toLowerCase()))
+                {
                     searchList.add(fileList.get(i));
                 }
             }
@@ -172,7 +173,7 @@ public class FileService {
         List<Myfile> fileList = userRepository.getOne(idUser).getListCreatedFiles();
         searchList = new ArrayList<Myfile>();
             for (int i = 0; i < fileList.size(); i++) {
-                if (fileList.get(i).getOriginName().regionMatches(true, 0, search, 0, search.length())) {
+                if (fileList.get(i).getOriginName().toLowerCase().contains(search.toLowerCase())) {
                     searchList.add(fileList.get(i));
                 }
             }

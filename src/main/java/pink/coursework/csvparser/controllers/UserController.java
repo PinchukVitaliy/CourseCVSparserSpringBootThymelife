@@ -41,6 +41,7 @@ public class UserController {
         model.addAttribute("curpage", page);
         model.addAttribute("pages", userService.pages());
         model.addAttribute("users", userService.listUsers(page));
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/user/users");
         return "default";
     }
@@ -52,7 +53,6 @@ public class UserController {
      */
     @GetMapping("/user/details/{id}")
     private String details(@PathVariable("id") Integer id, Model model) {
-
         model.addAttribute("user", userService.getDetails(id));
         model.addAttribute("contentPage", "/user/details");
         return "default";
@@ -117,6 +117,7 @@ public class UserController {
         }else{
             model.addAttribute("page", page);
             model.addAttribute("users", userService.searchList(search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/user/search");
         }
         return "default";

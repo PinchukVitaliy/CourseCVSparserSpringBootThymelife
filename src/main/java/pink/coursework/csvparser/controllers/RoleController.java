@@ -70,6 +70,7 @@ public class RoleController {
         model.addAttribute("role", roleService.getRole(idRole));
         model.addAttribute("user_yes_role", roleService.getRole(idRole).getUserList());
         model.addAttribute("user_no_role", roleService.listUsersNoRole(idRole));
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/role/edit");
         return "default";
 
@@ -95,6 +96,7 @@ public class RoleController {
             model.addAttribute("user_yes_role", roleService.searchList(search, roleService.getRole(idRole).getUserList()));
             model.addAttribute("user_no_role", roleService.searchList(search, roleService.listUsersNoRole(idRole)));
             model.addAttribute("search", true);
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/role/edit");
         }
         return "default";

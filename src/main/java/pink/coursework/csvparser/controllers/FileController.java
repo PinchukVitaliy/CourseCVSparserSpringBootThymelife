@@ -45,6 +45,7 @@ public class FileController {
         model.addAttribute("curpage", 1);
         model.addAttribute("pages", fileService.pages());
         model.addAttribute("files", fileService.paginationFiles(1));
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/file/allfiles");
         return "default";
     }
@@ -59,6 +60,7 @@ public class FileController {
         model.addAttribute("curpage", page);
         model.addAttribute("pages", fileService.pages());
         model.addAttribute("files", fileService.paginationFiles(page));
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/file/allfiles");
         return "default";
     }
@@ -76,6 +78,7 @@ public class FileController {
         }else{
             model.addAttribute("pages",  1);
             model.addAttribute("files", fileService.searchList(search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/search");
         }
         return "default";
@@ -93,6 +96,7 @@ public class FileController {
         }else{
             model.addAttribute("pages",  page);
             model.addAttribute("files", fileService.searchList(search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/search");
         }
         return "default";
@@ -133,6 +137,7 @@ public class FileController {
             model.addAttribute("curpage", 1);
             model.addAttribute("pages", fileService.myPages(idUser));
             model.addAttribute("myfiles", fileService.listUserFiles(idUser, 1));
+             model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/myfiles");
         return "default";
     }
@@ -150,6 +155,7 @@ public class FileController {
             model.addAttribute("curpage", page);
             model.addAttribute("pages", fileService.myPages(idUser));
             model.addAttribute("myfiles", fileService.listUserFiles(idUser, page));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/myfiles");
         return "default";
     }
@@ -169,6 +175,7 @@ public class FileController {
             model.addAttribute("curpage", 1);
             model.addAttribute("pages", fileService.myPages(idUser));
             model.addAttribute("myfiles", fileService.searchListMyfiles(idUser,  search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/myfiles");
         }
         return "default";
@@ -189,6 +196,7 @@ public class FileController {
             model.addAttribute("curpage", page);
             model.addAttribute("pages", fileService.myPages(idUser));
             model.addAttribute("myfiles", fileService.searchListMyfiles(idUser, search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/myfiles");
         }
         return "default";

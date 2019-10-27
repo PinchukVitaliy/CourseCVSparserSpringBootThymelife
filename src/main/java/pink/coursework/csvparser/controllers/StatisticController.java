@@ -35,6 +35,7 @@ public class StatisticController {
         model.addAttribute("pages", statisticService.pages(idFile));
         model.addAttribute("statistic", statisticService.getFileStat(idFile, 1));
         model.addAttribute("message", "No records");
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/statistic/fileStat");
         return "default";
     }
@@ -52,6 +53,7 @@ public class StatisticController {
         model.addAttribute("pages", statisticService.pages(idFile));
         model.addAttribute("statistic", statisticService.getFileStat(idFile, page));
         model.addAttribute("message", "No records");
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/statistic/fileStat");
         return "default";
     }
@@ -73,6 +75,7 @@ public class StatisticController {
             model.addAttribute("idFile",idFile);
             model.addAttribute("statistic", statisticService.searchListStatFile(search, idFile));
             model.addAttribute("message", "No records");
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/statistic/fileStatSearch");
         }
         return "default";
@@ -96,6 +99,7 @@ public class StatisticController {
             model.addAttribute("idFile", idFile);
             model.addAttribute("statistic", statisticService.searchListStatFile(search, idFile));
             model.addAttribute("message", "No records");
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/statistic/fileStatSearch");
         }
         return "default";
@@ -121,6 +125,7 @@ public class StatisticController {
         model.addAttribute("pages", statisticService.pagesAllStat());
         model.addAttribute("allStatFiles",statisticService.allStatFiles(1));
         model.addAttribute("message", "No records");
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/statistic/allStats");
         return "default";
     }
@@ -136,6 +141,7 @@ public class StatisticController {
         model.addAttribute("pages", statisticService.pagesAllStat());
         model.addAttribute("allStatFiles",statisticService.allStatFiles(page));
         model.addAttribute("message", "No records");
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/statistic/allStats");
         return "default";
     }
@@ -153,6 +159,7 @@ public class StatisticController {
         }else{
             model.addAttribute("tolist",1);
             model.addAttribute("allStatFiles", statisticService.searchListAllStat(search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/statistic/allStatsSearch");
         }
         return "default";
@@ -172,6 +179,7 @@ public class StatisticController {
         }else{
             model.addAttribute("tolist", page);
             model.addAttribute("allStatFiles", statisticService.searchListAllStat(search));
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/statistic/allStatsSearch");
         }
         return "default";
