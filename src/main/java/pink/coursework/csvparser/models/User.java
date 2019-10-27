@@ -51,7 +51,7 @@ public class User {
     @OneToMany(cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Myfile> listCreatedFiles = new ArrayList<>();
     //связь один пользователь много файлов с открытым доступом
-    @OneToMany
+    @ManyToMany
     private List<Myfile> listOpenFiles = new ArrayList<>();
     //конструктор
     public User() {

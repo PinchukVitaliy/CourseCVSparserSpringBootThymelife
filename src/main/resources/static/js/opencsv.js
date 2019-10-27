@@ -41,13 +41,15 @@
                     input.type = 'hidden';
                     input.name = 'deletecolums';
                     input.value= x.options[i].text;
+                    var label = document.createElement('label');
+                    label.innerHTML = x.options[i].text;
+                    var br = document.createElement('br');
                     parent.appendChild(input);
+                    parent.appendChild(label);
+                    parent.appendChild(br);
                 }
         }
         if(optionVal.length !== 0){
-        var label = document.createElement('label');
-                    label.innerHTML = optionVal;
-                    parent.appendChild(label);
            $("#myModalDelcolums").modal();
         }
     }

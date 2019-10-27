@@ -353,42 +353,42 @@ public class FileController {
     /**<p>Post маппинг на добавления столбца в файл</p>
      * @param file обьект файла
      * @param page текущая страница
-     * @param newRow название нового стобца
+     * @param newColum название нового стобца
      * @return редирект на страницу open
      * @throws Exception при обработке метода в маппинге может возникнуть исключение
      */
-    @PostMapping("/file/row")
+    @PostMapping("/file/colum")
     private String addRowOpenCSV( @RequestParam("file") Myfile file,
                                   @RequestParam("curpage") int page,
-                                @RequestParam("newRow") String newRow) throws Exception{
-        fileService.addNewRow(file, newRow);
+                                @RequestParam("newColum") String newColum) throws Exception{
+        fileService.addNewColum(file, newColum);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 
-    /**<p>Post маппинг на добавления колонки в файл</p>
+    /**<p>Get маппинг на добавления строки в файл</p>
      * @param idFile идентификатор файла
      * @param page текущая страница
      * @return редирект на страницу open
      * @throws Exception при обработке метода в маппинге может возникнуть исключение
      */
-    @GetMapping("/file/colum/{id}/{page}")
+    @GetMapping("/file/row/{id}/{page}")
     private String addColumOpenCSV(@PathVariable("id") Integer idFile, @PathVariable("page") int page) throws Exception {
-        fileService.addNewColum(idFile);
+        fileService.addNewRow(idFile);
         return "redirect:/file/open/"+idFile+"/"+page;
     }
 
-    /**<p>Post маппинг на удаления столбцов из файла</p>
+    /**<p>Post маппинг на удаления строк из файла</p>
      * @param file обьект файла
      * @param page текущая страница
-     * @param rows список удаляемых столбцов
+     * @param rows список удаляемых строк
      * @return редирект на страницу open
      * @throws Exception при обработке метода в маппинге может возникнуть исключение
      */
     @PostMapping("/file/deleterows")
-    public String deleteRows(@RequestParam("file") Myfile file,
+    public String deleteColums(@RequestParam("file") Myfile file,
                              @RequestParam("curpage") int page,
                              @RequestParam("deleterows") List<String> rows) throws Exception{
-        fileService.deleteRows(file, rows);
+        fileService.deleteColums(file, rows);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 
@@ -400,10 +400,10 @@ public class FileController {
      * @throws Exception при обработке метода в маппинге может возникнуть исключение
      */
     @PostMapping("/file/deletecolums")
-    public String deleteColums(@RequestParam("file") Myfile file,
+    public String deleteRows(@RequestParam("file") Myfile file,
                              @RequestParam("curpage") int page,
                              @RequestParam("deletecolums") List<String> colums) throws Exception{
-        fileService.deleteColums(file, colums);
+        fileService.deleteRows(file, colums);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 

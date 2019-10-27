@@ -392,6 +392,7 @@ public class FileService {
         if(user.getListOpenFiles().contains(file)){
             return false;
         }
+
         user.getListOpenFiles().add(file);
         userRepository.save(user);
         return true;
@@ -459,17 +460,17 @@ public class FileService {
      * <p>Добавить колонку в CSV</p>
      * <p>Создает и добавляет новую колонку</p>
      * @param file обьект класса Myfile
-     * @param newRow назнвние новой колонки
+     * @param newColum назнвние новой колонки
      * @throws Exception может быть исключение так как идет работа с файловой системой
      */
-    public void addNewRow(Myfile file, String newRow) throws Exception {
+    public void addNewColum(Myfile file, String newColum) throws Exception {
         Myfile fileCsv = fileRepository.getOne(file.getId());
         User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
-        csvModel.addRow(filePath + fileCsv.getName(), newRow);
+        csvModel.addRow(filePath + fileCsv.getName(), newColum);
         statisticService.add(
                 authUser.getEmail(),
-                "Add Row",
+                "Add Colum",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
     }
@@ -479,38 +480,21 @@ public class FileService {
      * @param idFile дентификатор файла
      * @throws Exception может быть исключение так как идет работа с файловой системой
      */
-    public void addNewColum(Integer idFile) throws Exception {
+    public void addNewRow(Integer idFile) throws Exception {
         Myfile fileCsv = fileRepository.getOne(idFile);
         User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
         csvModel.addColum(filePath + fileCsv.getName());
         statisticService.add(
                 authUser.getEmail(),
-                "Add colum",
+                "Add row",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
     }
     /**
      * <p>Удалить строки в CSV</p>
      * @param file обьект класса Myfile
-     * @param colums список удаляемых строк
-     * @throws Exception может быть исключение так как идет работа с файловой системой
-     */
-    public void deleteColums(Myfile file, List<String> colums) throws Exception{
-        Myfile fileCsv = fileRepository.getOne(file.getId());
-        User authUser = (User)httpSession.getAttribute("user");
-        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
-        csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
-        statisticService.add(
-                authUser.getEmail(),
-                "Delete colums",
-                fileCsv.getName(),
-                fileCsv.getOriginName());
-    }
-    /**
-     * <p>Удалить колонки в CSV</p>
-     * @param file обьект класса Myfile
-     * @param rows список удаляемых колонок
+     * @param rows список удаляемых строк
      * @throws Exception может быть исключение так как идет работа с файловой системой
      */
     public void deleteRows(Myfile file, List<String> rows) throws Exception{
@@ -521,6 +505,23 @@ public class FileService {
         statisticService.add(
                 authUser.getEmail(),
                 "Delete rows",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
+    }
+    /**
+     * <p>Удалить колонки в CSV</p>
+     * @param file обьект класса Myfile
+     * @param colums список удаляемых колонок
+     * @throws Exception может быть исключение так как идет работа с файловой системой
+     */
+    public void deleteColums(Myfile file, List<String> colums) throws Exception{
+        Myfile fileCsv = fileRepository.getOne(file.getId());
+        User authUser = (User)httpSession.getAttribute("user");
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
+        csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
+        statisticService.add(
+                authUser.getEmail(),
+                "Delete colums",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
     }

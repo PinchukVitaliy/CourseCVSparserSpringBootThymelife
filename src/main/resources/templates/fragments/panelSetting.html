@@ -16,34 +16,34 @@
             <div>
                 <!-- save data in table-->
                 <input type="submit" class="btn btn-primary" id="save"  value="Save">
-                <!-- add row-->
+                <!-- add colum-->
                 <input type="button" class="btn btn-primary"
                        th:onclick="openModal()"
-                       value="Add row">
-                <!-- add colum-->
-                <a class="btn btn-primary" th:href="@{'/file/colum/'+${file.id}+'/'+${curpage}}" role="button">Add colum</a>
-            </div>
-            <!-- delete rows-->
-            <br>
-            <div>
-                <label for="delrows" class="panel"><h5>Delete rows</h5></label>
-                <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delrows" name="delrows">
-                    <option th:each="titleZN : ${csvfile.TitleCsv}"
-                            th:value="${titleZN}"
-                            th:utext="${titleZN}"/>
-                </select>
-                <input type="button" onclick="delRows()" class="btn btn-primary" value="Delete">
+                       value="Add colum">
+                <!-- add row-->
+                <a class="btn btn-primary" th:href="@{'/file/row/'+${file.id}+'/'+${curpage}}" role="button">Add row</a>
             </div>
             <!-- delete colums-->
             <br>
             <div>
-                <label for="delcolums" class="panel"><h5>Delete colums</h5></label>
+                <label for="delcolums" class="panel"><h5>Select colum(s)</h5></label>
                 <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delcolums" name="delcolums">
+                    <option th:each="titleZN : ${csvfile.TitleCsv}"
+                            th:value="${titleZN}"
+                            th:utext="${titleZN}"/>
+                </select>
+                <input type="button" onclick="delColums()" class="btn btn-primary" value="Delete">
+            </div>
+            <!-- delete rows-->
+            <br>
+            <div>
+                <label for="delrows" class="panel"><h5>Select row(s)</h5></label>
+                <select class="border border-primary rounded selectpicker"  multiple data-live-search="true" id="delrows" name="delrows">
                     <option th:each="data : ${csvfile.DataModelRows}"
                             th:value="${data.id}"
                             th:utext="${data.id}"/>
                 </select>
-                <input type="button" onclick="delColums()" class="btn btn-primary" value="Delete">
+                <input type="button" onclick="delRows()" class="btn btn-primary" value="Delete">
             </div>
         </div>
     </div>

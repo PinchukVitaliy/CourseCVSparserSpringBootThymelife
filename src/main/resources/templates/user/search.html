@@ -43,9 +43,9 @@
                             </div>
                             <div class="modal-body">
                                 <h4>
-                                    <span th:if="${user.active}" style="color:green">Unlock</span>
-                                    <span th:unless="${user.active}" style="color:red">Lock</span>
-                                    <span style="color:blu" th:text="${user.email}"></span>
+                                    <span th:if="${user.active}" style="color:red">Lock</span>
+                                    <span th:unless="${user.active}" style="color:green">Unlock</span>
+                                    <span style="color:blue" th:text="${user.email}"></span>
                                 </h4>
                             </div>
                             <div class="modal-footer">
