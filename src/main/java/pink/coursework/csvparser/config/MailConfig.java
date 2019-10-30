@@ -21,10 +21,10 @@ public class MailConfig {
     //имя хоста (почты которую использую)
     @Value("${spring.mail.host}")
     private String host;
-    //имя почты (pinchukvitaliy@ukr.net)
+    //имя почты (zigo@ukr.net-от этого имени будут приходить сообщения)
     @Value("${spring.mail.username}")
     private String username;
-    //пароль от почты (pinchukvitaliy@ukr.net)
+    //пароль от почты (zigo@ukr.net - пароль этой почты)
     @Value("${spring.mail.password}")
     private String password;
     //порт по которому пересылаются данные с почты
@@ -48,7 +48,7 @@ public class MailConfig {
         mailSender.setHost(host);
         mailSender.setPort(port);
         mailSender.setUsername(username);
-        mailSender.setPassword(password);
+        mailSender.setPassword(decode(password.getBytes(), "meow"));
 
         Properties properties = mailSender.getJavaMailProperties();
 
@@ -57,5 +57,40 @@ public class MailConfig {
         //properties.setProperty("mail.debug", debug);
 
         return  mailSender;
+    }
+
+    /**<p>метод для шифровки текста с помощью XOR</p>
+     * @param secret строка которую шифруем
+     * @param key ключ для шифрования
+     * @return зашифрованная строка
+     */
+    private byte[] encode(String secret, String key) {
+        byte[] btxt = null;
+        byte[] bkey = null;
+
+        btxt = secret.getBytes();
+        bkey = key.getBytes();
+
+        byte[] result = new byte[secret.length()];
+
+        for (int i = 0; i < btxt.length; i++) {
+            result[i] = (byte) (btxt[i] ^ bkey[i % bkey.length]);
+        }
+        return result;
+    }
+
+    /**<p>метод для расшифровки текста</p>
+     * @param secret строка которую шифруем
+     * @param key ключ для шифрования
+     * @return получам реальную строку
+     */
+    private String decode(byte[] secret, String key) {
+        byte[] result = new byte[secret.length];
+        byte[] bkey = key.getBytes();
+
+        for (int i = 0; i < secret.length; i++) {
+            result[i] = (byte) (secret[i] ^ bkey[i % bkey.length]);
+        }
+        return new String(result);
     }
 }

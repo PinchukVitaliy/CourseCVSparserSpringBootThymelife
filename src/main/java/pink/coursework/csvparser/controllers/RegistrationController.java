@@ -71,7 +71,7 @@ public class RegistrationController {
     private String activate(Model model, @PathVariable("code") String code){
         boolean isActivate = userService.getActivate(code);
         if(isActivate){
-            model.addAttribute("message", "User successfully activated");
+            model.addAttribute("message", "You are successfully activated");
             model.addAttribute("contentPage", "/login/login");
         }else{
             model.addAttribute("message", "Activation code is not found!");

@@ -247,4 +247,8 @@ public class StatisticService {
     public void clearMyStats(Integer idUser) {
         statisticRepository.deleteAll(myStatsAll(idUser));
     }
+
+    public Collection<Object> searchListMyStat(String search) {
+        return null;
+    }
 }

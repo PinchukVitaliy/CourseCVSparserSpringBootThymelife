@@ -101,7 +101,7 @@ public class UserController {
     @PostMapping("/user/delete")
     private String deleteSubmit(@ModelAttribute("user") User user) {
         userService.delete(user);
-        return "redirect:/";
+        return "redirect:/logout";
     }
 
     /**<p>Get маппинг поиска пользователей + пеженация</p>

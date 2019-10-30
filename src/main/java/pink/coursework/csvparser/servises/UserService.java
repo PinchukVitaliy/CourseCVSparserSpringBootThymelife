@@ -42,7 +42,9 @@ public class UserService {
     //обьект BCryptPasswordEncoder для шифрования паролей
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    //имя хоста
+    @Value("${hostname}")
+    private String hostname;
     //путь к папке где хранятся аватары пользователей
     @Value("${avatar.path}")
     String avatarPath;
@@ -69,8 +71,9 @@ public class UserService {
                "Hello, %s! \n" +
                        "Welcom to Csv-Parser. \n" +
                        "Please click on the following link to activate your account! \n" +
-                       "http:localhost:8080/registration/active/%s",
+                       "%s/registration/active/%s",
                     user.getLogin(),
+                    hostname,
                     user.getActivationCode()
             );
 
@@ -109,6 +112,7 @@ public class UserService {
      * @param user обьект пользователя
      */
     public void delete(User user) {
+
         userRepository.delete(user);
     }
 

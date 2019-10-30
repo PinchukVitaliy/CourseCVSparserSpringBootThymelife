@@ -224,7 +224,19 @@ public class StatisticController {
         model.addAttribute("contentPage", "/statistic/myStats");
         return "default";
     }
-
+    @GetMapping(value = "/statistic/myStat/{id}", params = { "search" })
+    private String myStatSearch(Model model, String search)  {
+        if(statisticService.searchListMyStat(search) == null || statisticService.searchListMyStat(search).isEmpty()){
+            model.addAttribute("contentPage", "/fragments/searchResultNullMyStat");
+            model.addAttribute("pages",  1);
+        }else{
+            model.addAttribute("tolist",1);
+            model.addAttribute("allStatFiles", statisticService.searchListAllStat(search));
+            model.addAttribute("find", true);
+            model.addAttribute("contentPage", "/statistic/myStatsSearch");
+        }
+        return "default";
+    }
     /**<p>Get маппинг на очистку всей статистики одного пользователя</p>
      * @return редирект на страницу all
      */
