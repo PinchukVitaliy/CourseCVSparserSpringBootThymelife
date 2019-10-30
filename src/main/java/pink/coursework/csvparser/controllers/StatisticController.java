@@ -205,6 +205,7 @@ public class StatisticController {
         model.addAttribute("pages", statisticService.pagesMyStat(idUser));
         model.addAttribute("myStatFiles",statisticService.myStatFiles(1, idUser));
         model.addAttribute("message", "No records");
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/statistic/myStats");
         return "default";
     }
@@ -221,18 +222,43 @@ public class StatisticController {
         model.addAttribute("pages", statisticService.pagesMyStat(idUser));
         model.addAttribute("myStatFiles",statisticService.myStatFiles(page, idUser));
         model.addAttribute("message", "No records");
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/statistic/myStats");
         return "default";
     }
+    /**<p>Get маппинг на поиск статистики своих файлов</p>
+     * @param model объект который передает данные в представление
+     * @param search фильтр поиска
+     * @return если есть результат переход на страницу myStatsSearch или на searchResultNullMyStat
+     */
     @GetMapping(value = "/statistic/myStat/{id}", params = { "search" })
     private String myStatSearch(Model model, String search)  {
         if(statisticService.searchListMyStat(search) == null || statisticService.searchListMyStat(search).isEmpty()){
             model.addAttribute("contentPage", "/fragments/searchResultNullMyStat");
             model.addAttribute("pages",  1);
         }else{
-            model.addAttribute("tolist",1);
-            model.addAttribute("allStatFiles", statisticService.searchListAllStat(search));
+            model.addAttribute("myStatFiles", statisticService.searchListMyStat(search));
             model.addAttribute("find", true);
+            model.addAttribute("pages",  1);
+            model.addAttribute("contentPage", "/statistic/myStatsSearch");
+        }
+        return "default";
+    }
+    /**<p>Get маппинг на поиск статистики своих файлов + пеженация</p>
+     * @param model объект который передает данные в представление
+     * @param search фильтр поиска
+     * @param page текущая страница
+     * @return если есть результат переход на страницу myStatsSearch или на searchResultNullMyStat
+     */
+    @GetMapping(value = "/statistic/myStat/{id}/{page}", params = { "search" })
+    private String myStatSearchPagination(Model model, String search, @PathVariable int page)  {
+        if(statisticService.searchListMyStat(search) == null || statisticService.searchListMyStat(search).isEmpty()){
+            model.addAttribute("contentPage", "/fragments/searchResultNullMyStat");
+            model.addAttribute("pages",  page);
+        }else{
+            model.addAttribute("myStatFiles", statisticService.searchListMyStat(search));
+            model.addAttribute("find", true);
+            model.addAttribute("pages",  page);
             model.addAttribute("contentPage", "/statistic/myStatsSearch");
         }
         return "default";

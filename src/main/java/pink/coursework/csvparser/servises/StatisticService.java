@@ -10,6 +10,7 @@ import pink.coursework.csvparser.repositories.FileRepository;
 import pink.coursework.csvparser.repositories.StatisticRepository;
 import pink.coursework.csvparser.repositories.UserRepository;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -25,15 +26,18 @@ public class StatisticService {
     private static int ALLSTATICPAGE = 7;
     //количество вывода всех записей конкретного пользователя
     private static int MYSTATICPAGE = 7;
-
+    //Экземпляр репозитория пользователь
     @Autowired
     private UserRepository userRepository;
-
+    //Экземпляр репозитория логов
     @Autowired
     private StatisticRepository statisticRepository;
-
+    //Экземпляр репозитория файлов
     @Autowired
     private FileRepository fileRepository;
+    //объекта сессии в сервлете объекта HttpServletRequest
+    @Autowired
+    private HttpSession httpSession;
     /**
      * <p>Добавить запись</p>
      * @param userMail email пользователя
@@ -248,7 +252,42 @@ public class StatisticService {
         statisticRepository.deleteAll(myStatsAll(idUser));
     }
 
-    public Collection<Object> searchListMyStat(String search) {
-        return null;
+    /**<p>Поиск статистики по файлам пользователям</p>
+     * @param search фильтр поиска
+     * @return список статистики всех файлов пользователя по фильтру
+     */
+    public List<Statistic> searchListMyStat(String search) {
+        if(search.isEmpty()){
+            return null;
+        }
+        search = search.trim();
+        List<Statistic> searchList = new ArrayList<>();
+        for (int i = 0; i < allMyStats().size(); i++) {
+            if (allMyStats().get(i).getFileAction().toLowerCase().contains(search.toLowerCase())
+                    || allMyStats().get(i).getFileNameOriginal().toLowerCase().contains(search.toLowerCase())
+                    || allMyStats().get(i).getUserName().toLowerCase().contains(search.toLowerCase())
+                    || allMyStats().get(i).getDate().toString().toLowerCase().contains(search.toLowerCase())) {
+                searchList.add(allMyStats().get(i));
+            }
+        }
+        return searchList;
+    }
+
+    /**<p>Вспомагательный метод к searchListMyStat(String search)</p>
+     * @return список статистики всех файлов пользователя
+     */
+    private List<Statistic> allMyStats(){
+        User userSession = (User)httpSession.getAttribute("user");
+        User user = userRepository.getOne(userSession.getId());
+        List<Statistic> allStatistic = statisticRepository.findAll();
+        List<Statistic> myStatistic = new ArrayList<>();
+        for(Statistic stat : allStatistic){
+            for(Myfile file : user.getListCreatedFiles()){
+                if(stat.getFileName().equals(file.getName())){
+                    myStatistic.add(stat);
+                }
+            }
+        }
+        return myStatistic;
     }
 }
