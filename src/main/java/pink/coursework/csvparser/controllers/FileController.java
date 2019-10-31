@@ -137,7 +137,7 @@ public class FileController {
             model.addAttribute("curpage", 1);
             model.addAttribute("pages", fileService.myPages(idUser));
             model.addAttribute("myfiles", fileService.listUserFiles(idUser, 1));
-             model.addAttribute("find", true);
+            model.addAttribute("find", true);
             model.addAttribute("contentPage", "/file/myfiles");
         return "default";
     }
@@ -169,14 +169,13 @@ public class FileController {
     @GetMapping(value = "/file/myfiles/{id}", params = { "search" })
     private String myFilesSearch(@PathVariable("id") Integer idUser, Model model, String search) {
         if(fileService.searchListMyfiles(idUser,  search) == null || fileService.searchListMyfiles(idUser,  search).isEmpty()){
+            model.addAttribute("page", 1);
             model.addAttribute("contentPage", "/fragments/searchResultNullMyFiles");
         }else{
-            model.addAttribute("tolist",true);
-            model.addAttribute("curpage", 1);
-            model.addAttribute("pages", fileService.myPages(idUser));
+            model.addAttribute("page", 1);
             model.addAttribute("myfiles", fileService.searchListMyfiles(idUser,  search));
             model.addAttribute("find", true);
-            model.addAttribute("contentPage", "/file/myfiles");
+            model.addAttribute("contentPage", "/file/searchMyfiles");
         }
         return "default";
     }
@@ -190,14 +189,13 @@ public class FileController {
     @GetMapping(value = "/file/myfiles/{id}/{page}", params = { "search" })
     private String myFilesSearchPage(@PathVariable("id") Integer idUser, Model model, String search, @PathVariable int page) {
         if(fileService.searchListMyfiles(idUser, search) == null || fileService.searchListMyfiles(idUser, search).isEmpty()){
+            model.addAttribute("page", page);
             model.addAttribute("contentPage", "/fragments/searchResultNullMyFiles");
         }else{
-            model.addAttribute("tolist",true);
-            model.addAttribute("curpage", page);
-            model.addAttribute("pages", fileService.myPages(idUser));
+            model.addAttribute("page", page);
             model.addAttribute("myfiles", fileService.searchListMyfiles(idUser, search));
             model.addAttribute("find", true);
-            model.addAttribute("contentPage", "/file/myfiles");
+            model.addAttribute("contentPage", "/file/searchMyfiles");
         }
         return "default";
     }
@@ -253,6 +251,7 @@ public class FileController {
         model.addAttribute("curpage", 1);
         model.addAttribute("pages", fileService.openPages(idUser));
         model.addAttribute("openfiles", fileService.getOpenFiles(idUser, 1));
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/file/links");
         return "default";
     }
@@ -269,10 +268,53 @@ public class FileController {
         model.addAttribute("curpage", page);
         model.addAttribute("pages", fileService.openPages(idUser));
         model.addAttribute("openfiles", fileService.getOpenFiles(idUser, page));
+        model.addAttribute("find", true);
         model.addAttribute("contentPage", "/file/links");
         return "default";
     }
 
+    /**<p>Get маппинг поиск по открытым файлам</p>
+     * @param idUser идентификатор текущего пользователя
+     * @param model объект который передает данные в представление
+     * @param search фильтр поиска
+     * @return список файлов найдених по фильтру
+     */
+    @GetMapping(value = "/file/links/{id}", params = { "search" })
+    private String openFilesSearch(@PathVariable("id") Integer idUser, Model model, String search) {
+        if(fileService.searchListOpenfiles(search, idUser) == null || fileService.searchListOpenfiles(search, idUser).isEmpty()){
+            model.addAttribute("page", 1);
+            model.addAttribute("contentPage", "/fragments/searchResultNullOpenFiles");
+        }else{
+            model.addAttribute("tolist",true);
+            model.addAttribute("page", 1);
+            model.addAttribute("openfiles", fileService.searchListOpenfiles(search, idUser));
+            model.addAttribute("find", true);
+            model.addAttribute("contentPage", "/file/searchLinks");
+        }
+        return "default";
+    }
+
+    /**<p>Get маппинг поиск по открытым файлам + пеженация</p>
+     * @param idUser идентификатор текущего пользователя
+     * @param model объект который передает данные в представление
+     * @param search фильтр поиска
+     * @param page текущая страница
+     * @return список файлов найдених по фильтру
+     */
+    @GetMapping(value = "/file/links/{id}/{page}", params = { "search" })
+    private String openFilesSearchPagination(@PathVariable("id") Integer idUser, Model model, String search, @PathVariable int page) {
+        if(fileService.searchListOpenfiles(search, idUser) == null || fileService.searchListOpenfiles(search, idUser).isEmpty()){
+            model.addAttribute("page", page);
+            model.addAttribute("contentPage", "/fragments/searchResultNullOpenFiles");
+        }else{
+            model.addAttribute("tolist",true);
+            model.addAttribute("page", page);
+            model.addAttribute("openfiles", fileService.searchListOpenfiles(search, idUser));
+            model.addAttribute("find", true);
+            model.addAttribute("contentPage", "/file/searchLinks");
+        }
+        return "default";
+    }
     /**<p>Post маппинг добавления файла по ссылке</p>
      * @param model объект который передает данные в представление
      * @param link ссылка доступа

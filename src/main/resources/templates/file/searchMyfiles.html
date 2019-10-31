@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Result search my files</title>
+</head>
+<body>
+<div class="container table-responsive text-nowrap" th:fragment="content">
+    <link  th:href="@{/css/myfile.css}" rel="stylesheet">
+    <h1>Result search my files</h1>
+    <br>
+    <div class="wrap">
+        <table class="table table-success">
+            <thead  style="background-color:#563d7c; color:#FFFFFF">
+            <tr>
+                <th scope="col">File name</th>
+                <th colspan="4"></th>
+            </tr>
+            </thead>
+            <tbody th:if="${myfiles.isEmpty() || myfiles == null}" >
+            <tr>
+                <td th:text="${message}"></td>
+            </tr>
+            </tbody>
+            <tbody th:unless="${myfiles.isEmpty() || myfiles == null}">
+            <tr th:each="file : ${myfiles}">
+                <td th:text="${file.originName}"></td>
+                <td >
+                    <!-- Button trigger modal -->
+                    <button th:if="${file.accessLink != null && (file.accessLink.read || file.accessLink.edit || file.accessLink.dowload)}"
+                            type="button" class="btn btn-info btn-xs" data-toggle="modal"
+                            th:attr="data-target='#exampleModalCenter'+${file}">
+                        <span style="color:red"><b>!Off Share!</b></span>
+                    </button>
+                    <button th:unless="${file.accessLink != null && (file.accessLink.read || file.accessLink.edit || file.accessLink.dowload)}"
+                            type="button" class="btn btn-info btn-xs" data-toggle="modal"
+                            th:attr="data-target='#exampleModalCenter'+${file}">
+                        <span><b>?On Share?</b></span>
+                    </button>
+                    <form class="mt-3" name="access" th:action="@{/file/share}"  method="POST">
+                        <input type="hidden" th:value="${file.id}" name="file">
+                        <!-- Modal -->
+                        <div class="modal fade"  th:attr="id='exampleModalCenter'+${file}"
+                             tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">
+                                            File access: <b style="color:red" th:text="${file.originName}"></b>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">x</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" th:value="${file.accessLink.link}"
+                                                       th:id="'link'+${file.id}" readonly>
+                                                <br/>
+                                                <input type="button" class="btn btn-success btn-xs"
+                                                       th:onclick="'copyLink(link'+${file.id}+'.id)'"
+                                                       value="Copy link">
+                                            </div>
+                                        </div>
+                                        <!-- Read -->
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${file.accessLink.read}" th:id="'read'+${file.id}" name="read">
+                                            <label class="custom-control-label" th:for="'read'+${file.id}">Read</label>
+                                        </div>
+                                        <!-- Edit -->
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${file.accessLink.edit}" th:id="'edit'+${file.id}" name="edit">
+                                            <label class="custom-control-label" th:for="'edit'+${file.id}">Edit</label>
+                                        </div>
+                                        <!-- Dowload -->
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   th:checked="${file.accessLink.dowload}" th:id="'dowload'+${file.id}" name="dowload">
+                                            <label class="custom-control-label" th:for="'dowload'+${file.id}">Dowload</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" id="gener">Generate link</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                <td ><a th:href="@{'/file/open/'+${file.id}}" class="href btn btn-success btn-xs">Open</a></td>
+                <td >
+                    <form name="dowload" th:action="@{/file/dowload}"   method="GET">
+                        <input th:value="${file.id}" type="hidden" name="idFile" >
+                        <button type="submit" class="btn btn-warning btn-xs">Download</button>
+                    </form>
+                </td>
+                <td ><a th:href="@{'/file/delete/'+${file.id}}" class="href btn btn-danger btn-xs">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div >
+        <a th:href="@{'/file/myfiles/'+${session.user.id}+'/'+${page}}" >Back to my files</a>
+    </div>
+    <script th:src="@{/js/myfile.js}"></script>
+</div>
+</body>
+</html>

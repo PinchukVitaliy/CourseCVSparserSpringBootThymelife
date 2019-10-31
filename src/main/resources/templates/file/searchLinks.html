@@ -3,35 +3,23 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Link files</title>
+    <title>Result search open files</title>
 </head>
 <body>
 <div class="container table-responsive text-nowrap" th:fragment="content">
-    <!--link  th:href="@{/css/myfile.css}" rel="stylesheet"-->
-    <h1>Open files <span th:text="${session.user.email}"></span></h1>
-    <div class="panel-heading">
-        <form class="mt-3" name="csv" th:action="@{/file/addlink}"  method="POST">
-            <div class="input-group mb-3">
-                <input type="text" name="link" class="form-control" placeholder="Link" required>
-                <input type="submit" class="btn btn-info" value="Add link">
-            </div>
-        </form>
-    </div>
+    <link  th:href="@{/css/myfile.css}" rel="stylesheet">
+    <h1>Result search files</h1>
+    <br>
+<div class="wrap">
     <table class="table table-success">
         <thead  style="background-color:#563d7c; color:#FFFFFF">
         <tr>
             <th scope="col">File name</th>
             <th scope="col">User mail</th>
             <th colspan="2"></th>
-
         </tr>
         </thead>
-        <tbody th:if="${openfiles.isEmpty() || openfiles == null}" >
-        <tr>
-            <td colspan="5" th:text="${message}"></td>
-        </tr>
-        </tbody>
-        <tbody th:unless="${openfiles.isEmpty() || openfiles == null}">
+        <tbody>
         <tr th:each="file : ${openfiles}">
             <td th:text="${file.originName}"></td>
             <td th:text="${file.creatorOfFile.email}"></td>
@@ -54,11 +42,9 @@
         </tr>
         </tbody>
     </table>
-    <th:block th:unless="${openfiles.isEmpty() || openfiles == null}">
-        <div th:replace="fragments/pagination_openfiles :: footer_openfiles">...</div>
-    </th:block>
+</div>
     <div >
-        <a href="/">Back</a>
+        <a th:if="${tolist}" th:href="@{'/file/links/'+${session.user.id}+'/'+${page}}" >Back to open files</a>
     </div>
 </div>
 </body>

@@ -166,12 +166,11 @@ public class FileService {
      * @return список файлов
      */
     public List<Myfile> searchListMyfiles(Integer idUser, String search) {
-        List<Myfile> searchList = new ArrayList<>();
         if(search.isEmpty()){
             return null;
         }
         List<Myfile> fileList = userRepository.getOne(idUser).getListCreatedFiles();
-        searchList = new ArrayList<Myfile>();
+        List<Myfile> searchList = new ArrayList<>();
             for (int i = 0; i < fileList.size(); i++) {
                 if (fileList.get(i).getOriginName().toLowerCase().contains(search.toLowerCase())) {
                     searchList.add(fileList.get(i));
@@ -557,4 +556,25 @@ public class FileService {
 
         return authUser.getId();
     }
+
+    /**<p>Метод поиска файлов с открытым доступом текущего пользователя</p>
+     * @param search  фильтр поиска
+     * @param idUser идентификатор текущего пользователя
+     * @return список файлов найдених по фильтру
+     */
+    public List<Myfile> searchListOpenfiles(String search,  Integer idUser) {
+        if(search.isEmpty()){
+            return null;
+        }
+        List<Myfile> searchList = new ArrayList<>();
+        List<Myfile> fileList = userRepository.getOne(idUser).getListOpenFiles();
+        for (int i = 0; i < fileList.size(); i++) {
+            if (fileList.get(i).getOriginName().toLowerCase().contains(search.toLowerCase())
+                    | fileList.get(i).getCreatorOfFile().getEmail().toLowerCase().contains(search.toLowerCase())) {
+                searchList.add(fileList.get(i));
+            }
+        }
+        return  searchList;
+    }
+
 }
