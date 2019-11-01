@@ -1,7 +1,5 @@
 package pink.coursework.csvparser.models;
 
-import com.sun.istack.internal.NotNull;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 /**
