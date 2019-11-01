@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -17,6 +18,8 @@ import pink.coursework.csvparser.config.AuthSuccessApplicationListener;
 import pink.coursework.csvparser.config.CustomLogoutHandler;
 
 import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * настройка конфигураций spring security
@@ -32,8 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     //объект класса DataSource
-    @Autowired
-    private DataSource dataSource;
+    //@Autowired
+    //private DataSource dataSource;
     //sql запрос на существование пользователя и его активность
     @Value("${spring.queries.users-query}")
     private String usersQuery;
@@ -52,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
                 .authoritiesByUsernameQuery(rolesQuery)
-                .dataSource(dataSource)
+                .dataSource(dataSource())
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 
@@ -103,7 +106,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**","/files/**","/fonts/**","/icons_users/**", "/images/**", "/js/**");
     }
+    @Bean
+    public DataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
 
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+
+        return dataSource;
+    }
     /**<p>Регистрация бина класса-слушателя для пользователя в spring security</p>
      * @return обьект AuthSuccessApplicationListener
      */
