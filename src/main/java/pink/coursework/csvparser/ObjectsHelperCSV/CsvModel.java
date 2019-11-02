@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>Класс описывает работу над CSV файлом</p>
@@ -215,6 +216,9 @@ public class CsvModel implements Serializable {
      * @param idList id списков да поля DataModelRows (класс помощник)
      */
     public void writeModifiedData(List<String> title, List<String> dataList, List<Integer> idList){
+        title = title.stream().map(String::trim).collect(Collectors.toList());
+        dataList = dataList.stream().map(String::trim).collect(Collectors.toList());
+
             if(dataList != null && title.size() != 0) {
                 setTitleCsv(searchSameElements(title));
                 List<DataCsv> dataCsvList = new ArrayList<>();
@@ -268,10 +272,11 @@ public class CsvModel implements Serializable {
      * <p>Добавление столбца в файл</p>
      * <p>Метод создает и записывает в файл новый столбец</p>
      * @param PathFileName путь к файлу
-     * @param Row имя столбца
+     * @param colum имя столбца
      * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
-    public void addRow(String PathFileName, String Row) throws Exception {
+    public void addColum(String PathFileName, String colum) throws Exception {
+        colum = colum.trim();
         List<String[]> csvBody = new ArrayList<>();
         String[] values = null;
         int count = 0;
@@ -281,7 +286,7 @@ public class CsvModel implements Serializable {
                 for(int i = 0; i < values.length; i++){
                     title.add(values[i]);
                 }
-                title.add(searchSameElementToRow(title,  Row));
+                title.add(searchSameElementToColum(title,  colum));
                 csvBody.add(title.toArray(new String[0]));
             }else {
                 csvBody.add(values);
@@ -294,34 +299,36 @@ public class CsvModel implements Serializable {
         clearCsvWriter(csvWriter);
     }
     /**
-     * <p>Поиск одинакового элемента в addRow</p>
+     * <p>Поиск одинакового элемента в addColum</p>
      * <p>Если есть одинаковый элемент меняем ему название</p>
      * @param title текущий список
+     * @param colum название колонки
      * @return уникальный элемент
      */
-    String searchSameElementToRow(List<String> title, String Row){
+    String searchSameElementToColum(List<String> title, String colum){
         boolean flag;
+        colum = colum.trim();
         String str = "";
-            if (title.contains(Row)) {
-                str =  Row  +"(dublicat)";
+            if (title.contains(colum)) {
+                str =  colum  +"(dublicat)";
                 flag = true;
             } else {
-                str = Row;
+                str = colum;
                 flag = false;
             }
             if(flag){
-                str= searchSameElementToRow(title,  str);
+                str= searchSameElementToColum(title,  str);
             }
 
         return str;
     }
     /**
-     * <p>Добавление колонки в файл</p>
+     * <p>Добавление строки в файл</p>
      * <p>Метод создает и записывает в файл новую колонку</p>
      * @param PathFileName путь к файлу
      * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
-    public void addColum(String PathFileName) throws Exception {
+    public void addRow(String PathFileName) throws Exception {
         List<String[]> csvBody = new ArrayList<>();
         String[] values = null;
         String[] nonValue = {""};
@@ -337,18 +344,18 @@ public class CsvModel implements Serializable {
         clearCsvWriter(csvWriter);
     }
     /**
-     * <p>Удаление колонки</p>
-     * <p>Метод удаляет ранее выбранные колонки по id</p>
+     * <p>Удаление строк</p>
+     * <p>Метод удаляет ранее выбранные строки по id</p>
      * @param PathFileName путь к файлу
-     * @param colums список удаляемых колонок
+     * @param rows список удаляемых строк
      * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
-    public void deleteColumsCSV(String PathFileName, List<String> colums) throws Exception{
+    public void deleteRowsCSV(String PathFileName, List<String> rows) throws Exception{
         List<String[]> csvBody = new ArrayList<>();
         String[] values = null;
         int count = 0;
         while ((values = csvReader.readNext()) != null) {
-            if(!colums.contains( Integer.toString(count))) {
+            if(!rows.contains( Integer.toString(count))) {
                 csvBody.add(values);
             }
             count++;
@@ -363,10 +370,10 @@ public class CsvModel implements Serializable {
      * <p>Удаление столбцов</p>
      * <p>Метод удаляет ранее выбранные столбцы по их названию</p>
      * @param PathFileName путь к файлу
-     * @param rows список удаляемых столбцов
+     * @param colums список удаляемых столбцов
      * @throws Exception этот метод работает с файловой системой которая может вызвать ошибку
      */
-    public void deleteRowsCSV(String PathFileName, List<String> rows) throws Exception{
+    public void deleteColumsCSV(String PathFileName, List<String> colums) throws Exception{
         List<List<String>> csvBody = new ArrayList<>();
         String[] values = null;
         while ((values = csvReader.readNext()) != null) {
@@ -377,7 +384,7 @@ public class CsvModel implements Serializable {
         for (List<String> elem : csvBody) {
             List<String> str = new ArrayList<>();
             for (int i = 0; i < elem.size(); i++) {
-                if(!rowsEmpty(rows, csvBody.get(0), i)) {
+                if(!columsEmpty(colums, csvBody.get(0), i)) {
                     str.add(elem.get(i));
                 }
             }
@@ -395,18 +402,18 @@ public class CsvModel implements Serializable {
         clearCsvWriter(csvWriter);
     }
     /**
-     * <p>Вспомогательный метод для deleteRowCSV</p>
+     * <p>Вспомогательный метод для deleteColumsCSV</p>
      * <p>Проверяет если такой столбец в списке</p>
-     * @param rows список удаляемых столбцов
+     * @param colums список удаляемых столбцов
      * @param title текущий список столбцов
      * @param index индекс по которому идет сравнение
      * @return true есть совпадение false нет
      */
     //helper function to method deleteRowsCSV
-    boolean rowsEmpty(List<String> rows, List<String> title, int index){
+    boolean columsEmpty(List<String> colums, List<String> title, int index){
         boolean flag = false;
-        for (String row: rows) {
-                if(title.contains(row) && index == title.indexOf(row))
+        for (String colum: colums) {
+                if(title.contains(colum) && index == title.indexOf(colum))
                     flag = true;
         }
         return flag;

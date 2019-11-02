@@ -427,14 +427,14 @@ public class FileController {
      * @throws Exception при обработке метода в маппинге может возникнуть исключение
      */
     @PostMapping("/file/deleterows")
-    public String deleteColums(@RequestParam("file") Myfile file,
+    public String deleteRows(@RequestParam("file") Myfile file,
                              @RequestParam("curpage") int page,
                              @RequestParam("deleterows") List<String> rows) throws Exception{
-        fileService.deleteColums(file, rows);
+        fileService.deleteRows(file, rows);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 
-    /**<p>Post маппинг на удаления колонок из файла</p>
+    /**<p>Post маппинг на удаления столбцев из файла</p>
      * @param file обьект файла
      * @param page текущая страница
      * @param colums список удаляемых колонок
@@ -442,10 +442,10 @@ public class FileController {
      * @throws Exception при обработке метода в маппинге может возникнуть исключение
      */
     @PostMapping("/file/deletecolums")
-    public String deleteRows(@RequestParam("file") Myfile file,
+    public String deleteColums(@RequestParam("file") Myfile file,
                              @RequestParam("curpage") int page,
                              @RequestParam("deletecolums") List<String> colums) throws Exception{
-        fileService.deleteRows(file, colums);
+        fileService.deleteColums(file, colums);
         return "redirect:/file/open/"+file.getId()+"/"+page;
     }
 

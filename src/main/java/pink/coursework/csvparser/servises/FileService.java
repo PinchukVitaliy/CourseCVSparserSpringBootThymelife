@@ -466,7 +466,7 @@ public class FileService {
         Myfile fileCsv = fileRepository.getOne(file.getId());
         User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
-        csvModel.addRow(filePath + fileCsv.getName(), newColum);
+        csvModel.addColum(filePath + fileCsv.getName(), newColum);
         statisticService.add(
                 authUser.getEmail(),
                 "Add Colum",
@@ -483,10 +483,27 @@ public class FileService {
         Myfile fileCsv = fileRepository.getOne(idFile);
         User authUser = (User)httpSession.getAttribute("user");
         CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
-        csvModel.addColum(filePath + fileCsv.getName());
+        csvModel.addRow(filePath + fileCsv.getName());
         statisticService.add(
                 authUser.getEmail(),
                 "Add row",
+                fileCsv.getName(),
+                fileCsv.getOriginName());
+    }
+    /**
+     * <p>Удалить столбцы в CSV</p>
+     * @param file обьект класса Myfile
+     * @param colums список удаляемых столбцев
+     * @throws Exception может быть исключение так как идет работа с файловой системой
+     */
+    public void deleteColums(Myfile file, List<String> colums) throws Exception{
+        Myfile fileCsv = fileRepository.getOne(file.getId());
+        User authUser = (User)httpSession.getAttribute("user");
+        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
+        csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
+        statisticService.add(
+                authUser.getEmail(),
+                "Delete colums",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
     }
@@ -504,23 +521,6 @@ public class FileService {
         statisticService.add(
                 authUser.getEmail(),
                 "Delete rows",
-                fileCsv.getName(),
-                fileCsv.getOriginName());
-    }
-    /**
-     * <p>Удалить колонки в CSV</p>
-     * @param file обьект класса Myfile
-     * @param colums список удаляемых колонок
-     * @throws Exception может быть исключение так как идет работа с файловой системой
-     */
-    public void deleteColums(Myfile file, List<String> colums) throws Exception{
-        Myfile fileCsv = fileRepository.getOne(file.getId());
-        User authUser = (User)httpSession.getAttribute("user");
-        CsvModel csvModel = new CsvModel(filePath + fileCsv.getName());
-        csvModel.deleteColumsCSV(filePath + fileCsv.getName(), colums);
-        statisticService.add(
-                authUser.getEmail(),
-                "Delete colums",
                 fileCsv.getName(),
                 fileCsv.getOriginName());
     }

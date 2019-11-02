@@ -8,9 +8,10 @@
 </head>
 <body>
 <div class="container  mt-5" th:fragment="content">
+    <link  th:href="@{/css/index.css}" rel="stylesheet" >
     <h1>Home page</h1>
     <div class="d-flex flex-wrap justify-content-around row">
-        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
+        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3" >
             <div class="card-header"><h4>Opens CSV files</h4></div>
             <a th:if="${session.user != null}" th:href="@{'/file/links/'+${session.user.id}}">
                 <img class="card-img" th:src="@{'images/my_csv.jpg'}" alt="open csv">
@@ -20,7 +21,7 @@
             </a>
             <div class="card-footer"></div>
         </div>
-        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3">
+        <div class="shadow card w-25 m-3 justify-content-between col-12 col-sm-12 col-xl-3" >
             <div class="card-header"><h4>My CSV files</h4></div>
             <a th:if="${session.user != null}"  th:href="@{'/file/myfiles/'+${session.user.id}}">
                 <img class="card-img" th:src="@{'images/all_csv.jpg'}"  alt="my csv">
