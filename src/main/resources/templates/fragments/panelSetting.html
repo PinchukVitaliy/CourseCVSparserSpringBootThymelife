@@ -15,13 +15,18 @@
         <div class="from-group">
             <div>
                 <!-- save data in table-->
-                <input type="submit" class="btn btn-primary" id="save"  value="Save">
+                <!--input type="submit" class="btn btn-primary" id="save"  value="Save"-->
+                <input type="button" class="btn btn-primary"
+                       th:onclick="openModalSave()"
+                       value="Save">
                 <!-- add colum-->
                 <input type="button" class="btn btn-primary"
-                       th:onclick="openModal()"
+                       th:onclick="openModalNewColum()"
                        value="Add colum">
                 <!-- add row-->
-                <a class="btn btn-primary" th:href="@{'/file/row/'+${file.id}+'/'+${curpage}}" role="button">Add row</a>
+                <input type="button" class="btn btn-primary"
+                       th:onclick="openModalNewRow()"
+                       value="Add row">
             </div>
             <!-- delete colums-->
             <br>

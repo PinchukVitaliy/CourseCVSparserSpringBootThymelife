@@ -25,10 +25,38 @@
         <!-- отображать содержимое файла пользователю если файл его -->
         <div th:insert="/fragments/opencsvtablecurrentuser :: opencsvtablecurrentuser"
              th:if="${file.creatorOfFile.id == session.user.id}">Other user</div>
+        <!-- Modal save-->
+        <div class="modal fade"  id="openModalSave"
+             tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitleSave">
+                            Save changes
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" id="savediv">
+                            <label for="savediv" style="color:red">
+                                If you used "," or "|" in the column names,<br/>
+                                they will be replaced by "%"!</label>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="footersave">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
-    <!-- Modal new row-->
+    <!-- Modal new colum-->
     <form name="row" th:action="@{/file/colum}"  method="POST">
-    <div class="modal fade"  id="myModal"
+    <div class="modal fade"  id="openModalNewColum"
          tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -52,11 +80,39 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="footerrow">Create</button>
+                    <button type="submit" class="btn btn-primary" id="footercolum">Create</button>
                 </div>
             </div>
         </div>
     </div>
+    </form>
+    <!-- Modal new row-->
+    <form name="row" th:action="@{'/file/row/'+${file.id}+'/'+${curpage}}"  method="GET">
+        <div class="modal fade"  id="openModalNewRow"
+             tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitleRow">
+                            Create new row
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" id="divnewrow">
+                            <label for="divnewrow" style="color:red">Create a new row?</label>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="footerrow">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
     <!--Modal delete rows-->
     <form name="delrows" th:action="@{/file/deleterows}"  method="POST">

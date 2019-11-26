@@ -1,8 +1,14 @@
  $('.selectpicker').selectpicker();
-    function openModal() {
-             $("#myModal").modal();
-         }
 
+     function openModalSave() {
+                      $("#openModalSave").modal();
+                  }
+    function openModalNewColum() {
+             $("#openModalNewColum").modal();
+         }
+    function openModalNewRow() {
+                 $("#openModalNewRow").modal();
+             }
     function delRows(){
         var x = document.getElementById("delrows");
         var parent = document.getElementById("parentDiv");

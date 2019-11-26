@@ -192,7 +192,7 @@ public class CsvModel implements Serializable {
         List<String[]> csvBody = new ArrayList<>();
         String[] values = null;
         int count = 0;
-        csvBody.add(getTitleCsv().toArray(new String[0]));
+        csvBody.add(removeAllSimvol(getTitleCsv().toArray(new String[0])));
         while ((values = csvReader.readNext()) != null) {
             if(count != 0){
                 if(getDataCsv(count)){
@@ -208,6 +208,23 @@ public class CsvModel implements Serializable {
         csvWriter.writeAll(csvBody);
         clearCsvWriter(csvWriter);
     }
+
+    /**<p>Вспоагательный метод к saveCsv</p>
+     * <p>замена символы ',' и '|' на "%" в шапке таблицы</p>
+     * @param simvolArray изменяемые данные
+     * @return исправленные данные изменяются
+     */
+    private String[] removeAllSimvol(String[] simvolArray){
+        String[] array = new String[simvolArray.length];
+        for(int i = 0; i < simvolArray.length; i++)
+        {
+            array[i] = simvolArray[i]
+                    .replace(',', '%')
+                    .replace('|', '%');
+        }
+        return array;
+    }
+
     /**
      * <p>создание новых данных и запись их в объект</p>
      * <p>Метод принимает данные и записывает их в поля класса</p>
